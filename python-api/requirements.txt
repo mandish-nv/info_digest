@@ -1,0 +1,4 @@
+# fastapi
+# uvicorn[standard] # uvicorn is the ASGI server that runs FastAPI
+# pydantic
+# python-dotenv # Optional, if you use .env files

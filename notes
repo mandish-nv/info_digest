@@ -1,0 +1,18 @@
+Frontend:
+cd frontend
+npm run dev
+
+Backend:
+cd backend 
+npm run devStart
+
+FastAPI:
+cd python-api
+uvicorn main:app --reload
+
+
+main:app: Refers to the app object in main.py.
+--host 0.0.0.0: Makes the server accessible externally (useful in Docker or network environments).
+--port 5001: Runs FastAPI on port 5001 (Node.js will typically be on 5000 or 8080).
+--reload: Automatically reloads the server on code changes (great for development).
+You should now be able to access your FastAPI documentation at http://localhost:5001/docs.
