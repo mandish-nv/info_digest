@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const axios = require("axios"); // For making HTTP requests to FastAPI
 
-const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:5001"; // FastAPI URL
+const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:8000"; // FastAPI URL
 
 const User = require("./models/user");
 
@@ -33,26 +33,30 @@ mongoose
     });
 
     // Proxy route for greeting
-    app.post("/api/greet", async (req, res) => {
+    app.post("/api/extractive-summary", async (req, res) => {
       try {
-        const { name } = req.body;
-        if (!name) {
-          return res.status(400).json({ error: "Name is required" });
+        const { text } = req.body;
+        if (!text) {
+          return res.status(400).json({ error: "Text is required(Express)" });
         }
-        const pythonResponse = await axios.post(`${PYTHON_API_URL}/api/greet`, {
-          name,
-        });
+        const pythonResponse = await axios.post(
+          `${PYTHON_API_URL}/api/extractive-summary`,
+          {
+            text: text,
+          }
+        );
         res.json(pythonResponse.data);
       } catch (error) {
         console.error("Error calling Python greet API:", error.message);
+
         if (error.response) {
-          // Forward FastAPI's error response
+          console.error("Response data from Python API:", error.response.data);
           res.status(error.response.status).json(error.response.data);
         } else {
           res
             .status(500)
             .json({
-              error: "Failed to communicate with Python greeting service",
+              error: "Failed to communicate with Python summarizer service",
             });
         }
       }
@@ -124,6 +128,7 @@ mongoose
       }
     });
 
+    //get banai baksios onegaisimasu
     app.post("/findUserOrEmail", async (req, res) => {
       try {
         const userName = req.body.userName;
@@ -212,7 +217,7 @@ mongoose
 
     app.listen(port, () => {
       console.log(`Node.js server running on port ${port}`);
-    console.log(`Forwarding requests to Python API at ${PYTHON_API_URL}`);
+      console.log(`Forwarding requests to Python API at ${PYTHON_API_URL}`);
     });
   })
   .catch((err) => console.log(err));

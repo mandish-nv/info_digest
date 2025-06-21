@@ -7,7 +7,7 @@ import uvicorn
 from typing import Optional
 
 # Import your functions from the separate file
-from my_functions import greet, calculate_sum, process_text_for_sentiment
+from my_functions import greet, calculate_sum, process_text_for_sentiment, Extractive_Summarizer
 
 app = FastAPI()
 
@@ -37,12 +37,32 @@ class CalculationRequest(BaseModel):
 
 class SentimentRequest(BaseModel):
     text: str
+    
+class ExtractiveSummarizerRequest(BaseModel):
+    text: str
 
 # --- API Endpoints ---
 
 @app.get("/")
 async def root():
     return {"message": "Welcome to the FastAPI Python Backend!"}
+
+@app.post("/api/extractive-summary")
+async def api_extractive_summary(request: ExtractiveSummarizerRequest):
+    if not request.text.strip():
+        raise HTTPException(status_code=400, detail="Text is required(FastAPi)")
+
+    try:
+        result = Extractive_Summarizer(request.text)
+        return {
+            "summary": result,
+            "original_length_sentences": len(request.text.split(".")),  # or however you count
+            "summary_sentences_count": len(result.split("."))
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error in summarizing: {str(e)}")
+
+
 
 @app.post("/api/greet")
 async def api_greet(request: GreetingRequest):
@@ -73,4 +93,4 @@ async def api_analyze_sentiment(request: SentimentRequest):
 
 # You can optionally run the app directly from this file for testing
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5001) # Run on a different port than Node.js
+    uvicorn.run(app, host="0.0.0.0", port=8000) # Run on a different port than Node.js

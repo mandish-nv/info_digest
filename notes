@@ -7,6 +7,7 @@ cd backend
 npm run devStart
 
 FastAPI:
+conda activate omni_digest
 cd python-api
 uvicorn main:app --reload
 
