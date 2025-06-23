@@ -5,9 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 from typing import Optional
+from nltk.tokenize import sent_tokenize
 
 # Import your functions from the separate file
-from my_functions import greet, calculate_sum, process_text_for_sentiment, Extractive_Summarizer
+from my_functions import Extractive_Summarizer
 
 app = FastAPI()
 
@@ -28,18 +29,9 @@ app.add_middleware(
 )
 
 # --- Pydantic Models for Request/Response Validation ---
-class GreetingRequest(BaseModel):
-    name: str
-
-class CalculationRequest(BaseModel):
-    num1: int
-    num2: int
-
-class SentimentRequest(BaseModel):
-    text: str
-    
 class ExtractiveSummarizerRequest(BaseModel):
     text: str
+    ratio: float
 
 # --- API Endpoints ---
 
@@ -53,43 +45,19 @@ async def api_extractive_summary(request: ExtractiveSummarizerRequest):
         raise HTTPException(status_code=400, detail="Text is required(FastAPi)")
 
     try:
-        result = Extractive_Summarizer(request.text)
+        result = Extractive_Summarizer(request.text, request.ratio)
+        original_sentences = sent_tokenize(request.text)
+        original_length_sentences = len(original_sentences)
+        summary_sentences = sent_tokenize(result)
+        summary_length_sentences = len(summary_sentences)
         return {
             "summary": result,
-            "original_length_sentences": len(request.text.split(".")),  # or however you count
-            "summary_sentences_count": len(result.split("."))
+            "original_length_sentences": original_length_sentences, 
+            "summary_sentences_count": summary_length_sentences
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error in summarizing: {str(e)}")
 
-
-
-@app.post("/api/greet")
-async def api_greet(request: GreetingRequest):
-    """Exposes the 'greet' function."""
-    try:
-        result = greet(request.name)
-        return {"message": result}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error in greeting: {str(e)}")
-
-@app.post("/api/calculate-sum")
-async def api_calculate_sum(request: CalculationRequest):
-    """Exposes the 'calculate_sum' function."""
-    try:
-        result = calculate_sum(request.num1, request.num2)
-        return {"sum": result}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error in calculation: {str(e)}")
-
-@app.post("/api/analyze-sentiment")
-async def api_analyze_sentiment(request: SentimentRequest):
-    """Exposes the 'process_text_for_sentiment' function."""
-    try:
-        result = process_text_for_sentiment(request.text)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error in sentiment analysis: {str(e)}")
 
 # You can optionally run the app directly from this file for testing
 if __name__ == "__main__":

@@ -35,7 +35,8 @@ mongoose
     // Proxy route for greeting
     app.post("/api/extractive-summary", async (req, res) => {
       try {
-        const { text } = req.body;
+        const text  = req.body.text;
+        const  ratio  = req.body.ratio;
         if (!text) {
           return res.status(400).json({ error: "Text is required(Express)" });
         }
@@ -43,6 +44,7 @@ mongoose
           `${PYTHON_API_URL}/api/extractive-summary`,
           {
             text: text,
+            ratio: ratio
           }
         );
         res.json(pythonResponse.data);

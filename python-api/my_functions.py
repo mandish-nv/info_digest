@@ -325,7 +325,7 @@ class TextRankSummarizer:
         # # print(f"PageRank finished after {iteration + 1} iterations.")
         return scores
 
-    def summarize(self, text, num_sentences=None, ratio=None):
+    def summarize(self, text, num_sentences=None, ratio=0.2):
         self.sentences = sent_tokenize(text) 
         self.tfidf_vectors = self.tfidf_vectorizer.fit_transform(self.sentences)
         self.graph = self._build_graph(self.tfidf_vectors)
@@ -348,7 +348,7 @@ class TextRankSummarizer:
         #     final_num_sentences = max(1, int(len(self.sentences) * ratio))
         # else: # Default if neither num_sentences nor ratio is specified
         #     final_num_sentences = min(3, len(self.sentences)) # Default to 3 sentences
-        final_num_sentences = num_sentences
+        final_num_sentences = max(1, int(len(self.sentences) * ratio))
 
         # Extract the top-ranked sentences in their original order
         extracted_sentence_indices = sorted([idx for score, idx in ranked_sentences[:final_num_sentences]])
@@ -357,8 +357,9 @@ class TextRankSummarizer:
         return " ".join(summary_sentences)
 
 
-def Extractive_Summarizer(input_text: str) -> str:
-    sentence_count = len(input_text.strip().split('.'))
+def Extractive_Summarizer(input_text: str, ratio: float) -> str:
+    sentences = sent_tokenize(input_text)
+    sentence_count = len(sentences)
     
     if sentence_count <= 15:
         k_val = 2
@@ -368,32 +369,9 @@ def Extractive_Summarizer(input_text: str) -> str:
         k_val = 10
 
     summarizer = TextRankSummarizer(k_neighbors=k_val)
-    summary = summarizer.summarize(input_text, num_sentences=k_val)
+    summary = summarizer.summarize(input_text, ratio=ratio)
     
     return summary
 
 
 
-
-# example
-def greet(name: str) -> str:
-    """A simple function to greet a user."""
-    return f"Hello, {name} from FastAPI!"
-
-def calculate_sum(a: int, b: int) -> int:
-    """Calculates the sum of two integers."""
-    return a + b
-
-def process_text_for_sentiment(text: str) -> dict:
-    """
-    Simulates processing text for sentiment analysis.
-    In a real app, you'd use NLTK, SpaCy, Transformers, etc.
-    """
-    sentiment = "neutral"
-    if "good" in text.lower() or "happy" in text.lower():
-        sentiment = "positive"
-    elif "bad" in text.lower() or "sad" in text.lower():
-        sentiment = "negative"
-    return {"original_text": text, "sentiment": sentiment, "source": "FastAPI"}
-
-# You can add more complex functions here as needed
