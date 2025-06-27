@@ -11,7 +11,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 from nltk.tokenize import sent_tokenize
-
+from nltk.tokenize import word_tokenize
 
 class TFIDFVectorizer:
     def __init__(self, norm='l2'):
@@ -40,7 +40,7 @@ class TFIDFVectorizer:
 
         # Remove punctuations
         normalized_sentence = input_text.translate(str.maketrans('', '', string.punctuation))
-        words = normalized_sentence.split()
+        words = word_tokenize(normalized_sentence)
 
         # Remove stopWords
         stop_words = set(stopwords.words('english'))

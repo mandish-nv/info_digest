@@ -6,6 +6,8 @@ export default function TextSummarizer() {
   const [summarizeResult, setSummarizeResult] = useState("");
   const [originalSentencesCount, setOriginalSentencesCount] = useState(0);
   const [summarySentencesCount, setSummarySentencesCount] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
+  const [summaryWordCount, setSummaryWordCount] = useState(0);
   const [keywords, setKeywords] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -45,6 +47,8 @@ export default function TextSummarizer() {
     setSummarizeResult("");
     setOriginalSentencesCount(0);
     setSummarySentencesCount(0);
+    setWordCount(0);
+    setSummaryWordCount(0);
     setKeywords([]);
     try {
       const response = await axios.post(
@@ -54,6 +58,8 @@ export default function TextSummarizer() {
       setSummarizeResult(response.data.summary);
       setOriginalSentencesCount(response.data.original_length_sentences);
       setSummarySentencesCount(response.data.summary_sentences_count);
+      setWordCount(response.data.originalWordCount);
+      setSummaryWordCount(response.data.summaryWordCount);
       setKeywords(response.data.keywords)
     } catch (err) {
       console.error(
@@ -203,6 +209,8 @@ export default function TextSummarizer() {
             <p>{summarizeResult}</p>
             <p>Original Text Length: {originalSentencesCount} sentences</p>
             <p>Summary Length: {summarySentencesCount} sentences</p>
+            <p>Original word count: {wordCount}</p>
+            <p>Summary word count: {summaryWordCount}</p>
             <p>Keywords: </p>
             <ul>
                 {keywords.map((word, index) => (
