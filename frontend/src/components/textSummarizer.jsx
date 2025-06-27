@@ -6,6 +6,7 @@ export default function TextSummarizer() {
   const [summarizeResult, setSummarizeResult] = useState("");
   const [originalSentencesCount, setOriginalSentencesCount] = useState(0);
   const [summarySentencesCount, setSummarySentencesCount] = useState(0);
+  const [keywords, setKeywords] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -44,14 +45,8 @@ export default function TextSummarizer() {
     setSummarizeResult("");
     setOriginalSentencesCount(0);
     setSummarySentencesCount(0);
+    setKeywords([]);
     try {
-      // const response = await axios.post(
-      //   `${NODE_JS_API_URL}/extractive-summary`,
-      //   { text },
-      //   {
-      //     headers: { "Content-Type": "application/json" }
-      //   }
-      // );
       const response = await axios.post(
         "http://localhost:5000/api/extractive-summary",
         { text: text, ratio: ratio }
@@ -59,6 +54,7 @@ export default function TextSummarizer() {
       setSummarizeResult(response.data.summary);
       setOriginalSentencesCount(response.data.original_length_sentences);
       setSummarySentencesCount(response.data.summary_sentences_count);
+      setKeywords(response.data.keywords)
     } catch (err) {
       console.error(
         "Error summarizing text:",
@@ -73,6 +69,8 @@ export default function TextSummarizer() {
       setLoading(false);
     }
   };
+
+  console.log(keywords)
 
   return (
     <div className="App">
@@ -205,6 +203,14 @@ export default function TextSummarizer() {
             <p>{summarizeResult}</p>
             <p>Original Text Length: {originalSentencesCount} sentences</p>
             <p>Summary Length: {summarySentencesCount} sentences</p>
+            <p>Keywords: </p>
+            <ul>
+                {keywords.map((word, index) => (
+                  <li key={word}>
+                    {word} 
+                  </li>
+                ))}
+              </ul>
           </div>
         )}
       </section>

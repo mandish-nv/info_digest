@@ -45,15 +45,19 @@ async def api_extractive_summary(request: ExtractiveSummarizerRequest):
         raise HTTPException(status_code=400, detail="Text is required(FastAPi)")
 
     try:
-        result = Extractive_Summarizer(request.text, request.ratio)
+        summary, top_n_nouns_dict = Extractive_Summarizer(request.text, request.ratio)
+        keywords_list = list(top_n_nouns_dict.keys())
+        # keywords_list = top_n_nouns_dict
+        
         original_sentences = sent_tokenize(request.text)
         original_length_sentences = len(original_sentences)
-        summary_sentences = sent_tokenize(result)
+        summary_sentences = sent_tokenize(summary)
         summary_length_sentences = len(summary_sentences)
         return {
-            "summary": result,
+            "summary": summary,
             "original_length_sentences": original_length_sentences, 
-            "summary_sentences_count": summary_length_sentences
+            "summary_sentences_count": summary_length_sentences,
+            "keywords": keywords_list
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error in summarizing: {str(e)}")

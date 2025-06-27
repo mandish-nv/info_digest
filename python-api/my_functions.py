@@ -1,6 +1,7 @@
 import string
 import math
 from collections import Counter
+from collections import defaultdict
 import numpy as np
 import pandas as pd
 import networkx as nx
@@ -357,6 +358,45 @@ class TextRankSummarizer:
         return " ".join(summary_sentences)
 
 
+def get_top_n_tfidf_words(summarizer, n=10):
+    all_word_scores = defaultdict(float)
+    
+    vectorizer = summarizer.tfidf_vectorizer
+    idx_to_word = {idx: word for word, idx in vectorizer.word_to_idx.items()}
+
+    for i, vector in enumerate(summarizer.tfidf_vectors):
+        for j, score in enumerate(vector):
+            if score > 1e-9:
+                word = idx_to_word.get(j)
+                if word:
+                    all_word_scores[word] = max(all_word_scores[word], score)
+
+    sorted_words = sorted(all_word_scores.items(), key=lambda item: item[1], reverse=True)
+
+    top_n_nouns = {}
+    for word, score in sorted_words:
+        try:
+            tag = nltk.pos_tag([word])[0][1]
+        except Exception:
+            tag = None
+
+        if tag and tag.startswith('N'):
+            top_n_nouns[word] = score
+
+        if len(top_n_nouns) >= n:
+            break
+
+    return top_n_nouns
+   
+# def get_top_n_tfidf_words (summarizer, n = 10):
+#     for i, vector in enumerate(summarizer.tfidf_vectors):
+#         for j, score in enumerate(vector):
+#             if score > 1e-9:
+#                 word = summarizer.tfidf_vectorizer.vocabulary[j]
+#                 # print(f"  {word:<10}: {score:.4f}")
+    
+#     return word
+
 def Extractive_Summarizer(input_text: str, ratio: float) -> str:
     sentences = sent_tokenize(input_text)
     sentence_count = len(sentences)
@@ -368,10 +408,14 @@ def Extractive_Summarizer(input_text: str, ratio: float) -> str:
     else:  # sentence_count > 100
         k_val = 10
 
-    summarizer = TextRankSummarizer(k_neighbors=k_val)
-    summary = summarizer.summarize(input_text, ratio=ratio)
+    # tfidf_vectorizer = TFIDFVectorizer(norm='l2')
+    # tfidf_vectors=tfidf_vectorizer.fit_transform(sentences)
     
-    return summary
-
-
+    summarizer = TextRankSummarizer(k_neighbors=k_val)  
+    
+    summary = summarizer.summarize(input_text, ratio=ratio)
+    top_n_nouns = get_top_n_tfidf_words(summarizer,n = 10)
+    # top_n_nouns = {'a':"a"}
+    
+    return summary, top_n_nouns
 
