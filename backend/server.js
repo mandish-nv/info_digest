@@ -8,6 +8,7 @@ const axios = require("axios"); // For making HTTP requests to FastAPI
 const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:8000"; // FastAPI URL
 
 const User = require("./models/user");
+const Summary = require("./models/summary")
 
 // const crypto = require("crypto");
 // const dotenv = require("dotenv");
@@ -171,6 +172,97 @@ mongoose
         res.status(500).send({ message: "Internal server error" });
       }
     });
+
+    app.post('/storeSummary', async (req, res) => {
+      try {
+        const summaryData = req.body; // Data sent from your frontend
+    
+        // Basic validation (Mongoose schema also handles much of this,
+        // but you can add more specific checks here if needed before saving)
+        if (!summaryData.user_id || !summaryData.originalContent || !summaryData.summarizedContent) {
+          return res.status(400).json({ message: 'Missing required summary data.' });
+        }
+    
+        // Create a new Summary document using the model
+        const newSummary = new Summary(summaryData);
+    
+        // Save the document to the database
+        const savedSummary = await newSummary.save();
+    
+        console.log('Summary saved successfully:', savedSummary);
+        res.status(200).json({
+          message: 'Summary stored successfully!',
+          summary: savedSummary
+        });
+    
+      } catch (error) {
+        // Handle validation errors or other database errors
+        if (error.name === 'ValidationError') {
+          console.error('Validation Error:', error.message);
+          return res.status(400).json({
+            message: 'Validation failed',
+            errors: error.errors // Mongoose validation errors
+          });
+        }
+        console.error('Error saving summary:', error);
+        res.status(500).json({
+          message: 'Internal server error',
+          error: error.message
+        });
+      }
+    });
+
+    app.patch('/updateSummaryFeedback/:summaryId', async (req, res) => {
+      try {
+        const { summaryId } = req.params; // Get summary ID from URL
+        const { rating } = req.body;     // Get new rating from request body
+    
+        // Validate if summaryId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(summaryId)) {
+          return res.status(400).json({ message: 'Invalid Summary ID format.' });
+        }
+    
+        // Basic validation for rating
+        if (rating === undefined || rating === null || typeof rating !== 'number' || rating < 1 || rating > 5) {
+          return res.status(400).json({ message: 'Valid rating (1-5) is required.' });
+        }
+    
+        // Find the summary by ID and update the feedback field
+        const updatedSummary = await Summary.findByIdAndUpdate(
+          summaryId,
+          { $set: { feedback: rating } }, // Use $set to update only the feedback field
+          { new: true, runValidators: true } // Return the updated document, run schema validators
+        );
+    
+        if (!updatedSummary) {
+          return res.status(404).json({ message: 'Summary not found.' });
+        }
+    
+        console.log('Summary feedback updated successfully:', updatedSummary);
+        res.status(200).json({
+          message: 'Summary feedback updated successfully!',
+          summary: updatedSummary
+        });
+    
+      } catch (error) {
+        if (error.name === 'ValidationError') {
+          console.error('Validation Error updating summary feedback:', error.message);
+          return res.status(400).json({
+            message: 'Validation failed for summary feedback update',
+            errors: error.errors
+          });
+        }
+        console.error('Error updating summary feedback:', error);
+        res.status(500).json({
+          message: 'Internal server error while updating summary feedback',
+          error: error.message
+        });
+      }
+    });
+
+
+
+
 
     // user profile display
     app.get("/profile/:id", async (req, res) => {

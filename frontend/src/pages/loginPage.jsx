@@ -45,10 +45,10 @@ export default function Login({ value }) {
         );
         const userId = res2.data;
         if (check) {
-          sessionStorage.setItem("login", JSON.stringify(userId));
-          localStorage.setItem("login", JSON.stringify(userId));
+          sessionStorage.setItem("login", (userId));
+          localStorage.setItem("login", (userId));
         } else {
-          sessionStorage.setItem("login", JSON.stringify(userId));
+          sessionStorage.setItem("login", (userId));
         }
         console.log(userId)
         navigate("/");

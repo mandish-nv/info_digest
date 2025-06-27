@@ -6,24 +6,44 @@ const summarySchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
-  originalText: {
-    type: String,
-    required: true
+  originalContent: {
+    text: {
+      type: String,
+      required: true 
+    },
+    wordCount: {
+      type: Number,
+      required: true, 
+      min: 0
+    },
+    sentenceCount: {
+      type: Number,
+      required: true, 
+      min: 0
+    }
   },
-  summarizedText: {
-    type: String,
-    required: true
-  },
-  topSentences: {
-    type: [String],
-    required: false
+  summarizedContent: {
+    text: {
+      type: String,
+      required: true 
+    },
+    wordCount: {
+      type: Number,
+      required: true, 
+      min: 0
+    },
+    sentenceCount: {
+      type: Number,
+      required: true,
+      min: 0
+    }
   },
   keywords: {
     type: [String],
     required: false
   },
   feedback: {
-    type: String,
+    type: Number,
     required: false
   },
   summaryLength: {
@@ -34,6 +54,7 @@ const summarySchema = new mongoose.Schema({
     type: {
       type: String,
       enum: ['text', 'websiteLink', 'docxInput', 'ocrInputPhoto'],
+      default: 'text',
       required: true
     },
     websiteLink: String,

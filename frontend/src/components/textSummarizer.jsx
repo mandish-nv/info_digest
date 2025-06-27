@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+let summaryId;
+
 export default function TextSummarizer() {
   const [text, setText] = useState("");
   const [summarizeResult, setSummarizeResult] = useState("");
@@ -14,6 +16,10 @@ export default function TextSummarizer() {
   const [error, setError] = useState("");
 
   const NODE_JS_API_URL = "http://localhost:5000/api";
+
+  const loggedInUser = sessionStorage.getItem("login")
+    ? sessionStorage.getItem("login")
+    : false;
 
   const summaryOptions = [
     { label: "Very Short", ratio: 0.1 }, // 10%
@@ -60,7 +66,42 @@ export default function TextSummarizer() {
       setSummarySentencesCount(response.data.summary_sentences_count);
       setWordCount(response.data.originalWordCount);
       setSummaryWordCount(response.data.summaryWordCount);
-      setKeywords(response.data.keywords)
+      setKeywords(response.data.keywords);
+
+      if (loggedInUser) {
+        const summaryData = {
+          user_id: loggedInUser,
+          originalContent: {
+            text: text,
+            wordCount: response.data.originalWordCount,
+            sentenceCount: response.data.original_length_sentences,
+          },
+          summarizedContent: {
+            text: response.data.summary,
+            wordCount: response.data.summaryWordCount,
+            sentenceCount: response.data.summary_sentences_count,
+          },
+          keywords: response.data.keywords,
+          feedback: selectedRating,
+          summaryLength: selectedIndex,
+          inputMedium: {
+            type: "text",
+          },
+        };
+        try {
+          const res = await axios.post(
+            "http://localhost:5000/storeSummary",
+            summaryData
+          );
+          summaryId = res.data.summary._id
+          alert(res.data.message);
+        } catch (err) {
+          console.error(
+            "Error saving summary",
+            err.response ? err.response.data : err.message
+          );
+        }
+      }
     } catch (err) {
       console.error(
         "Error summarizing text:",
@@ -76,7 +117,29 @@ export default function TextSummarizer() {
     }
   };
 
-  console.log(keywords)
+  const [selectedRating, setSelectedRating] = useState(null); // State to store the selected rating
+
+  // Function to handle rating change
+  const handleRatingChange = (event) => {
+    setSelectedRating(parseInt(event.target.value)); // Convert the value to an integer
+  };
+
+  const submitFeedback = async () => {
+    console.log("Submit feedback button")
+    try {
+      const res = await axios.patch(
+        `http://localhost:5000/updateSummaryFeedback/${summaryId}`,
+        {rating: selectedRating}
+      );
+      alert(res.data.message);
+    } catch (err) {
+      console.error(
+        "Error saving summary",
+        err.response ? err.response.data : err.message
+      );
+    }
+  }
+  
 
   return (
     <div className="App">
@@ -213,14 +276,67 @@ export default function TextSummarizer() {
             <p>Summary word count: {summaryWordCount}</p>
             <p>Keywords: </p>
             <ul>
-                {keywords.map((word, index) => (
-                  <li key={word}>
-                    {word} 
-                  </li>
-                ))}
-              </ul>
+              {keywords.map((word, index) => (
+                <li key={word}>{word}</li>
+              ))}
+            </ul>
           </div>
         )}
+        {/* Make this useState and display only for logged in and after clicking summarize */}
+        {loggedInUser?<div>
+          <h1>Rate Your Experience</h1>
+
+          {/* Feedback form */}
+          <div>
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <div key={rating}>
+                <input
+                  type="radio"
+                  id={`rating-${rating}`}
+                  name="feedback-rating"
+                  value={rating}
+                  checked={selectedRating === rating}
+                  onChange={handleRatingChange}
+                />
+                <label htmlFor={`rating-${rating}`}>{rating}</label>
+                <span>
+                  {rating === 1 && "Very Poor"}
+                  {rating === 2 && "Poor"}
+                  {rating === 3 && "Average"}
+                  {rating === 4 && "Good"}
+                  {rating === 5 && "Excellent"}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Display selected rating */}
+          {selectedRating !== null && (
+            <p>
+              You have selected: <span>{selectedRating}</span>
+            </p>
+          )}
+
+          {/* Submit button (optional, for demonstration) */}
+          <div>
+            <button
+              onClick={() => submitFeedback()}
+              disabled={selectedRating === null}
+              style={{
+                backgroundColor: selectedRating === null ? "#ccc" : "#4CAF50", // Gray if disabled, green otherwise
+                color: "white",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: selectedRating === null ? "not-allowed" : "pointer",
+                fontSize: "16px",
+                marginTop: "20px",
+              }}
+            >
+              Submit Feedback
+            </button>
+          </div>
+        </div>:""}
       </section>
     </div>
   );
