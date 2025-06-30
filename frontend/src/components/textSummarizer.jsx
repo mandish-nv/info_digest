@@ -143,8 +143,6 @@ export default function TextSummarizer() {
 
   return (
     <div className="App">
-      <h1>MERN with FastAPI Integration</h1>
-
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
       {loading && <p>Loading...</p>}
 

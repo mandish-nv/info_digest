@@ -9,12 +9,13 @@ export default function LandingPage(){
 
   return(
     <div>
-      <h1>Landing Page</h1> 
+      <h1>OmniDigest</h1> 
       <br />
-      <TextSummarizer />
-      <br/>
-      <br/>
+      
       <LoggedInStatus/>
+      <br/>
+      <br/>
+      <TextSummarizer />
 
     </div>
   )

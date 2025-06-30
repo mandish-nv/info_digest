@@ -44,7 +44,7 @@ export default function LoggedInStatus() {
 
   return (
     <div>
-      <p>LoggedInStatus</p>
+      <p>LoggedInStatus:</p>
 
       <div style={{ display:  loggedInUser  ? "block" : "none" }}>
         <p>Logged in: </p>

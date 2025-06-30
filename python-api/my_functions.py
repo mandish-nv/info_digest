@@ -5,7 +5,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import networkx as nx
-import matplotlib.pyplot as plt
+
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -388,14 +388,6 @@ def get_top_n_tfidf_words(summarizer, n=10):
 
     return top_n_nouns
    
-# def get_top_n_tfidf_words (summarizer, n = 10):
-#     for i, vector in enumerate(summarizer.tfidf_vectors):
-#         for j, score in enumerate(vector):
-#             if score > 1e-9:
-#                 word = summarizer.tfidf_vectorizer.vocabulary[j]
-#                 # print(f"  {word:<10}: {score:.4f}")
-    
-#     return word
 
 def Extractive_Summarizer(input_text: str, ratio: float) -> str:
     sentences = sent_tokenize(input_text)
@@ -415,7 +407,6 @@ def Extractive_Summarizer(input_text: str, ratio: float) -> str:
     
     summary = summarizer.summarize(input_text, ratio=ratio)
     top_n_nouns = get_top_n_tfidf_words(summarizer,n = 10)
-    # top_n_nouns = {'a':"a"}
-    
+
     return summary, top_n_nouns
 

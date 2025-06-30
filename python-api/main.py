@@ -8,17 +8,13 @@ from typing import Optional
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
 
-# Import your functions from the separate file
 from my_functions import Extractive_Summarizer
 
 app = FastAPI()
 
 # --- CORS Configuration ---
-# This is crucial for allowing your React frontend to communicate with FastAPI.
-# In production, specify exact origins instead of "*".
 origins = [
     "http://localhost:5173",  # React frontend's default port
-    # Add other origins if your React app is deployed elsewhere
 ]
 
 app.add_middleware(

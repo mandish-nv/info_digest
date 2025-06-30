@@ -131,7 +131,7 @@ mongoose
       }
     });
 
-    //get banai baksios onegaisimasu
+    //make this get
     app.post("/findUserOrEmail", async (req, res) => {
       try {
         const userName = req.body.userName;
