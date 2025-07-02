@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import TextSummarizer from "../components/textSummarizer";
-import LoggedInStatus from "./loggedInStatus";
+import TextSummarizer from "../pages/textSummarizer";
+import StatusBar from "../components/statusBar";
 
 
 export default function LandingPage(){
@@ -9,10 +9,7 @@ export default function LandingPage(){
 
   return(
     <div>
-      <h1>OmniDigest</h1> 
-      <br />
-      
-      <LoggedInStatus/>
+      <StatusBar/>
       <br/>
       <br/>
       <TextSummarizer />

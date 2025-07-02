@@ -260,6 +260,43 @@ mongoose
       }
     });
 
+    app.get('/adminStatus/:id', async (req, res) => {
+      try {
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return res.status(400).json({ message: "Invalid user ID format" });
+        }
+        const user = await User.findById(userId); 
+        if (user) {
+          res.status(200).json(user.adminAccess);
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      } catch (error) {
+        console.error("Error retrieving user access", error);
+        res
+          .status(500)
+          .json({ message: "An error occurred while retrieving data." });
+      }
+    })
+
+    app.get('/users', async (req, res) => {
+      try {
+          const users = await User.find({}).select('-password');
+          res.status(200).json(users);
+      } catch (error) {
+          console.error("Error retrieving all users:", error);
+          res.status(500).json({ message: "An error occurred while retrieving users." });
+      }
+  });
+
+
+
+
+
+
+
+
 
 
 
