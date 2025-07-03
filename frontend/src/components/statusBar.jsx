@@ -1,16 +1,16 @@
 //retrieve all data and check seperately for admin access
 //fix display issue for adminStatus and userProfile
 
-import { Link } from "react-router-dom";
-import LoggedInStatus from "../pages/loggedInStatus";
 import { useEffect, useState } from "react";
-import axios from "axios"; 
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function StatusBar() {
+  const userId =
+    sessionStorage.getItem("login") || localStorage.getItem("login") || null;
   const [adminAccessFlag, setAdminAccessFlag] = useState(false);
-  const loggedInUser = sessionStorage.getItem("login")
-    ? sessionStorage.getItem("login")
-    : false;
+  const [loggedInUser, setLoggedInUser] = useState(userId);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -25,27 +25,80 @@ export default function StatusBar() {
           console.log("Not logged in");
         }
       } catch (error) {
-        console.error("Error fetching admin status:", error); 
+        console.error("Error fetching admin status:", error);
         setAdminAccessFlag(false);
       }
     };
     checkAdminStatus();
-  }, [loggedInUser]); 
+  }, []);
+
+  // 2 – combined effect: on mount AND whenever any tab changes storage
+  useEffect(() => {
+    const sync = () => {
+      const current = userId;
+
+      if (current) {
+        // keep both stores in sync
+        sessionStorage.setItem("login", current);
+        localStorage.setItem("login", current);
+      } else {
+        // clear both if user logged out
+        sessionStorage.removeItem("login");
+        localStorage.removeItem("login");
+      }
+
+      setLoggedInUser(current); // triggers re‑render when needed
+    };
+
+    sync(); // run once on mount
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, []);
+
+  const logOut = () => {
+    sessionStorage.removeItem("login");
+    localStorage.removeItem("login");
+    setLoggedInUser(null);
+    navigate("/");
+  };
 
   return (
     <div style={{ display: "flex", backgroundColor: "green" }}>
-      <h1><Link to="/">OmniDigest</Link></h1>
+      <h1>
+        <Link to="/">OmniDigest</Link>
+      </h1>
       {adminAccessFlag && (
         <div>
           <Link to="/adminPanel">Admin Panel</Link>
         </div>
       )}
-      {loggedInUser?(<div>
-      <Link to="/profile">
-        User Profile
-        </Link>
-      </div>):("")}
-      <LoggedInStatus />
+      {loggedInUser ? (
+        <div>
+          <Link to="/profile">User Profile</Link>
+        </div>
+      ) : (
+        ""
+      )}
+
+      {/* Logged in status */}
+      <div>
+        <p>LoggedInStatus:</p>
+
+        <div style={{ display: loggedInUser ? "block" : "none" }}>
+          <p>Logged in: </p>
+          <p>{loggedInUser}</p>
+          <button onClick={() => logOut()}>Log out</button>
+        </div>
+
+        <br />
+
+        <div style={{ display: loggedInUser ? "none" : "block" }}>
+          <Link to={"/register"}>Register</Link>
+          <br />
+          <Link to={"/login"}>Log in</Link>
+        </div>
+        <br />
+      </div>
     </div>
   );
-} 
+}

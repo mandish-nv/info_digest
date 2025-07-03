@@ -1,3 +1,5 @@
+// current user and admin can view
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -18,6 +20,8 @@ export default function UserProfile() {
       setError(null);
       let profileIdToFetch = null;
 
+      
+      
       // Determine which ID to use: URL param first, then logged-in user
       if (id) {
         profileIdToFetch = id;
@@ -80,4 +84,3 @@ export default function UserProfile() {
   );
 }
 
-// current user and admin can view
