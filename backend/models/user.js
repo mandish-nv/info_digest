@@ -27,7 +27,8 @@ const userSchema =new mongoose.Schema({
   },
   profilePicture:{
     type:String,
-    required:true
+    default: null,
+    required:false
   },
   adminAccess:{
     type:Boolean,

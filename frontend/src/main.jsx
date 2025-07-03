@@ -41,6 +41,11 @@ const router=createBrowserRouter([
     element:<UserProfile/>,
     errorElement:<ErrorMessage/>
   },
+  {
+    path:'/profile/:id',
+    element:<UserProfile/>,
+    errorElement:<ErrorMessage/>
+  },
 ], { debug: true })
 
 createRoot(document.getElementById('root')).render(

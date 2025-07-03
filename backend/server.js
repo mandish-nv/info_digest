@@ -8,7 +8,7 @@ const axios = require("axios"); // For making HTTP requests to FastAPI
 const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:8000"; // FastAPI URL
 
 const User = require("./models/user");
-const Summary = require("./models/summary")
+const Summary = require("./models/summary");
 
 // const crypto = require("crypto");
 // const dotenv = require("dotenv");
@@ -36,8 +36,8 @@ mongoose
     // Proxy route for greeting
     app.post("/api/extractive-summary", async (req, res) => {
       try {
-        const text  = req.body.text;
-        const  ratio  = req.body.ratio;
+        const text = req.body.text;
+        const ratio = req.body.ratio;
         if (!text) {
           return res.status(400).json({ error: "Text is required(Express)" });
         }
@@ -45,7 +45,7 @@ mongoose
           `${PYTHON_API_URL}/api/extractive-summary`,
           {
             text: text,
-            ratio: ratio
+            ratio: ratio,
           }
         );
         res.json(pythonResponse.data);
@@ -56,11 +56,9 @@ mongoose
           console.error("Response data from Python API:", error.response.data);
           res.status(error.response.status).json(error.response.data);
         } else {
-          res
-            .status(500)
-            .json({
-              error: "Failed to communicate with Python summarizer service",
-            });
+          res.status(500).json({
+            error: "Failed to communicate with Python summarizer service",
+          });
         }
       }
     });
@@ -148,161 +146,7 @@ mongoose
       }
     });
 
-    app.post("/findById", async (req, res) => {
-      const id = req.body.id; // Extract the 'id' from the request body
-
-      if (!id) {
-        return res.status(400).send({ message: "ID is required" });
-      }
-
-      try {
-        // Use 'findById' to find the user by '_id'
-        const userData = await User.findById(id);
-
-        // If user is not found, return a 404 response
-        if (!userData) {
-          return res.status(404).send({ message: "User not found" });
-        }
-
-        // Send the found user data as response
-        res.send(userData);
-      } catch (error) {
-        // Handle errors (for example, invalid 'id' format or database issues)
-        console.error("Error finding user:", error);
-        res.status(500).send({ message: "Internal server error" });
-      }
-    });
-
-    app.post('/storeSummary', async (req, res) => {
-      try {
-        const summaryData = req.body; // Data sent from your frontend
-    
-        // Basic validation (Mongoose schema also handles much of this,
-        // but you can add more specific checks here if needed before saving)
-        if (!summaryData.user_id || !summaryData.originalContent || !summaryData.summarizedContent) {
-          return res.status(400).json({ message: 'Missing required summary data.' });
-        }
-    
-        // Create a new Summary document using the model
-        const newSummary = new Summary(summaryData);
-    
-        // Save the document to the database
-        const savedSummary = await newSummary.save();
-    
-        console.log('Summary saved successfully:', savedSummary);
-        res.status(200).json({
-          message: 'Summary stored successfully!',
-          summary: savedSummary
-        });
-    
-      } catch (error) {
-        // Handle validation errors or other database errors
-        if (error.name === 'ValidationError') {
-          console.error('Validation Error:', error.message);
-          return res.status(400).json({
-            message: 'Validation failed',
-            errors: error.errors // Mongoose validation errors
-          });
-        }
-        console.error('Error saving summary:', error);
-        res.status(500).json({
-          message: 'Internal server error',
-          error: error.message
-        });
-      }
-    });
-
-    app.patch('/updateSummaryFeedback/:summaryId', async (req, res) => {
-      try {
-        const { summaryId } = req.params; // Get summary ID from URL
-        const { rating } = req.body;     // Get new rating from request body
-    
-        // Validate if summaryId is a valid ObjectId
-        if (!mongoose.Types.ObjectId.isValid(summaryId)) {
-          return res.status(400).json({ message: 'Invalid Summary ID format.' });
-        }
-    
-        // Basic validation for rating
-        if (rating === undefined || rating === null || typeof rating !== 'number' || rating < 1 || rating > 5) {
-          return res.status(400).json({ message: 'Valid rating (1-5) is required.' });
-        }
-    
-        // Find the summary by ID and update the feedback field
-        const updatedSummary = await Summary.findByIdAndUpdate(
-          summaryId,
-          { $set: { feedback: rating } }, // Use $set to update only the feedback field
-          { new: true, runValidators: true } // Return the updated document, run schema validators
-        );
-    
-        if (!updatedSummary) {
-          return res.status(404).json({ message: 'Summary not found.' });
-        }
-    
-        console.log('Summary feedback updated successfully:', updatedSummary);
-        res.status(200).json({
-          message: 'Summary feedback updated successfully!',
-          summary: updatedSummary
-        });
-    
-      } catch (error) {
-        if (error.name === 'ValidationError') {
-          console.error('Validation Error updating summary feedback:', error.message);
-          return res.status(400).json({
-            message: 'Validation failed for summary feedback update',
-            errors: error.errors
-          });
-        }
-        console.error('Error updating summary feedback:', error);
-        res.status(500).json({
-          message: 'Internal server error while updating summary feedback',
-          error: error.message
-        });
-      }
-    });
-
-    app.get('/adminStatus/:id', async (req, res) => {
-      try {
-        const userId = req.params.id;
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-          return res.status(400).json({ message: "Invalid user ID format" });
-        }
-        const user = await User.findById(userId); 
-        if (user) {
-          res.status(200).json(user.adminAccess);
-        } else {
-          res.status(404).json({ message: "User not found" });
-        }
-      } catch (error) {
-        console.error("Error retrieving user access", error);
-        res
-          .status(500)
-          .json({ message: "An error occurred while retrieving data." });
-      }
-    })
-
-    app.get('/users', async (req, res) => {
-      try {
-          const users = await User.find({}).select('-password');
-          res.status(200).json(users);
-      } catch (error) {
-          console.error("Error retrieving all users:", error);
-          res.status(500).json({ message: "An error occurred while retrieving users." });
-      }
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-    // user profile display
-    app.get("/profile/:id", async (req, res) => {
+    app.get("/findById/:id", async (req, res) => {
       try {
         const userId = req.params.id; // Use `id` instead of `slug`
 
@@ -311,7 +155,7 @@ mongoose
           return res.status(400).json({ message: "Invalid user ID format" });
         }
 
-        const user = await User.findById(userId); // Use `findById` for efficiency
+        const user = await User.findById(userId).select("-password"); // Use `findById` for efficiency
 
         if (user) {
           res.status(200).json(user);
@@ -325,6 +169,209 @@ mongoose
           .json({ message: "An error occurred while retrieving data." });
       }
     });
+
+    app.post("/storeSummary", async (req, res) => {
+      try {
+        const summaryData = req.body; // Data sent from your frontend
+
+        // Basic validation (Mongoose schema also handles much of this,
+        // but you can add more specific checks here if needed before saving)
+        if (
+          !summaryData.user_id ||
+          !summaryData.originalContent ||
+          !summaryData.summarizedContent
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Missing required summary data." });
+        }
+
+        // Create a new Summary document using the model
+        const newSummary = new Summary(summaryData);
+
+        // Save the document to the database
+        const savedSummary = await newSummary.save();
+
+        console.log("Summary saved successfully:", savedSummary);
+        res.status(200).json({
+          message: "Summary stored successfully!",
+          summary: savedSummary,
+        });
+      } catch (error) {
+        // Handle validation errors or other database errors
+        if (error.name === "ValidationError") {
+          console.error("Validation Error:", error.message);
+          return res.status(400).json({
+            message: "Validation failed",
+            errors: error.errors, // Mongoose validation errors
+          });
+        }
+        console.error("Error saving summary:", error);
+        res.status(500).json({
+          message: "Internal server error",
+          error: error.message,
+        });
+      }
+    });
+
+    app.patch("/updateSummaryFeedback/:summaryId", async (req, res) => {
+      try {
+        const { summaryId } = req.params; // Get summary ID from URL
+        const { rating } = req.body; // Get new rating from request body
+
+        // Validate if summaryId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(summaryId)) {
+          return res
+            .status(400)
+            .json({ message: "Invalid Summary ID format." });
+        }
+
+        // Basic validation for rating
+        if (
+          rating === undefined ||
+          rating === null ||
+          typeof rating !== "number" ||
+          rating < 1 ||
+          rating > 5
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Valid rating (1-5) is required." });
+        }
+
+        // Find the summary by ID and update the feedback field
+        const updatedSummary = await Summary.findByIdAndUpdate(
+          summaryId,
+          { $set: { feedback: rating } }, // Use $set to update only the feedback field
+          { new: true, runValidators: true } // Return the updated document, run schema validators
+        );
+
+        if (!updatedSummary) {
+          return res.status(404).json({ message: "Summary not found." });
+        }
+
+        console.log("Summary feedback updated successfully:", updatedSummary);
+        res.status(200).json({
+          message: "Summary feedback updated successfully!",
+          summary: updatedSummary,
+        });
+      } catch (error) {
+        if (error.name === "ValidationError") {
+          console.error(
+            "Validation Error updating summary feedback:",
+            error.message
+          );
+          return res.status(400).json({
+            message: "Validation failed for summary feedback update",
+            errors: error.errors,
+          });
+        }
+        console.error("Error updating summary feedback:", error);
+        res.status(500).json({
+          message: "Internal server error while updating summary feedback",
+          error: error.message,
+        });
+      }
+    });
+
+    app.get("/adminStatus/:id", async (req, res) => {
+      try {
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return res.status(400).json({ message: "Invalid user ID format" });
+        }
+        const user = await User.findById(userId);
+        if (user) {
+          res.status(200).json(user.adminAccess);
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      } catch (error) {
+        console.error("Error retrieving user access", error);
+        res
+          .status(500)
+          .json({ message: "An error occurred while retrieving data." });
+      }
+    });
+
+    app.get("/users", async (req, res) => {
+      try {
+        const users = await User.find({}).select("-password");
+        res.status(200).json(users);
+      } catch (error) {
+        console.error("Error retrieving all users:", error);
+        res
+          .status(500)
+          .json({ message: "An error occurred while retrieving users." });
+      }
+    });
+
+    app.put("/users/:id/adminAccess", async (req, res) => {
+      try {
+        const userId = req.params.id;
+        const { adminAccess } = req.body; // Expecting boolean 'adminAccess' from frontend
+
+        // 1. Validate User ID Format
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return res.status(400).json({ message: "Invalid user ID format." });
+        }
+
+        // 2. Find the User
+        const user = await User.findById(userId);
+
+        if (!user) {
+          return res.status(404).json({ message: "User not found." });
+        }
+
+        // 3. Validate newAdminStatus (ensure it's a boolean)
+        if (typeof adminAccess !== "boolean") {
+          return res
+            .status(400)
+            .json({
+              message: "Invalid value for adminAccess. Must be true or false.",
+            });
+        }
+
+        // 4. Update the adminAccess field
+        user.adminAccess = adminAccess;
+
+        // 5. Save the updated user to the database
+        await user.save();
+
+        // 6. Send success response
+        // You might want to return a subset of user data, not the whole user object
+        // to avoid sending sensitive info back unnecessarily.
+        const updatedUser = {
+          _id: user._id,
+          fullName: user.fullName,
+          userName: user.userName,
+          email: user.email,
+          adminAccess: user.adminAccess,
+          // Include other non-sensitive fields you need on the frontend
+        };
+        res
+          .status(200)
+          .json({
+            message: "User admin access updated successfully.",
+            user: updatedUser,
+          });
+      } catch (error) {
+        // Handle server errors
+        console.error("Error updating user admin access:", error);
+        res
+          .status(500)
+          .json({ message: "An error occurred while updating user access." });
+      }
+    });
+
+
+
+
+
+
+
+
+
 
     app.post("/changePassword", async (req, res) => {
       const id = req.body._id;

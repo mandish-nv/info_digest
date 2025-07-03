@@ -25,7 +25,7 @@ export default function Register() {
     email: "",
     password: "",
     repassword: "",
-    profilePicture: "none",
+    profilePicture: null,
   });
 
   const validateFields = () => {
@@ -74,7 +74,7 @@ export default function Register() {
             email: "",
             password: "",
             repassword: "",
-            profilePicture: "none",
+            profilePicture: null,
           });
           setFormErrors({});
           fileInputRef.current.value = "";

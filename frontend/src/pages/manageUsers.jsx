@@ -1,3 +1,5 @@
+// edit?
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -5,11 +7,16 @@ export default function ManageUsers() {
   const [userType, setUserType] = useState("all");
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [selectedUserForAccess, setSelectedUserForAccess] = useState(null);
+
+  const loggedInUser = sessionStorage.getItem("login");
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/users"); // Double-check your backend URL
+        const response = await axios.get("http://localhost:5000/users");
         setUsers(response.data);
       } catch (err) {
         setError("Failed to fetch users. Please try again later.");
@@ -28,13 +35,63 @@ export default function ManageUsers() {
     return <div style={{ padding: "20px" }}>No users found.</div>;
   }
 
-  const filteredUsers = users.filter(user => {
-    if (userType === "admin") {
-      return user.adminAccess === true;
-    }
-    // If userType is "all" or anything else, include all users
-    return true;
+  const filteredUsers = users.filter((user) => {
+    const matchesUserType =
+      userType === "all" || (user.adminAccess === true && userType === "admin");
+
+    const searchLower = searchQuery.toLowerCase();
+    const matchesSearch =
+      user.fullName.toLowerCase().includes(searchLower) ||
+      user.userName.toLowerCase().includes(searchLower) ||
+      user.email.toLowerCase().includes(searchLower);
+
+    return matchesUserType && matchesSearch;
   });
+
+  // Function to open the access modification modal
+  const openAccessModal = (user) => {
+    setSelectedUserForAccess(user);
+    setShowAccessModal(true);
+  };
+
+  // Function to close the access modification modal
+  const closeAccessModal = () => {
+    setShowAccessModal(false);
+    setSelectedUserForAccess(null); // Clear selected user
+  };
+
+  // Function to handle the actual access change after modal confirmation
+  const handleConfirmAccessChange = async (userId, newAdminStatus) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/users/${userId}/adminAccess`,
+        {
+          adminAccess: newAdminStatus,
+        }
+      );
+
+      if (res.status === 200) {
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId
+              ? { ...user, adminAccess: newAdminStatus }
+              : user
+          )
+        );
+        console.log(
+          `User ${userId} admin access updated to: ${newAdminStatus}`
+        );
+        alert(
+          `User access updated to ${newAdminStatus ? "Admin" : "Default User"}.`
+        );
+      }
+    } catch (err) {
+      console.error(`Error updating access for user ${userId}:`, err);
+      alert(`Failed to update access for user ${userId}.`);
+    } finally {
+      closeAccessModal(); // Always close the modal after attempt
+    }
+  };
 
   return (
     <div>
@@ -42,6 +99,14 @@ export default function ManageUsers() {
 
       <div>
         <h2>Search</h2>
+        <div>
+          <input
+            type="text"
+            placeholder="Search by name, username, or email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
       <div>
@@ -54,15 +119,14 @@ export default function ManageUsers() {
       <h2>
         {userType === "admin" ? "Registered Admins" : "All Registered Users"}
       </h2>
-      
+
       {filteredUsers.length === 0 ? (
-        <div>
-          No {userType === "admin" ? "admin" : ""} users found.
-        </div>
+        <div>No {userType === "admin" ? "admin" : ""} users found.</div>
       ) : (
         <table>
           <thead>
             <tr>
+              <th>Profile Picture</th>
               <th>Full Name</th>
               <th>Username</th>
               <th>Email</th>
@@ -70,31 +134,124 @@ export default function ManageUsers() {
               <th>Date of Birth</th>
               <th>Admin Access</th>
               <th>Registered On</th>
-              <th>Actions</th> 
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredUsers.map((user) => (
               <tr key={user._id}>
-                <td>{user.fullName}</td>
-                <td>{user.userName}</td>
-                <td>{user.email}</td>
+                <td>
+                <a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">
+                  <img
+                    src={user.profilePicture}
+                    style={{ height: "50px", width: "50px" }}
+                  ></img>
+                  </a>
+                </td>
+                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.fullName}</a></td>
+                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.userName}</a></td>
+                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.email}</a></td>
+                
                 <td>{user.gender}</td>
                 <td>{new Date(user.dob).toLocaleDateString()}</td>
                 <td>{user.adminAccess ? "Yes" : "No"}</td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>
-                  <button className="modify-access-button">Modify access</button>
+                  {(loggedInUser != user._id) && <button onClick={() => openAccessModal(user)}>
+                    Modify Access
+                  </button>}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+
+      {showAccessModal && selectedUserForAccess && (
+        <div
+          style={{
+            // Minimal inline styles for visibility
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "30px",
+              borderRadius: "8px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+              maxWidth: "400px",
+              width: "90%",
+              textAlign: "center",
+            }}
+          >
+            <h3>Change Access for {selectedUserForAccess.fullName}?</h3>
+            <p>
+              Current Status:
+              <strong>
+                {selectedUserForAccess.adminAccess ? " Admin" : " Default User"}
+              </strong>
+            </p>
+            <div style={{ marginTop: "20px" }}>
+              <button
+                onClick={() =>
+                  handleConfirmAccessChange(selectedUserForAccess._id, true)
+                }
+                style={{
+                  padding: "10px 15px",
+                  marginRight: "10px",
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Make Admin
+              </button>
+              <button
+                onClick={() =>
+                  handleConfirmAccessChange(selectedUserForAccess._id, false)
+                }
+                style={{
+                  padding: "10px 15px",
+                  marginRight: "10px",
+                  backgroundColor: "#28a745",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Make Default User
+              </button>
+              <button
+                onClick={closeAccessModal}
+                style={{
+                  padding: "10px 15px",
+                  backgroundColor: "#dc3545",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-{
-  /* admin access, view user history, search, include master admin */
-}

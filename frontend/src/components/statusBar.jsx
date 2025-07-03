@@ -1,3 +1,6 @@
+//retrieve all data and check seperately for admin access
+//fix display issue for adminStatus and userProfile
+
 import { Link } from "react-router-dom";
 import LoggedInStatus from "../pages/loggedInStatus";
 import { useEffect, useState } from "react";
