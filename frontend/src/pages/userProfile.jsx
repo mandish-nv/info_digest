@@ -44,7 +44,7 @@ export default function UserProfile() {
       }
     };
     checkAdminStatus();
-  }, []);
+  }, [loggedInUser]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -97,9 +97,9 @@ export default function UserProfile() {
         setLoading(false);
       }
     };
-
+    
     fetchUserProfile();
-  }, [id, adminAccessFlag]); // Re-run effect if URL ID or loggedInUser changes
+  }, [adminAccessFlag]); // Re-run effect if URL ID or loggedInUser changes
 
   if (loading) {
     return <div>Loading user profile...</div>;
