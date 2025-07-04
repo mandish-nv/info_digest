@@ -13,6 +13,17 @@ export default function StatusBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const currentLoginId = sessionStorage.getItem("login") || localStorage.getItem("login")
+
+    if (currentLoginId) {
+      localStorage.setItem("currentUser", currentLoginId);
+      sessionStorage.setItem("login", currentLoginId)
+    } else {
+      localStorage.removeItem("currentUser");
+    }
+  }, []);
+
+  useEffect(() => {
     const checkAdminStatus = async () => {
       try {
         if (loggedInUser) {
@@ -58,6 +69,7 @@ export default function StatusBar() {
   const logOut = () => {
     sessionStorage.removeItem("login");
     localStorage.removeItem("login");
+    localStorage.removeItem("currentUser");
     setLoggedInUser(null);
     navigate("/");
   };

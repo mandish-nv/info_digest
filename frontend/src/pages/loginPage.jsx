@@ -44,6 +44,7 @@ export default function Login({ value }) {
           loginInfo
         );
         const userId = res2.data;
+        localStorage.setItem("currentUser", (userId));
         if (check) {
           sessionStorage.setItem("login", (userId));
           localStorage.setItem("login", (userId));
@@ -96,7 +97,7 @@ export default function Login({ value }) {
       <div className="error-message">{formErrors.password}</div>
       <br />
       <br />
-      <div>
+      {/* <div>
         <input
           type="checkbox"
           name="remember"
@@ -104,7 +105,7 @@ export default function Login({ value }) {
           onChange={() => setCheck(!check)}
         />
         <div className="login-text">Remember Me</div>
-      </div>
+      </div> */}
       <br />
       <button type="submit">Submit</button>
       <br />

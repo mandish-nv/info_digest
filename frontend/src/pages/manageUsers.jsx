@@ -141,16 +141,16 @@ export default function ManageUsers() {
             {filteredUsers.map((user) => (
               <tr key={user._id}>
                 <td>
-                <a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">
+                <a href={`/profile/${user._id}`} target="_blank">
                   <img
                     src={user.profilePicture}
                     style={{ height: "50px", width: "50px" }}
                   ></img>
                   </a>
                 </td>
-                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.fullName}</a></td>
-                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.userName}</a></td>
-                <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.email}</a></td>
+                <td><a href={`/profile/${user._id}`} target="_blank">{user.fullName}</a></td>
+                <td><a href={`/profile/${user._id}`} target="_blank">{user.userName}</a></td>
+                <td><a href={`/profile/${user._id}`} target="_blank">{user.email}</a></td>
                 
                 <td>{user.gender}</td>
                 <td>{new Date(user.dob).toLocaleDateString()}</td>
