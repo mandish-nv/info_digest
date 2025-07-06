@@ -8,19 +8,22 @@ import StatusBar from "../components/statusBar";
 export default function UserProfile() {
   const { id } = useParams(); // Get ID from URL (e.g., /profile/123)
   const [userProfile, setUserProfile] = useState(null);
+  const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [summaryError, setSummaryError] = useState(null);
   const [adminAccessFlag, setAdminAccessFlag] = useState(false);
 
   // Get the current logged-in user's ID from sessionStorage
   const loggedInUser = sessionStorage.getItem("login");
 
   useEffect(() => {
-    const currentLoginId = sessionStorage.getItem("login") || localStorage.getItem("login")
+    const currentLoginId =
+      sessionStorage.getItem("login") || localStorage.getItem("login");
 
     if (currentLoginId) {
       localStorage.setItem("currentUser", currentLoginId);
-      sessionStorage.setItem("login", currentLoginId)
+      sessionStorage.setItem("login", currentLoginId);
     } else {
       localStorage.removeItem("currentUser");
     }
@@ -50,21 +53,21 @@ export default function UserProfile() {
     const fetchUserProfile = async () => {
       setLoading(true);
       setError(null);
+      setSummaryError(null);
       let profileIdToFetch = null;
-      const loggedInUser = sessionStorage.getItem("login")||localStorage.getItem("login");
+      const loggedInUser =
+        sessionStorage.getItem("login") || localStorage.getItem("login");
       if (loggedInUser) {
         localStorage.setItem("currentUser", loggedInUser);
-        sessionStorage.setItem("login", loggedInUser)
+        sessionStorage.setItem("login", loggedInUser);
       } else {
         localStorage.removeItem("currentUser");
       }
 
-      // Determine which ID to use: URL param first, then logged-in user
       if (id) {
-        // admin ho ki nai check
-        if(id === loggedInUser){
+        if (id === loggedInUser) {
           profileIdToFetch = loggedInUser;
-        } else{
+        } else {
           profileIdToFetch = id;
           if (!adminAccessFlag) {
             setError("You are not authorized to view this page.");
@@ -80,26 +83,46 @@ export default function UserProfile() {
         setLoading(false);
         return;
       }
-
       try {
-        const response = await axios.get(
+        setLoading(true); // Indicate loading has started
+        setError(null); // Clear any previous errors
+
+        // Fetch user profile
+        const profileResponse = await axios.get(
           `http://localhost:5000/findById/${profileIdToFetch}`
         );
-        setUserProfile(response.data);
+        setUserProfile(profileResponse.data);
       } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setError("User not found.");
+        console.error("Error fetching data:", err);
+        setError(
+          err.response || err.message || "An unexpected error occurred."
+        );
+      } finally {
+        setLoading(false); // Set loading to false once all requests are complete
+      }
+
+      try {
+        setLoading(true); // Indicate loading has started
+        setError(null); // Clear any previous errors
+        setSummaryError(null);
+        const summariesResponse = await axios.get(
+          `http://localhost:5000/retrieveSummary/${profileIdToFetch}`
+        );
+        setSummaries(summariesResponse.data);
+      } catch (err) {
+        if (err.status == "404") {
+          setSummaryError("No summary available");
         } else {
-          setError("Failed to fetch user profile. Please try again later.");
-          console.error("Error fetching user profile:", err);
+          setSummaryError(
+            "An unexpected error occurred while retrieving summary."
+          );
         }
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false once all requests are complete
       }
     };
-    
     fetchUserProfile();
-  }, [adminAccessFlag]); // Re-run effect if URL ID or loggedInUser changes
+  }, [adminAccessFlag]);
 
   if (loading) {
     return <div>Loading user profile...</div>;
@@ -117,38 +140,84 @@ export default function UserProfile() {
     <div>
       <StatusBar />
       <h2>User Profile</h2>
-      <p>
-        <strong>Full Name:</strong> {userProfile.fullName}
-      </p>
-      <p>
-        <strong>Username:</strong> {userProfile.userName}
-      </p>
-      <p>
-        <strong>Email:</strong> {userProfile.email}
-      </p>
-      <p>
-        <strong>Gender:</strong> {userProfile.gender}
-      </p>
-      <p>
-        <strong>Date of Birth:</strong>{" "}
-        {new Date(userProfile.dob).toLocaleDateString()}
-      </p>
-      <p>
-        <strong>Registered On:</strong>{" "}
-        {new Date(userProfile.createdAt).toLocaleDateString()}
-      </p>
-      {userProfile.profilePicture && (
-        <div>
-          <strong>Profile Picture:</strong>
-          <br />
-          <img
-            src={userProfile.profilePicture}
-            alt="Profile"
-            width="150"
-            height="150"
-          />
-        </div>
-      )}
+      <div>
+        <p>
+          <strong>Full Name:</strong> {userProfile.fullName}
+        </p>
+        <p>
+          <strong>Username:</strong> {userProfile.userName}
+        </p>
+        <p>
+          <strong>Email:</strong> {userProfile.email}
+        </p>
+        <p>
+          <strong>Gender:</strong> {userProfile.gender}
+        </p>
+        <p>
+          <strong>Date of Birth:</strong>{" "}
+          {new Date(userProfile.dob).toLocaleDateString()}
+        </p>
+        <p>
+          <strong>Registered On:</strong>{" "}
+          {new Date(userProfile.createdAt).toLocaleDateString()}
+        </p>
+        {userProfile.profilePicture && (
+          <div>
+            <strong>Profile Picture:</strong>
+            <br />
+            <img
+              src={userProfile.profilePicture}
+              alt="Profile"
+              width="150"
+              height="150"
+            />
+          </div>
+        )}
+      </div>
+      <div>
+        <h2>History</h2>
+        <div>{summaryError}</div>
+        {summaries.length > 0 && (
+          <div>
+            <h2>Summaries Found:</h2>
+            <div>
+              {summaries.map((summary) => (
+                <div key={summary._id}>
+                  <p>
+                    <span>Summary ID:</span> {summary._id}
+                  </p>
+                  <div>
+                    <p>Original Content:</p>
+                    <p>{summary.originalContent.text}</p>
+                    <p>
+                      Words: {summary.originalContent.wordCount}, Sentences:{" "}
+                      {summary.originalContent.sentenceCount}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Summarized Content:</p>
+                    <p>{summary.summarizedContent.text}</p>
+                    <p>
+                      Words: {summary.summarizedContent.wordCount}, Sentences:{" "}
+                      {summary.summarizedContent.sentenceCount}
+                    </p>
+                  </div>
+                  {summary.keywords && summary.keywords.length > 0 && (
+                    <p>
+                      <span>Keywords:</span> {summary.keywords.join(", ")}
+                    </p>
+                  )}
+                  <p>
+                    Created At:{" "}
+                    {new Date(summary.createdAt).toLocaleDateString()}
+                  </p>
+                  <hr />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

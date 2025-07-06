@@ -214,6 +214,27 @@ mongoose
       }
     });
 
+    app.get("/retrieveSummary/:id", async (req, res) => {
+      try {
+        const userId  = req.params.id; 
+    
+        if (!userId) {
+          return res.status(400).json({ message: 'User ID is required.' });
+        }
+
+        const summaries = await Summary.find({ user_id: userId });
+     
+        if (!summaries || summaries.length === 0) {
+          return res.status(404).json({ message: 'No summaries found for this user ID.' });
+        }
+
+        res.status(200).json(summaries);
+      } catch (error) {
+        console.error('Error fetching summaries by user ID:', error);
+        res.status(500).json({ message: 'Server error while fetching summaries.', error: error.message });
+      }
+    })
+
     app.patch("/updateSummaryFeedback/:summaryId", async (req, res) => {
       try {
         const { summaryId } = req.params; // Get summary ID from URL
@@ -363,6 +384,7 @@ mongoose
           .json({ message: "An error occurred while updating user access." });
       }
     });
+
 
 
 

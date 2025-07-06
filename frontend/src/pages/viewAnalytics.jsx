@@ -6,4 +6,4 @@ export default function ViewAnalytics(){
 );
 }
 
-        {/* graph of summary lnght, medium, feedback */}
+        {/* graph of summary length, medium, feedback */}
