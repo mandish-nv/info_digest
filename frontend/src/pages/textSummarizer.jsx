@@ -278,10 +278,7 @@ export default function TextSummarizer() {
                 <li key={word}>{word}</li>
               ))}
             </ul>
-          </div>
-        )}
-        {/* Make this useState and display only for logged in and after clicking summarize */}
-        {loggedInUser?<div>
+            <div>
           <h1>Rate Your Experience</h1>
 
           {/* Feedback form */}
@@ -315,7 +312,6 @@ export default function TextSummarizer() {
             </p>
           )}
 
-          {/* Submit button (optional, for demonstration) */}
           <div>
             <button
               onClick={() => submitFeedback()}
@@ -334,7 +330,10 @@ export default function TextSummarizer() {
               Submit Feedback
             </button>
           </div>
-        </div>:""}
+        </div>
+          </div>
+        )}
+
       </section>
     </div>
   );

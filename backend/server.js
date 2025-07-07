@@ -26,6 +26,13 @@ const URL = "mongodb://localhost:27017/omni_digest";
 app.use(express.json());
 app.use(cors());
 
+const lengthLabels = {
+  0: "Very Short",
+  1: "Short",
+  2: "Medium",
+  3: "Long"
+};
+
 mongoose
   .connect(URL)
   .then(() => {
@@ -385,6 +392,107 @@ mongoose
       }
     });
 
+    app.get('/analytics', async (req, res) => {
+      try {
+        const totalSummaries = await Summary.countDocuments();
+    
+        const [
+          contentStats,
+          feedbackDistribution,
+          inputMediumStats,
+          lengthDistribution
+        ] = await Promise.all([
+          // Average word/sentence counts + compression ratio
+          Summary.aggregate([
+            {
+              $project: {
+                originalWordCount: "$originalContent.wordCount",
+                originalSentenceCount: "$originalContent.sentenceCount",
+                summarizedWordCount: "$summarizedContent.wordCount",
+                summarizedSentenceCount: "$summarizedContent.sentenceCount",
+                compressionRatio: {
+                  $cond: [
+                    { $eq: ["$originalContent.wordCount", 0] },
+                    null,
+                    { $divide: ["$summarizedContent.wordCount", "$originalContent.wordCount"] }
+                  ]
+                }
+              }
+            },
+            {
+              $group: {
+                _id: null, // Group all documents into a single group
+                avgOriginalWordCount: { $avg: "$originalWordCount" },
+                avgOriginalSentenceCount: { $avg: "$originalSentenceCount" },
+                avgSummarizedWordCount: { $avg: "$summarizedWordCount" },
+                avgSummarizedSentenceCount: { $avg: "$summarizedSentenceCount" },
+                avgCompressionRatio: { $avg: "$compressionRatio" }
+              }
+            }
+          ]),
+    
+          // Feedback distribution (1–5) - MODIFIED to include null feedback
+          Summary.aggregate([
+            // Removed the $match stage to include documents where feedback is null
+            { $group: { _id: "$feedback", count: { $sum: 1 } } }, // Group by feedback value (including null) and count
+            { $sort: { _id: 1 } }                                  // Sort by feedback value
+          ]),
+    
+          // Input medium type distribution
+          Summary.aggregate([
+            { $group: { _id: "$inputMedium.type", count: { $sum: 1 } } }
+          ]),
+    
+          // Length distribution using summaryLength field
+          Summary.aggregate([
+            { $match: { summaryLength: { $in: [0, 1, 2, 3] } } },
+            {
+              $group: {
+                _id: "$summaryLength",
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { _id: 1 } }
+          ])
+        ]);
+    
+        const mappedLengthDistribution = lengthDistribution.map(entry => ({
+          category: entry._id,
+          label: lengthLabels[entry._id] || "Unknown",
+          count: entry.count
+        }));
+    
+        res.json({
+          totalSummaries,
+    
+          originalContentStats: {
+            avgWordCount: contentStats[0]?.avgOriginalWordCount || 0,
+            avgSentenceCount: contentStats[0]?.avgOriginalSentenceCount || 0,
+            lengthDistribution: mappedLengthDistribution
+          },
+    
+          summarizedContentStats: {
+            avgWordCount: contentStats[0]?.avgSummarizedWordCount || 0,
+            avgSentenceCount: contentStats[0]?.avgSummarizedSentenceCount || 0,
+            avgCompressionRatio: contentStats[0]?.avgCompressionRatio || 0
+          },
+    
+          feedbackAnalysis: feedbackDistribution.map(f => ({
+            rating: f._id,
+            count: f.count
+          })),
+    
+          inputMediumDistribution: inputMediumStats.map(i => ({
+            type: i._id,
+            count: i.count
+          }))
+        });
+    
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to fetch analytics' });
+      }
+    });
 
 
 
