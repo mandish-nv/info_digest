@@ -30,7 +30,7 @@ const lengthLabels = {
   0: "Very Short",
   1: "Short",
   2: "Medium",
-  3: "Long"
+  3: "Long",
 };
 
 mongoose
@@ -223,24 +223,31 @@ mongoose
 
     app.get("/retrieveSummary/:id", async (req, res) => {
       try {
-        const userId  = req.params.id; 
-    
+        const userId = req.params.id;
+
         if (!userId) {
-          return res.status(400).json({ message: 'User ID is required.' });
+          return res.status(400).json({ message: "User ID is required." });
         }
 
         const summaries = await Summary.find({ user_id: userId });
-     
+
         if (!summaries || summaries.length === 0) {
-          return res.status(404).json({ message: 'No summaries found for this user ID.' });
+          return res
+            .status(404)
+            .json({ message: "No summaries found for this user ID." });
         }
 
         res.status(200).json(summaries);
       } catch (error) {
-        console.error('Error fetching summaries by user ID:', error);
-        res.status(500).json({ message: 'Server error while fetching summaries.', error: error.message });
+        console.error("Error fetching summaries by user ID:", error);
+        res
+          .status(500)
+          .json({
+            message: "Server error while fetching summaries.",
+            error: error.message,
+          });
       }
-    })
+    });
 
     app.patch("/updateSummaryFeedback/:summaryId", async (req, res) => {
       try {
@@ -353,11 +360,9 @@ mongoose
 
         // 3. Validate newAdminStatus (ensure it's a boolean)
         if (typeof adminAccess !== "boolean") {
-          return res
-            .status(400)
-            .json({
-              message: "Invalid value for adminAccess. Must be true or false.",
-            });
+          return res.status(400).json({
+            message: "Invalid value for adminAccess. Must be true or false.",
+          });
         }
 
         // 4. Update the adminAccess field
@@ -377,12 +382,10 @@ mongoose
           adminAccess: user.adminAccess,
           // Include other non-sensitive fields you need on the frontend
         };
-        res
-          .status(200)
-          .json({
-            message: "User admin access updated successfully.",
-            user: updatedUser,
-          });
+        res.status(200).json({
+          message: "User admin access updated successfully.",
+          user: updatedUser,
+        });
       } catch (error) {
         // Handle server errors
         console.error("Error updating user admin access:", error);
@@ -392,15 +395,15 @@ mongoose
       }
     });
 
-    app.get('/analytics', async (req, res) => {
+    app.get("/analytics", async (req, res) => {
       try {
         const totalSummaries = await Summary.countDocuments();
-    
+
         const [
           contentStats,
           feedbackDistribution,
           inputMediumStats,
-          lengthDistribution
+          lengthDistribution,
         ] = await Promise.all([
           // Average word/sentence counts + compression ratio
           Summary.aggregate([
@@ -414,10 +417,15 @@ mongoose
                   $cond: [
                     { $eq: ["$originalContent.wordCount", 0] },
                     null,
-                    { $divide: ["$summarizedContent.wordCount", "$originalContent.wordCount"] }
-                  ]
-                }
-              }
+                    {
+                      $divide: [
+                        "$summarizedContent.wordCount",
+                        "$originalContent.wordCount",
+                      ],
+                    },
+                  ],
+                },
+              },
             },
             {
               $group: {
@@ -425,101 +433,73 @@ mongoose
                 avgOriginalWordCount: { $avg: "$originalWordCount" },
                 avgOriginalSentenceCount: { $avg: "$originalSentenceCount" },
                 avgSummarizedWordCount: { $avg: "$summarizedWordCount" },
-                avgSummarizedSentenceCount: { $avg: "$summarizedSentenceCount" },
-                avgCompressionRatio: { $avg: "$compressionRatio" }
-              }
-            }
+                avgSummarizedSentenceCount: {
+                  $avg: "$summarizedSentenceCount",
+                },
+                avgCompressionRatio: { $avg: "$compressionRatio" },
+              },
+            },
           ]),
-    
+
           // Feedback distribution (1–5) - MODIFIED to include null feedback
           Summary.aggregate([
             // Removed the $match stage to include documents where feedback is null
             { $group: { _id: "$feedback", count: { $sum: 1 } } }, // Group by feedback value (including null) and count
-            { $sort: { _id: 1 } }                                  // Sort by feedback value
+            { $sort: { _id: 1 } }, // Sort by feedback value
           ]),
-    
+
           // Input medium type distribution
           Summary.aggregate([
-            { $group: { _id: "$inputMedium.type", count: { $sum: 1 } } }
+            { $group: { _id: "$inputMedium.type", count: { $sum: 1 } } },
           ]),
-    
+
           // Length distribution using summaryLength field
           Summary.aggregate([
             { $match: { summaryLength: { $in: [0, 1, 2, 3] } } },
             {
               $group: {
                 _id: "$summaryLength",
-                count: { $sum: 1 }
-              }
+                count: { $sum: 1 },
+              },
             },
-            { $sort: { _id: 1 } }
-          ])
+            { $sort: { _id: 1 } },
+          ]),
         ]);
-    
-        const mappedLengthDistribution = lengthDistribution.map(entry => ({
+
+        const mappedLengthDistribution = lengthDistribution.map((entry) => ({
           category: entry._id,
           label: lengthLabels[entry._id] || "Unknown",
-          count: entry.count
+          count: entry.count,
         }));
-    
+
         res.json({
           totalSummaries,
-    
+
           originalContentStats: {
             avgWordCount: contentStats[0]?.avgOriginalWordCount || 0,
             avgSentenceCount: contentStats[0]?.avgOriginalSentenceCount || 0,
-            lengthDistribution: mappedLengthDistribution
+            lengthDistribution: mappedLengthDistribution,
           },
-    
+
           summarizedContentStats: {
             avgWordCount: contentStats[0]?.avgSummarizedWordCount || 0,
             avgSentenceCount: contentStats[0]?.avgSummarizedSentenceCount || 0,
-            avgCompressionRatio: contentStats[0]?.avgCompressionRatio || 0
+            avgCompressionRatio: contentStats[0]?.avgCompressionRatio || 0,
           },
-    
-          feedbackAnalysis: feedbackDistribution.map(f => ({
+
+          feedbackAnalysis: feedbackDistribution.map((f) => ({
             rating: f._id,
-            count: f.count
+            count: f.count,
           })),
-    
-          inputMediumDistribution: inputMediumStats.map(i => ({
+
+          inputMediumDistribution: inputMediumStats.map((i) => ({
             type: i._id,
-            count: i.count
-          }))
+            count: i.count,
+          })),
         });
-    
       } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Failed to fetch analytics' });
-      }
-    });
-
-
-
-
-
-
-
-
-
-
-    app.post("/changePassword", async (req, res) => {
-      const id = req.body._id;
-      const password = req.body.password;
-      const saltRounds = 10;
-      const newPassword = await bcrypt.hash(password, saltRounds);
-      try {
-        await User.updateOne(
-          { _id: id },
-          {
-            $set: { password: newPassword },
-          }
-        );
-
-        res.send("Success");
-      } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({ error: "Failed to fetch analytics" });
       }
     });
 

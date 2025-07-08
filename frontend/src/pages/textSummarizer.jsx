@@ -11,6 +11,9 @@ export default function TextSummarizer() {
   const [wordCount, setWordCount] = useState(0);
   const [summaryWordCount, setSummaryWordCount] = useState(0);
   const [keywords, setKeywords] = useState([]);
+  const [inputMedium, setInputMedium] = useState("text");
+  const [uploadedFile, setUploadedFile] = useState(null); // State to store the File object
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -43,10 +46,16 @@ export default function TextSummarizer() {
 
   const handleSummarize = async (e) => {
     e.preventDefault();
-    console.log(text);
-    if (!text.trim()) {
-      setError("Please enter some text first.");
-      return;
+    if (inputMedium === "text") {
+      if (!text.trim()) {
+        setError("Please enter some text first.");
+        return;
+      }
+    }if (inputMedium === "file") {
+      if (!uploadedFile) {
+        setError("Please enter a file first.");
+        return;
+      }
     }
     setLoading(true);
     setError("");
@@ -57,10 +66,20 @@ export default function TextSummarizer() {
     setSummaryWordCount(0);
     setKeywords([]);
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/extractive-summary",
-        { text: text, ratio: ratio }
-      );
+      if (inputMedium === "text") {
+        const response = await axios.post(
+          "http://localhost:5000/api/extractive-summary",
+          { text: text, ratio: ratio }
+        );
+      } else if (inputMedium === "file") {
+        const response = await axios.post(
+          "http://localhost:5000/api/extractive-summary-file",
+          { file: uploadedFile, ratio: ratio }
+        );
+      } else {
+        setError("Select an input medium");
+        return;
+      }
       setSummarizeResult(response.data.summary);
       setOriginalSentencesCount(response.data.original_length_sentences);
       setSummarySentencesCount(response.data.summary_sentences_count);
@@ -85,7 +104,7 @@ export default function TextSummarizer() {
           feedback: selectedRating,
           summaryLength: selectedIndex,
           inputMedium: {
-            type: "text",
+            type: inputMedium,
           },
         };
         try {
@@ -93,7 +112,7 @@ export default function TextSummarizer() {
             "http://localhost:5000/storeSummary",
             summaryData
           );
-          summaryId = res.data.summary._id
+          summaryId = res.data.summary._id;
           alert(res.data.message);
         } catch (err) {
           console.error(
@@ -125,11 +144,11 @@ export default function TextSummarizer() {
   };
 
   const submitFeedback = async () => {
-    console.log("Submit feedback button")
+    console.log("Submit feedback button");
     try {
       const res = await axios.patch(
         `http://localhost:5000/updateSummaryFeedback/${summaryId}`,
-        {rating: selectedRating}
+        { rating: selectedRating }
       );
       alert(res.data.message);
     } catch (err) {
@@ -138,8 +157,18 @@ export default function TextSummarizer() {
         err.response ? err.response.data : err.message
       );
     }
-  }
-  
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Get the first file
+    if (file) {
+      setUploadedFile(file); // Store the file object
+      setUploadStatus(`File selected: ${file.name}`);
+    } else {
+      setUploadedFile(null);
+      setUploadStatus("No file selected.");
+    }
+  };
 
   return (
     <div className="App">
@@ -149,14 +178,46 @@ export default function TextSummarizer() {
       <section>
         <h2>Extractive Summarization</h2>
         <form onSubmit={handleSummarize}>
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter text to summarize"
-            rows="8"
-            cols="80"
-            required
-          ></textarea>
+          <span
+            onClick={() => {
+              setInputMedium("text");
+              setText("");
+              setError("");
+            }}
+          >
+            Text input
+          </span>
+          <br />
+          <span
+            onClick={() => {
+              setInputMedium("file");
+              setUploadStatus("");
+              setUploadedFile(null);
+              setError("");
+            }}
+          >
+            File input
+          </span>
+          <br />
+          {inputMedium === "text" && (
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Enter text to summarize"
+              rows="8"
+              cols="80"
+            ></textarea>
+          )}
+          {inputMedium === "file" && (
+            <div>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".docx,.pdf,.txt"
+              />
+              {uploadStatus && <p>{uploadStatus}</p>}
+            </div>
+          )}
           <div
             style={{
               display: "flex",
@@ -279,61 +340,61 @@ export default function TextSummarizer() {
               ))}
             </ul>
             <div>
-          <h1>Rate Your Experience</h1>
+              <h1>Rate Your Experience</h1>
 
-          {/* Feedback form */}
-          <div>
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <div key={rating}>
-                <input
-                  type="radio"
-                  id={`rating-${rating}`}
-                  name="feedback-rating"
-                  value={rating}
-                  checked={selectedRating === rating}
-                  onChange={handleRatingChange}
-                />
-                <label htmlFor={`rating-${rating}`}>{rating}</label>
-                <span>
-                  {rating === 1 && "Very Poor"}
-                  {rating === 2 && "Poor"}
-                  {rating === 3 && "Average"}
-                  {rating === 4 && "Good"}
-                  {rating === 5 && "Excellent"}
-                </span>
+              {/* Feedback form */}
+              <div>
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <div key={rating}>
+                    <input
+                      type="radio"
+                      id={`rating-${rating}`}
+                      name="feedback-rating"
+                      value={rating}
+                      checked={selectedRating === rating}
+                      onChange={handleRatingChange}
+                    />
+                    <label htmlFor={`rating-${rating}`}>{rating}</label>
+                    <span>
+                      {rating === 1 && "Very Poor"}
+                      {rating === 2 && "Poor"}
+                      {rating === 3 && "Average"}
+                      {rating === 4 && "Good"}
+                      {rating === 5 && "Excellent"}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Display selected rating */}
-          {selectedRating !== null && (
-            <p>
-              You have selected: <span>{selectedRating}</span>
-            </p>
-          )}
+              {/* Display selected rating */}
+              {selectedRating !== null && (
+                <p>
+                  You have selected: <span>{selectedRating}</span>
+                </p>
+              )}
 
-          <div>
-            <button
-              onClick={() => submitFeedback()}
-              disabled={selectedRating === null}
-              style={{
-                backgroundColor: selectedRating === null ? "#ccc" : "#4CAF50", // Gray if disabled, green otherwise
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: selectedRating === null ? "not-allowed" : "pointer",
-                fontSize: "16px",
-                marginTop: "20px",
-              }}
-            >
-              Submit Feedback
-            </button>
-          </div>
-        </div>
+              <div>
+                <button
+                  onClick={() => submitFeedback()}
+                  disabled={selectedRating === null}
+                  style={{
+                    backgroundColor:
+                      selectedRating === null ? "#ccc" : "#4CAF50", // Gray if disabled, green otherwise
+                    color: "white",
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: selectedRating === null ? "not-allowed" : "pointer",
+                    fontSize: "16px",
+                    marginTop: "20px",
+                  }}
+                >
+                  Submit Feedback
+                </button>
+              </div>
+            </div>
           </div>
         )}
-
       </section>
     </div>
   );
