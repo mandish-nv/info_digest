@@ -51,7 +51,8 @@ export default function TextSummarizer() {
         setError("Please enter some text first.");
         return;
       }
-    }if (inputMedium === "file") {
+    }
+    if (inputMedium === "file") {
       if (!uploadedFile) {
         setError("Please enter a file first.");
         return;
@@ -65,16 +66,28 @@ export default function TextSummarizer() {
     setWordCount(0);
     setSummaryWordCount(0);
     setKeywords([]);
+    let response;
     try {
       if (inputMedium === "text") {
-        const response = await axios.post(
+        response = await axios.post(
           "http://localhost:5000/api/extractive-summary",
           { text: text, ratio: ratio }
         );
       } else if (inputMedium === "file") {
-        const response = await axios.post(
+        const formData = new FormData();
+        formData.append("summaryFile", uploadedFile); // 'summaryFile' must match the name in your Express Multer config
+        formData.append("ratio", ratio); // Append the ratio as well
+
+        response = await axios.post(
           "http://localhost:5000/api/extractive-summary-file",
-          { file: uploadedFile, ratio: ratio }
+          formData,
+          {
+            headers: {
+              // This header is CRUCIAL for FormData to work correctly
+              // axios often sets this automatically, but explicitly defining it is safer.
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       } else {
         setError("Select an input medium");
@@ -91,7 +104,7 @@ export default function TextSummarizer() {
         const summaryData = {
           user_id: loggedInUser,
           originalContent: {
-            text: text,
+            text: response.data.originalContentText,
             wordCount: response.data.originalWordCount,
             sentenceCount: response.data.original_length_sentences,
           },
@@ -105,6 +118,17 @@ export default function TextSummarizer() {
           summaryLength: selectedIndex,
           inputMedium: {
             type: inputMedium,
+            ...(inputMedium === "file" && {
+              file: {
+                name: uploadedFile.name,
+                filePath: `/temp_uploads/${uploadedFile.name}`, // Store the path relative to the server
+                type: uploadedFile.type,
+                size: uploadedFile.size,
+              },
+            }),
+            // ...(inputMedium === "image" && {
+            //   image: uploadedImage,
+            // }),
           },
         };
         try {

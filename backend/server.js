@@ -4,18 +4,15 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const axios = require("axios"); // For making HTTP requests to FastAPI
+const multer = require('multer');
+const path = require('path');
+const FormData = require('form-data'); // To build multipart/form-data for Python API
 
 const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:8000"; // FastAPI URL
 
 const User = require("./models/user");
 const Summary = require("./models/summary");
 
-// const crypto = require("crypto");
-// const dotenv = require("dotenv");
-// const path=require("path")
-// dotenv.config();
-// const algorithm = "aes-256-cbc";
-// const key = Buffer.from(process.env.ENCRYPTION_KEY, "hex");
 
 const port = 5000;
 
@@ -33,6 +30,44 @@ const lengthLabels = {
   3: "Long",
 };
 
+// --- Multer Configuration ---
+// Define allowed extensions (case-insensitive)
+const allowedExtensions = ['txt', 'pdf', 'docx'];
+
+// Configure Multer storage to temporarily save the file
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Save uploaded files to a temporary 'temp_uploads' directory
+    // These files will be forwarded to the Python API and then potentially deleted.
+    cb(null, 'temp_uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+// Create the Multer upload middleware
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // Example: 10MB file size limit
+  fileFilter: (req, file, cb) => {
+    const fileExtension = path.extname(file.originalname).toLowerCase().substring(1);
+
+    if (allowedExtensions.includes(fileExtension)) {
+      cb(null, true); // Accept the file
+    } else {
+      cb(new Error('Invalid file type. Only .txt, .pdf, and .docx files are allowed.'), false);
+    }
+  }
+}).single('summaryFile'); // 'summaryFile' should match the name of your file input in the frontend form
+
+// Create the temporary upload directory if it doesn't exist
+const fs = require('fs');
+const tempUploadsDir = path.join(__dirname, 'temp_uploads');
+if (!fs.existsSync(tempUploadsDir)) {
+  fs.mkdirSync(tempUploadsDir);
+}
+
 mongoose
   .connect(URL)
   .then(() => {
@@ -40,7 +75,6 @@ mongoose
       res.send("Mongo Connected");
     });
 
-    // Proxy route for greeting
     app.post("/api/extractive-summary", async (req, res) => {
       try {
         const text = req.body.text;
@@ -57,7 +91,7 @@ mongoose
         );
         res.json(pythonResponse.data);
       } catch (error) {
-        console.error("Error calling Python greet API:", error.message);
+        console.error("Error calling Python API:", error.message);
 
         if (error.response) {
           console.error("Response data from Python API:", error.response.data);
@@ -68,6 +102,77 @@ mongoose
           });
         }
       }
+    });
+
+    app.post("/api/extractive-summary-file", async (req, res) => {
+      // Use the 'upload' middleware here
+      upload(req, res, async (err) => {
+        if (err instanceof multer.MulterError) {
+          // A Multer error occurred (e.g., file size limit)
+          console.error('Multer error:', err.message);
+          return res.status(400).json({ error: `Upload error: ${err.message}` });
+        } else if (err) {
+          // Our custom fileFilter error or other unexpected error
+          console.error('File validation error or other error:', err.message);
+          return res.status(400).json({ error: err.message });
+        }
+    
+        // After Multer runs, the file info is in req.file
+        const file = req.file;
+        const ratio = req.body.ratio; // ratio will be available in req.body if sent as a regular form field
+    
+        if (!file) {
+          return res.status(400).json({ error: "File is required." });
+        }
+    
+        // At this point, Multer has already validated the file type via `fileFilter`.
+        // No need to repeat the extension check here, unless you have more complex logic.
+    
+        // --- Forwarding the file to Python API ---
+        // Create a new FormData instance for the Python API request
+        const formData = new FormData();
+        // Append the file (read from disk or directly from req.file.buffer if using memory storage)
+        // Here we're using the path where Multer saved the file
+        formData.append('file', fs.createReadStream(file.path), file.originalname);
+        formData.append('ratio', ratio); // Append other form data like ratio
+    
+        try {
+          const pythonResponse = await axios.post(
+            `${PYTHON_API_URL}/api/extractive-summary-file`,
+            formData, // Send the FormData object
+            {
+              headers: {
+                ...formData.getHeaders(), // Important: set Content-Type correctly for FormData
+              },
+              maxContentLength: Infinity, // Important for large files
+              maxBodyLength: Infinity, // Important for large files
+            }
+          );
+    
+          // Clean up the temporary file after successful forwarding
+          // fs.unlink(file.path, (unlinkErr) => {
+          //   if (unlinkErr) console.error("Error deleting temp file:", unlinkErr);
+          // });
+    
+          res.json(pythonResponse.data);
+        } catch (error) {
+          console.error("Error calling Python API:", error.message);
+    
+          // Clean up the temporary file even if Python API call fails
+          fs.unlink(file.path, (unlinkErr) => {
+            if (unlinkErr) console.error("Error deleting temp file on Python API error:", unlinkErr);
+          });
+    
+          if (error.response) {
+            console.error("Response data from Python API:", error.response.data);
+            res.status(error.response.status).json(error.response.data);
+          } else {
+            res.status(500).json({
+              error: "Failed to communicate with Python summarizer service",
+            });
+          }
+        }
+      });
     });
 
     app.post("/register", async (req, res) => {
@@ -180,7 +285,7 @@ mongoose
     app.post("/storeSummary", async (req, res) => {
       try {
         const summaryData = req.body; // Data sent from your frontend
-
+        console.log(summaryData)
         // Basic validation (Mongoose schema also handles much of this,
         // but you can add more specific checks here if needed before saving)
         if (

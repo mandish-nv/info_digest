@@ -16,7 +16,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongoose": "^8.15.2"
+    "form-data": "^4.0.3",
+    "mongoose": "^8.15.2",
+    "multer": "^2.0.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
