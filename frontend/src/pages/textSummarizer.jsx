@@ -249,6 +249,7 @@ export default function TextSummarizer() {
           )}
           {inputMedium === "file" && (
             <div>
+              <p>Enter .docx, .txt or .pdf</p>
               <input
                 type="file"
                 onChange={handleFileChange}
