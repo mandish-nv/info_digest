@@ -4,15 +4,14 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const axios = require("axios"); // For making HTTP requests to FastAPI
-const multer = require('multer');
-const path = require('path');
-const FormData = require('form-data'); // To build multipart/form-data for Python API
+const multer = require("multer");
+const path = require("path");
+const FormData = require("form-data"); // To build multipart/form-data for Python API
 
 const PYTHON_API_URL = process.env.PYTHON_API_URL || "http://localhost:8000"; // FastAPI URL
 
 const User = require("./models/user");
 const Summary = require("./models/summary");
-
 
 const port = 5000;
 
@@ -32,40 +31,52 @@ const lengthLabels = {
 
 // --- Multer Configuration ---
 // Define allowed extensions (case-insensitive)
-const allowedExtensions = ['txt', 'pdf', 'docx'];
+const allowedExtensions = ["txt", "pdf", "docx"];
 
 // Configure Multer storage to temporarily save the file
-const storage = multer.diskStorage({
+const storageTemp = multer.diskStorage({
   destination: (req, file, cb) => {
     // Save uploaded files to a temporary 'temp_uploads' directory
     // These files will be forwarded to the Python API and then potentially deleted.
-    cb(null, 'temp_uploads/');
+    cb(null, "temp_uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
-  }
+  },
 });
 
 // Create the Multer upload middleware
 const upload = multer({
-  storage: storage,
+  storage: storageTemp,
   limits: { fileSize: 10 * 1024 * 1024 }, // Example: 10MB file size limit
   fileFilter: (req, file, cb) => {
-    const fileExtension = path.extname(file.originalname).toLowerCase().substring(1);
+    const fileExtension = path
+      .extname(file.originalname)
+      .toLowerCase()
+      .substring(1);
 
     if (allowedExtensions.includes(fileExtension)) {
       cb(null, true); // Accept the file
     } else {
-      cb(new Error('Invalid file type. Only .txt, .pdf, and .docx files are allowed.'), false);
+      cb(
+        new Error(
+          "Invalid file type. Only .txt, .pdf, and .docx files are allowed."
+        ),
+        false
+      );
     }
-  }
-}).single('summaryFile'); // 'summaryFile' should match the name of your file input in the frontend form
+  },
+}).single("summaryFile"); // 'summaryFile' should match the name of your file input in the frontend form
 
 // Create the temporary upload directory if it doesn't exist
-const fs = require('fs');
-const tempUploadsDir = path.join(__dirname, 'temp_uploads');
+const fs = require("fs");
+const tempUploadsDir = path.join(__dirname, "temp_uploads");
 if (!fs.existsSync(tempUploadsDir)) {
   fs.mkdirSync(tempUploadsDir);
+}
+const fileUploadsDir = path.join(__dirname, "file_uploads");
+if (!fs.existsSync(fileUploadsDir)) {
+  fs.mkdirSync(fileUploadsDir);
 }
 
 mongoose
@@ -109,37 +120,37 @@ mongoose
       upload(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
           // A Multer error occurred (e.g., file size limit)
-          console.error('Multer error:', err.message);
-          return res.status(400).json({ error: `Upload error: ${err.message}` });
+          console.error("Multer error:", err.message);
+          return res
+            .status(400)
+            .json({ error: `Upload error: ${err.message}` });
         } else if (err) {
           // Our custom fileFilter error or other unexpected error
-          console.error('File validation error or other error:', err.message);
+          console.error("File validation error or other error:", err.message);
           return res.status(400).json({ error: err.message });
         }
-    
+
         // After Multer runs, the file info is in req.file
         const file = req.file;
-        const ratio = req.body.ratio; // ratio will be available in req.body if sent as a regular form field
-    
+        const ratio = req.body.ratio; 
+
         if (!file) {
           return res.status(400).json({ error: "File is required." });
         }
-    
-        // At this point, Multer has already validated the file type via `fileFilter`.
-        // No need to repeat the extension check here, unless you have more complex logic.
-    
-        // --- Forwarding the file to Python API ---
-        // Create a new FormData instance for the Python API request
+
         const formData = new FormData();
-        // Append the file (read from disk or directly from req.file.buffer if using memory storage)
-        // Here we're using the path where Multer saved the file
-        formData.append('file', fs.createReadStream(file.path), file.originalname);
-        formData.append('ratio', ratio); // Append other form data like ratio
-    
+        // Append the file 
+        formData.append(
+          "file",
+          fs.createReadStream(file.path),
+          file.originalname
+        );
+        formData.append("ratio", ratio); 
+
         try {
           const pythonResponse = await axios.post(
             `${PYTHON_API_URL}/api/extractive-summary-file`,
-            formData, // Send the FormData object
+            formData,
             {
               headers: {
                 ...formData.getHeaders(), // Important: set Content-Type correctly for FormData
@@ -148,23 +159,31 @@ mongoose
               maxBodyLength: Infinity, // Important for large files
             }
           );
-    
+
           // Clean up the temporary file after successful forwarding
-          // fs.unlink(file.path, (unlinkErr) => {
-          //   if (unlinkErr) console.error("Error deleting temp file:", unlinkErr);
-          // });
-    
+          fs.unlink(file.path, (unlinkErr) => {
+            if (unlinkErr)
+              console.error("Error deleting temp file:", unlinkErr);
+          });
+
           res.json(pythonResponse.data);
         } catch (error) {
           console.error("Error calling Python API:", error.message);
-    
+
           // Clean up the temporary file even if Python API call fails
           fs.unlink(file.path, (unlinkErr) => {
-            if (unlinkErr) console.error("Error deleting temp file on Python API error:", unlinkErr);
+            if (unlinkErr)
+              console.error(
+                "Error deleting temp file on Python API error:",
+                unlinkErr
+              );
           });
-    
+
           if (error.response) {
-            console.error("Response data from Python API:", error.response.data);
+            console.error(
+              "Response data from Python API:",
+              error.response.data
+            );
             res.status(error.response.status).json(error.response.data);
           } else {
             res.status(500).json({
@@ -285,7 +304,7 @@ mongoose
     app.post("/storeSummary", async (req, res) => {
       try {
         const summaryData = req.body; // Data sent from your frontend
-        console.log(summaryData)
+        console.log(summaryData);
         // Basic validation (Mongoose schema also handles much of this,
         // but you can add more specific checks here if needed before saving)
         if (
@@ -326,6 +345,104 @@ mongoose
       }
     });
 
+    app.post("/storeSummary/file/:id", async (req, res) => {
+      const summaryId = req.params.id;
+    
+      // Configure storage for Multer
+      const storageFile = multer.diskStorage({
+        destination: (req, file, cb) => {
+          // Set the destination folder for uploaded files
+          cb(null, "file_uploads/");
+        },
+        filename: (req, file, cb) => {
+          // Set the filename: summaryId-originalfilename.ext
+          cb(null, `${summaryId}-${file.originalname}`);
+        },
+      });
+    
+      // Configure Multer upload middleware
+      const uploadFile = multer({
+        storage: storageFile,
+        limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file size limit
+        fileFilter: (req, file, cb) => {
+          const fileExtension = path
+            .extname(file.originalname)
+            .toLowerCase()
+            .substring(1); // Get extension without the dot
+    
+          if (allowedExtensions.includes(fileExtension)) {
+            cb(null, true); // Accept the file
+          } else {
+            // Reject the file with an error message
+            cb(
+              new Error(
+                "Invalid file type. Only .txt, .pdf, and .docx files are allowed."
+              ),
+              false
+            );
+          }
+        },
+      }).single("summaryFile"); // 'summaryFile' is the name of the input field in your form
+    
+      // Use the uploadFile middleware
+      uploadFile(req, res, async (err) => {
+        if (err instanceof multer.MulterError) {
+          // A Multer error occurred when uploading.
+          return res.status(400).json({ success: false, message: err.message });
+        } else if (err) {
+          // An unknown error occurred.
+          return res.status(500).json({ success: false, message: err.message });
+        }
+    
+        // If no file was uploaded (e.g., user submitted form without selecting a file)
+        if (!req.file) {
+          return res
+            .status(400)
+            .json({ success: false, message: "No file uploaded." });
+        }
+    
+        try {
+          // Find the summary document by its ID
+          const summary = await Summary.findById(summaryId);
+    
+          if (!summary) {
+            // If no summary document is found with the given ID
+            return res
+              .status(404)
+              .json({ success: false, message: "Summary not found." });
+          }
+    
+          // Update the summary document with file details
+          summary.inputMedium = {
+            type: "file", // Set the input medium type to 'file'
+            file: {
+              filePath: req.file.path, // Path where the file is saved on the server
+              name: req.file.originalname, // Original name of the uploaded file
+              type: req.file.mimetype, // MIME type of the file
+              size: req.file.size, // Size of the file in bytes
+            },
+          };
+    
+          // Save the updated summary document
+          await summary.save();
+    
+          res.status(200).json({
+            success: true,
+            message: "File uploaded and summary updated successfully.",
+            summary: summary, // Return the updated summary document
+          });
+        } catch (dbError) {
+          // Handle database errors
+          console.error("Database error:", dbError);
+          res.status(500).json({
+            success: false,
+            message: "Failed to update summary in database.",
+            error: dbError.message,
+          });
+        }
+      });
+    });
+
     app.get("/retrieveSummary/:id", async (req, res) => {
       try {
         const userId = req.params.id;
@@ -345,12 +462,10 @@ mongoose
         res.status(200).json(summaries);
       } catch (error) {
         console.error("Error fetching summaries by user ID:", error);
-        res
-          .status(500)
-          .json({
-            message: "Server error while fetching summaries.",
-            error: error.message,
-          });
+        res.status(500).json({
+          message: "Server error while fetching summaries.",
+          error: error.message,
+        });
       }
     });
 

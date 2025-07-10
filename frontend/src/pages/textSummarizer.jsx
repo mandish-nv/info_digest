@@ -118,14 +118,14 @@ export default function TextSummarizer() {
           summaryLength: selectedIndex,
           inputMedium: {
             type: inputMedium,
-            ...(inputMedium === "file" && {
-              file: {
-                name: uploadedFile.name,
-                filePath: `/temp_uploads/${uploadedFile.name}`, // Store the path relative to the server
-                type: uploadedFile.type,
-                size: uploadedFile.size,
-              },
-            }),
+            // ...(inputMedium === "file" && {
+            //   file: {
+            //     name: uploadedFile.name,
+            //     filePath: `/temp_uploads/${uploadedFile.name}`, // Store the path relative to the server
+            //     type: uploadedFile.type,
+            //     size: uploadedFile.size,
+            //   },
+            // }),
             // ...(inputMedium === "image" && {
             //   image: uploadedImage,
             // }),
@@ -137,6 +137,21 @@ export default function TextSummarizer() {
             summaryData
           );
           summaryId = res.data.summary._id;
+          if(inputMedium==="file"){
+            const formData = new FormData();
+            formData.append("summaryFile", uploadedFile);
+            const res2 = await axios.post(
+              `http://localhost:5000/storeSummary/file/${summaryId}`,
+              formData,
+              {
+                headers: {
+                  // This header is CRUCIAL for FormData to work correctly
+                  // axios often sets this automatically, but explicitly defining it is safer.
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+          }
           alert(res.data.message);
         } catch (err) {
           console.error(
