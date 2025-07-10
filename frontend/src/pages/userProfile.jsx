@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import StatusBar from "../components/statusBar";
+import SummaryCard from "../components/summaryCard";
 
 export default function UserProfile() {
   const { id } = useParams(); // Get ID from URL (e.g., /profile/123)
@@ -13,6 +14,11 @@ export default function UserProfile() {
   const [error, setError] = useState(null);
   const [summaryError, setSummaryError] = useState(null);
   const [adminAccessFlag, setAdminAccessFlag] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
 
   // Get the current logged-in user's ID from sessionStorage
   const loggedInUser = sessionStorage.getItem("login");
@@ -122,7 +128,7 @@ export default function UserProfile() {
       }
     };
     fetchUserProfile();
-  }, [adminAccessFlag]);
+  }, [adminAccessFlag, id]);
 
   if (loading) {
     return <div>Loading user profile...</div>;
@@ -182,37 +188,8 @@ export default function UserProfile() {
             <h2>Summaries Found:</h2>
             <div>
               {summaries.map((summary) => (
-                <div key={summary._id}>
-                  <p>
-                    <span>Summary ID:</span> {summary._id}
-                  </p>
-                  <div>
-                    <p>Original Content:</p>
-                    <p>{summary.originalContent.text}</p>
-                    <p>
-                      Words: {summary.originalContent.wordCount}, Sentences:{" "}
-                      {summary.originalContent.sentenceCount}
-                    </p>
-                  </div>
-                  <div>
-                    <p>Summarized Content:</p>
-                    <p>{summary.summarizedContent.text}</p>
-                    <p>
-                      Words: {summary.summarizedContent.wordCount}, Sentences:{" "}
-                      {summary.summarizedContent.sentenceCount}
-                    </p>
-                  </div>
-                  {summary.keywords && summary.keywords.length > 0 && (
-                    <p>
-                      <span>Keywords:</span> {summary.keywords.join(", ")}
-                    </p>
-                  )}
-                  <p>
-                    Created At:{" "}
-                    {new Date(summary.createdAt).toLocaleDateString()}
-                  </p>
-                  <hr />
-                </div>
+                // Each SummaryCard instance now has its own isolated state for the popup
+                <SummaryCard key={summary._id} summary={summary} />
               ))}
             </div>
           </div>
