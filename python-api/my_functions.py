@@ -326,7 +326,7 @@ class TextRankSummarizer:
         # # print(f"PageRank finished after {iteration + 1} iterations.")
         return scores
 
-    def summarize(self, text, num_sentences=None, ratio=0.2):
+    def summarize(self, text, num_sentences=None, ratio=None):
         self.sentences = sent_tokenize(text) 
         self.tfidf_vectors = self.tfidf_vectorizer.fit_transform(self.sentences)
         self.graph = self._build_graph(self.tfidf_vectors)

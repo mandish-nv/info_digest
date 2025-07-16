@@ -25,10 +25,10 @@ export default function TextSummarizer() {
     : false;
 
   const summaryOptions = [
-    { label: "Very Short", ratio: 0.1 }, // 10%
-    { label: "Short", ratio: 0.25 }, // 25%
-    { label: "Medium", ratio: 0.4 }, // 40%
-    { label: "Long", ratio: 0.6 }, // 60%
+    { label: "Very Short", ratio: 0.05 }, // 5%
+    { label: "Short", ratio: 0.15 }, // 25%
+    { label: "Medium", ratio: 0.25 }, // 25%
+    { label: "Long", ratio: 0.40 }, // 40%
   ];
 
   // Initialize the state to store the index of the selected option (default to 'Medium' which is index 2)

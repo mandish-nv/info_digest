@@ -171,7 +171,7 @@ def post_process_for_summarization(text: str) -> str:
 async def api_extractive_summary_file(
     file: UploadFile = File(..., description="The document file (.txt, .pdf, .docx) to summarize."),
     # 'ratio' is a form field. FastAPI uses Pydantic's Field for validation here.
-    ratio: float = Form(..., ge=0.1, le=1.0, description="The summarization ratio (0.1 to 1.0).")
+    ratio: float = Form(..., ge=0.01, le=1.0, description="The summarization ratio (0.01 to 1.0).")
 ):
     """
     Receives a document file and a ratio, performs server-side validation,

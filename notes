@@ -17,3 +17,92 @@ main:app: Refers to the app object in main.py.
 --port 5001: Runs FastAPI on port 5001 (Node.js will typically be on 5000 or 8080).
 --reload: Automatically reloads the server on code changes (great for development).
 You should now be able to access your FastAPI documentation at http://localhost:5001/docs.
+
+
+IMPLEMENT:
+  chnage summaryLength value
+    - add more options
+  modify pdf/docx. text extraction (ignore headings)
+  output formatting
+  Highlight original text?
+
+  Abstractive summary
+  OCR
+
+
+
+def get_target_summary_sentences(original_sentence_count: int, summary_option: str) -> int:
+    if original_sentence_count <= 0:
+        return 0
+
+    summary_option = summary_option.lower().strip() # Normalize input
+
+    num_of_sentences = 0 # Initialize the variable
+
+    # --- Document Length Tiers ---
+    if 1 <= original_sentence_count <= 20:
+        # Tier 1: Very Short Documents
+        if summary_option == "very_short":
+            num_of_sentences = min(2, original_sentence_count) # Max 2, but not more than original
+            num_of_sentences = max(1, num_of_sentences) # Ensure at least 1
+        elif summary_option == "short":
+            num_of_sentences = min(4, original_sentence_count)
+            num_of_sentences = max(3, num_of_sentences)
+        elif summary_option == "medium":
+            num_of_sentences = min(7, original_sentence_count)
+            num_of_sentences = max(5, num_of_sentences)
+        elif summary_option == "long":
+            num_of_sentences = min(10, original_sentence_count) # Cap at 10, or up to 50%
+            # For "long" in very short documents, a higher percentage might be implied.
+            # Let's say up to 50% but not more than 10.
+            percentage_based = int(original_sentence_count * 0.5)
+            num_of_sentences = min(max(10, percentage_based), original_sentence_count)
+            num_of_sentences = max(8, num_of_sentences) # Ensure at least 8
+
+    elif 21 <= original_sentence_count <= 100:
+        # Tier 2: Short to Medium Documents
+        if summary_option == "very_short":
+            num_of_sentences = min(3, original_sentence_count) # Fixed min for very short
+        elif summary_option == "short":
+            num_of_sentences = max(5, int(original_sentence_count * 0.08)) # Min 5, or 8%
+        elif summary_option == "medium":
+            num_of_sentences = max(8, int(original_sentence_count * 0.15)) # Min 8, or 15%
+        elif summary_option == "long":
+            num_of_sentences = max(15, int(original_sentence_count * 0.25)) # Min 15, or 25%
+
+    elif 101 <= original_sentence_count <= 500:
+        # Tier 3: Medium to Long Documents
+        if summary_option == "very_short":
+            num_of_sentences = min(5, original_sentence_count) # Fixed min for very short
+        elif summary_option == "short":
+            num_of_sentences = int(original_sentence_count * 0.08) # 8%
+        elif summary_option == "medium":
+            num_of_sentences = int(original_sentence_count * 0.15) # 15%
+        elif summary_option == "long":
+            num_of_sentences = int(original_sentence_count * 0.25) # 25%
+
+    elif original_sentence_count > 500:
+        # Tier 4: Very Long Documents
+        if summary_option == "very_short":
+            num_of_sentences = min(7, original_sentence_count) # Fixed min for very short
+        elif summary_option == "short":
+            num_of_sentences = int(original_sentence_count * 0.05) # 5%
+        elif summary_option == "medium":
+            num_of_sentences = int(original_sentence_count * 0.10) # 10%
+        elif summary_option == "long":
+            # 18% with an optional hard cap, e.g., max 150 sentences
+            num_of_sentences = min(int(original_sentence_count * 0.18), 150) # Cap at 150 for "long"
+            
+    # Ensure minimum of 1 sentence for any valid input, unless original is 0.
+    if num_of_sentences == 0 and original_sentence_count > 0:
+        # Fallback for unexpected summary_option or edge cases
+        num_of_sentences = 1
+    
+    # Ensure it doesn't exceed the original sentence count
+    num_of_sentences = min(num_of_sentences, original_sentence_count)
+    # Ensure at least 1 sentence if original had sentences
+    if original_sentence_count > 0 and num_of_sentences == 0:
+        num_of_sentences = 1
+
+
+    return num_of_sentences
