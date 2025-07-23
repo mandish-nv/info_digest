@@ -90,6 +90,7 @@ mongoose
       try {
         const text = req.body.text;
         const ratio = req.body.ratio;
+        const selectedOptionValue = req.body.selectedOptionValue;
         if (!text) {
           return res.status(400).json({ error: "Text is required(Express)" });
         }
@@ -98,6 +99,7 @@ mongoose
           {
             text: text,
             ratio: ratio,
+            selectedOptionValue: selectedOptionValue
           }
         );
         res.json(pythonResponse.data);
@@ -133,6 +135,7 @@ mongoose
         // After Multer runs, the file info is in req.file
         const file = req.file;
         const ratio = req.body.ratio; 
+        const selectedOptionValue = req.body.selectedOptionValue;
 
         if (!file) {
           return res.status(400).json({ error: "File is required." });
@@ -146,6 +149,7 @@ mongoose
           file.originalname
         );
         formData.append("ratio", ratio); 
+        formData.append("selectedOptionValue", selectedOptionValue);
 
         try {
           const pythonResponse = await axios.post(

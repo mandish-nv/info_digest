@@ -326,7 +326,7 @@ class TextRankSummarizer:
         # # print(f"PageRank finished after {iteration + 1} iterations.")
         return scores
 
-    def summarize(self, text, num_sentences=None, ratio=None):
+    def summarize(self, text, num_sentences=None, ratio=None, selectedOptionValue=None):
         self.sentences = sent_tokenize(text) 
         self.tfidf_vectors = self.tfidf_vectorizer.fit_transform(self.sentences)
         self.graph = self._build_graph(self.tfidf_vectors)
@@ -349,8 +349,83 @@ class TextRankSummarizer:
         #     final_num_sentences = max(1, int(len(self.sentences) * ratio))
         # else: # Default if neither num_sentences nor ratio is specified
         #     final_num_sentences = min(3, len(self.sentences)) # Default to 3 sentences
-        final_num_sentences = max(1, int(len(self.sentences) * ratio))
+        # final_num_sentences = max(1, int(len(self.sentences) * ratio))
+        
+        original_sentence_count = len(self.sentences)
+    
+        if original_sentence_count <= 0:
+            return 0 #"Sentence count is zero"
 
+        summary_option = selectedOptionValue.lower().strip() # Normalize input
+
+        num_of_sentences = 0 # Initialize the variable
+
+        # --- Document Length Tiers ---
+        if 1 <= original_sentence_count <= 20:
+            # Tier 1: Very Short Documents
+            if summary_option == "very_short":
+                num_of_sentences = min(2, original_sentence_count) # Max 2, but not more than original
+                num_of_sentences = max(1, num_of_sentences) # Ensure at least 1
+            elif summary_option == "short":
+                num_of_sentences = min(4, original_sentence_count)
+                num_of_sentences = max(3, num_of_sentences)
+            elif summary_option == "medium":
+                num_of_sentences = min(7, original_sentence_count)
+                num_of_sentences = max(5, num_of_sentences)
+            elif summary_option == "long":
+                num_of_sentences = min(10, original_sentence_count) # Cap at 10, or up to 50%
+                # For "long" in very short documents, a higher percentage might be implied.
+                # Let's say up to 50% but not more than 10.
+                percentage_based = int(original_sentence_count * 0.5)
+                num_of_sentences = min(max(10, percentage_based), original_sentence_count)
+                num_of_sentences = max(8, num_of_sentences) # Ensure at least 8
+
+        elif 21 <= original_sentence_count <= 100:
+            # Tier 2: Short to Medium Documents
+            if summary_option == "very_short":
+                num_of_sentences = min(3, original_sentence_count) # Fixed min for very short
+            elif summary_option == "short":
+                num_of_sentences = max(5, int(original_sentence_count * 0.08)) # Min 5, or 8%
+            elif summary_option == "medium":
+                num_of_sentences = max(8, int(original_sentence_count * 0.15)) # Min 8, or 15%
+            elif summary_option == "long":
+                num_of_sentences = max(15, int(original_sentence_count * 0.25)) # Min 15, or 25%
+
+        elif 101 <= original_sentence_count <= 500:
+            # Tier 3: Medium to Long Documents
+            if summary_option == "very_short":
+                num_of_sentences = min(5, original_sentence_count) # Fixed min for very short
+            elif summary_option == "short":
+                num_of_sentences = int(original_sentence_count * 0.08) # 8%
+            elif summary_option == "medium":
+                num_of_sentences = int(original_sentence_count * 0.15) # 15%
+            elif summary_option == "long":
+                num_of_sentences = int(original_sentence_count * 0.25) # 25%
+
+        elif original_sentence_count > 500:
+            # Tier 4: Very Long Documents
+            if summary_option == "very_short":
+                num_of_sentences = min(7, original_sentence_count) # Fixed min for very short
+            elif summary_option == "short":
+                num_of_sentences = int(original_sentence_count * 0.05) # 5%
+            elif summary_option == "medium":
+                num_of_sentences = int(original_sentence_count * 0.10) # 10%
+            elif summary_option == "long":
+                # 18% with an optional hard cap, e.g., max 150 sentences
+                num_of_sentences = min(int(original_sentence_count * 0.18), 150) # Cap at 150 for "long"
+                
+        # Ensure minimum of 1 sentence for any valid input, unless original is 0.
+        if num_of_sentences == 0 and original_sentence_count > 0:
+            # Fallback for unexpected summary_option or edge cases
+            num_of_sentences = 1
+
+        # Ensure it doesn't exceed the original sentence count
+        num_of_sentences = min(num_of_sentences, original_sentence_count)
+        # Ensure at least 1 sentence if original had sentences
+        if original_sentence_count > 0 and num_of_sentences == 0:
+            num_of_sentences = 1
+
+        final_num_sentences= num_of_sentences
         # Extract the top-ranked sentences in their original order
         extracted_sentence_indices = sorted([idx for score, idx in ranked_sentences[:final_num_sentences]])
         
@@ -389,7 +464,7 @@ def get_top_n_tfidf_words(summarizer, n=10):
     return top_n_nouns
    
 
-def Extractive_Summarizer(input_text: str, ratio: float) -> str:
+def Extractive_Summarizer(input_text: str, ratio: float, selectedOptionValue:str) -> str:
     sentences = sent_tokenize(input_text)
     sentence_count = len(sentences)
     
@@ -405,7 +480,7 @@ def Extractive_Summarizer(input_text: str, ratio: float) -> str:
     
     summarizer = TextRankSummarizer(k_neighbors=k_val)  
     
-    summary = summarizer.summarize(input_text, ratio=ratio)
+    summary = summarizer.summarize(input_text, selectedOptionValue = selectedOptionValue)
     top_n_nouns = get_top_n_tfidf_words(summarizer,n = 10)
 
     return summary, top_n_nouns

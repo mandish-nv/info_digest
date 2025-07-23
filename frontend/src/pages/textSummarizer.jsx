@@ -25,10 +25,10 @@ export default function TextSummarizer() {
     : false;
 
   const summaryOptions = [
-    { label: "Very Short", ratio: 0.05 }, // 5%
-    { label: "Short", ratio: 0.15 }, // 25%
-    { label: "Medium", ratio: 0.25 }, // 25%
-    { label: "Long", ratio: 0.40 }, // 40%
+    { label: "Very Short", ratio: 0.05, value: "very_short" }, // 5%
+    { label: "Short", ratio: 0.15, value: "short" }, // 25%
+    { label: "Medium", ratio: 0.25, value: "medium" }, // 25%
+    { label: "Long", ratio: 0.40, value: "long" }, // 40%
   ];
 
   // Initialize the state to store the index of the selected option (default to 'Medium' which is index 2)
@@ -37,6 +37,7 @@ export default function TextSummarizer() {
   // Get the currently selected option based on the index
   const selectedOption = summaryOptions[selectedIndex];
   const ratio = selectedOption.ratio; // The actual ratio value
+  const selectedOptionValue = selectedOption.value;
 
   // Handle changes to the slider input
   const handleSliderChange = (event) => {
@@ -71,12 +72,13 @@ export default function TextSummarizer() {
       if (inputMedium === "text") {
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary",
-          { text: text, ratio: ratio }
+          { text: text, ratio: ratio, selectedOptionValue:selectedOptionValue  }
         );
       } else if (inputMedium === "file") {
         const formData = new FormData();
         formData.append("summaryFile", uploadedFile); // 'summaryFile' must match the name in your Express Multer config
         formData.append("ratio", ratio); // Append the ratio as well
+        formData.append("selectedOptionValue", selectedOptionValue)
 
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary-file",

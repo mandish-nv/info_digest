@@ -25,9 +25,13 @@ IMPLEMENT:
   modify pdf/docx. text extraction (ignore headings)
   output formatting
   Highlight original text?
+  keywords filter -> "",emoji
 
   Abstractive summary
   OCR
+  
+  modify user roles: user, admin, superAdmin
+  rating per summarization medium/length
 
 
 

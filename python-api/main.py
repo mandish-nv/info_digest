@@ -35,6 +35,7 @@ app.add_middleware(
 class ExtractiveSummarizerRequest(BaseModel):
     text: str
     ratio: float
+    selectedOptionValue: str
     
 # --- API Endpoints ---
 @app.get("/")
@@ -47,7 +48,7 @@ async def api_extractive_summary(request: ExtractiveSummarizerRequest):
         raise HTTPException(status_code=400, detail="Text is required(FastAPi)")
 
     try:
-        summary, top_n_nouns_dict = Extractive_Summarizer(request.text, request.ratio)
+        summary, top_n_nouns_dict = Extractive_Summarizer(request.text, request.ratio, request.selectedOptionValue)
         keywords_list = list(top_n_nouns_dict.keys())
         original_length_sentences = len(sent_tokenize(request.text))
         summary_length_sentences = len(sent_tokenize(summary))    
@@ -171,7 +172,8 @@ def post_process_for_summarization(text: str) -> str:
 async def api_extractive_summary_file(
     file: UploadFile = File(..., description="The document file (.txt, .pdf, .docx) to summarize."),
     # 'ratio' is a form field. FastAPI uses Pydantic's Field for validation here.
-    ratio: float = Form(..., ge=0.01, le=1.0, description="The summarization ratio (0.01 to 1.0).")
+    ratio: float = Form(..., ge=0.01, le=1.0, description="The summarization ratio (0.01 to 1.0)."),
+    selectedOptionValue: str = Form(...,description="selectedOptionValue")
 ):
     """
     Receives a document file and a ratio, performs server-side validation,
@@ -229,7 +231,7 @@ async def api_extractive_summary_file(
 
     try:
         # Call your actual summarization function with the extracted text and parsed ratio
-        summary, top_n_nouns_dict = Extractive_Summarizer(raw_text, ratio)
+        summary, top_n_nouns_dict = Extractive_Summarizer(raw_text, ratio, selectedOptionValue)
         
         # Prepare response data
         keywords_list = list(top_n_nouns_dict.keys())
@@ -243,6 +245,7 @@ async def api_extractive_summary_file(
             "originalContentText": raw_text,
             "original_filename": file.filename, # Include original filename in response
             "processed_ratio": ratio,
+            "selectedOptionValue": selectedOptionValue,
             "original_length_sentences": original_length_sentences,
             "summary_sentences_count": summary_length_sentences,
             "keywords": keywords_list,
