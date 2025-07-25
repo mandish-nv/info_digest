@@ -48,7 +48,7 @@ const summarySchema = new mongoose.Schema(
       required: false,
     },
     summaryLength: {
-      type: Number,
+      type: Number, //String
       required: false,
     },
     inputMedium: {

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
-const axios = require("axios"); // For making HTTP requests to FastAPI
+const axios = require("axios");
 const multer = require("multer");
 const path = require("path");
 const FormData = require("form-data"); // To build multipart/form-data for Python API
@@ -22,22 +22,10 @@ const URL = "mongodb://localhost:27017/omni_digest";
 app.use(express.json());
 app.use(cors());
 
-const lengthLabels = {
-  0: "Very Short",
-  1: "Short",
-  2: "Medium",
-  3: "Long",
-};
-
 // --- Multer Configuration ---
-// Define allowed extensions (case-insensitive)
 const allowedExtensions = ["txt", "pdf", "docx"];
-
-// Configure Multer storage to temporarily save the file
 const storageTemp = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Save uploaded files to a temporary 'temp_uploads' directory
-    // These files will be forwarded to the Python API and then potentially deleted.
     cb(null, "temp_uploads/");
   },
   filename: (req, file, cb) => {
@@ -48,7 +36,7 @@ const storageTemp = multer.diskStorage({
 // Create the Multer upload middleware
 const upload = multer({
   storage: storageTemp,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Example: 10MB file size limit
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file size limit
   fileFilter: (req, file, cb) => {
     const fileExtension = path
       .extname(file.originalname)
@@ -99,7 +87,7 @@ mongoose
           {
             text: text,
             ratio: ratio,
-            selectedOptionValue: selectedOptionValue
+            selectedOptionValue: selectedOptionValue,
           }
         );
         res.json(pythonResponse.data);
@@ -121,20 +109,18 @@ mongoose
       // Use the 'upload' middleware here
       upload(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
-          // A Multer error occurred (e.g., file size limit)
           console.error("Multer error:", err.message);
           return res
             .status(400)
             .json({ error: `Upload error: ${err.message}` });
         } else if (err) {
-          // Our custom fileFilter error or other unexpected error
           console.error("File validation error or other error:", err.message);
           return res.status(400).json({ error: err.message });
         }
 
         // After Multer runs, the file info is in req.file
         const file = req.file;
-        const ratio = req.body.ratio; 
+        const ratio = req.body.ratio;
         const selectedOptionValue = req.body.selectedOptionValue;
 
         if (!file) {
@@ -142,13 +128,12 @@ mongoose
         }
 
         const formData = new FormData();
-        // Append the file 
         formData.append(
           "file",
           fs.createReadStream(file.path),
           file.originalname
         );
-        formData.append("ratio", ratio); 
+        formData.append("ratio", ratio);
         formData.append("selectedOptionValue", selectedOptionValue);
 
         try {
@@ -159,8 +144,8 @@ mongoose
               headers: {
                 ...formData.getHeaders(), // Important: set Content-Type correctly for FormData
               },
-              maxContentLength: Infinity, // Important for large files
-              maxBodyLength: Infinity, // Important for large files
+              maxContentLength: Infinity,
+              maxBodyLength: Infinity,
             }
           );
 
@@ -173,7 +158,6 @@ mongoose
           res.json(pythonResponse.data);
         } catch (error) {
           console.error("Error calling Python API:", error.message);
-
           // Clean up the temporary file even if Python API call fails
           fs.unlink(file.path, (unlinkErr) => {
             if (unlinkErr)
@@ -219,7 +203,7 @@ mongoose
           profilePicture: profilePicture,
         });
 
-        const userNameSearch = await User.findOne({ userName }); //returns whole object
+        const userNameSearch = await User.findOne({ userName });
         const emailSearch = await User.findOne({ email });
 
         if (userNameSearch && emailSearch) {
@@ -264,10 +248,9 @@ mongoose
       }
     });
 
-    //make this get
-    app.post("/findUserOrEmail", async (req, res) => {
+    app.get("/findUserOrEmail/:userName", async (req, res) => {
       try {
-        const userName = req.body.userName;
+        const userName = req.params.userName;
         const userNameSearch = await User.findOne({
           $or: [{ userName: userName }, { email: userName }],
         });
@@ -283,14 +266,14 @@ mongoose
 
     app.get("/findById/:id", async (req, res) => {
       try {
-        const userId = req.params.id; // Use `id` instead of `slug`
+        const userId = req.params.id;
 
         // Validate MongoDB ObjectId (to prevent errors)
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           return res.status(400).json({ message: "Invalid user ID format" });
         }
 
-        const user = await User.findById(userId).select("-password"); // Use `findById` for efficiency
+        const user = await User.findById(userId).select("-password");
 
         if (user) {
           res.status(200).json(user);
@@ -307,10 +290,9 @@ mongoose
 
     app.post("/storeSummary", async (req, res) => {
       try {
-        const summaryData = req.body; // Data sent from your frontend
+        const summaryData = req.body;
         console.log(summaryData);
-        // Basic validation (Mongoose schema also handles much of this,
-        // but you can add more specific checks here if needed before saving)
+
         if (
           !summaryData.user_id ||
           !summaryData.originalContent ||
@@ -321,10 +303,7 @@ mongoose
             .json({ message: "Missing required summary data." });
         }
 
-        // Create a new Summary document using the model
         const newSummary = new Summary(summaryData);
-
-        // Save the document to the database
         const savedSummary = await newSummary.save();
 
         console.log("Summary saved successfully:", savedSummary);
@@ -333,7 +312,6 @@ mongoose
           summary: savedSummary,
         });
       } catch (error) {
-        // Handle validation errors or other database errors
         if (error.name === "ValidationError") {
           console.error("Validation Error:", error.message);
           return res.status(400).json({
@@ -351,19 +329,17 @@ mongoose
 
     app.post("/storeSummary/file/:id", async (req, res) => {
       const summaryId = req.params.id;
-    
+
       // Configure storage for Multer
       const storageFile = multer.diskStorage({
         destination: (req, file, cb) => {
-          // Set the destination folder for uploaded files
           cb(null, "file_uploads/");
         },
         filename: (req, file, cb) => {
-          // Set the filename: summaryId-originalfilename.ext
           cb(null, `${summaryId}-${file.originalname}`);
         },
       });
-    
+
       // Configure Multer upload middleware
       const uploadFile = multer({
         storage: storageFile,
@@ -373,11 +349,10 @@ mongoose
             .extname(file.originalname)
             .toLowerCase()
             .substring(1); // Get extension without the dot
-    
+
           if (allowedExtensions.includes(fileExtension)) {
             cb(null, true); // Accept the file
           } else {
-            // Reject the file with an error message
             cb(
               new Error(
                 "Invalid file type. Only .txt, .pdf, and .docx files are allowed."
@@ -387,56 +362,49 @@ mongoose
           }
         },
       }).single("summaryFile"); // 'summaryFile' is the name of the input field in your form
-    
+
       // Use the uploadFile middleware
       uploadFile(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
-          // A Multer error occurred when uploading.
           return res.status(400).json({ success: false, message: err.message });
         } else if (err) {
-          // An unknown error occurred.
           return res.status(500).json({ success: false, message: err.message });
         }
-    
-        // If no file was uploaded (e.g., user submitted form without selecting a file)
+
         if (!req.file) {
           return res
             .status(400)
             .json({ success: false, message: "No file uploaded." });
         }
-    
+
         try {
-          // Find the summary document by its ID
           const summary = await Summary.findById(summaryId);
-    
+
           if (!summary) {
-            // If no summary document is found with the given ID
             return res
               .status(404)
               .json({ success: false, message: "Summary not found." });
           }
-    
+
           // Update the summary document with file details
           summary.inputMedium = {
-            type: "file", // Set the input medium type to 'file'
+            type: "file",
             file: {
-              filePath: req.file.path, // Path where the file is saved on the server
-              name: req.file.originalname, // Original name of the uploaded file
-              type: req.file.mimetype, // MIME type of the file
-              size: req.file.size, // Size of the file in bytes
+              filePath: req.file.path,
+              name: req.file.originalname,
+              type: req.file.mimetype,
+              size: req.file.size,
             },
           };
-    
-          // Save the updated summary document
+
           await summary.save();
-    
+
           res.status(200).json({
             success: true,
             message: "File uploaded and summary updated successfully.",
-            summary: summary, // Return the updated summary document
+            summary: summary,
           });
         } catch (dbError) {
-          // Handle database errors
           console.error("Database error:", dbError);
           res.status(500).json({
             success: false,
@@ -475,8 +443,8 @@ mongoose
 
     app.patch("/updateSummaryFeedback/:summaryId", async (req, res) => {
       try {
-        const { summaryId } = req.params; // Get summary ID from URL
-        const { rating } = req.body; // Get new rating from request body
+        const { summaryId } = req.params;
+        const { rating } = req.body;
 
         // Validate if summaryId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(summaryId)) {
@@ -485,7 +453,6 @@ mongoose
             .json({ message: "Invalid Summary ID format." });
         }
 
-        // Basic validation for rating
         if (
           rating === undefined ||
           rating === null ||
@@ -570,48 +537,39 @@ mongoose
         const userId = req.params.id;
         const { adminAccess } = req.body; // Expecting boolean 'adminAccess' from frontend
 
-        // 1. Validate User ID Format
+        // Validate User ID Format
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           return res.status(400).json({ message: "Invalid user ID format." });
         }
 
-        // 2. Find the User
         const user = await User.findById(userId);
-
         if (!user) {
           return res.status(404).json({ message: "User not found." });
         }
 
-        // 3. Validate newAdminStatus (ensure it's a boolean)
         if (typeof adminAccess !== "boolean") {
           return res.status(400).json({
             message: "Invalid value for adminAccess. Must be true or false.",
           });
         }
 
-        // 4. Update the adminAccess field
+        // Update the adminAccess field
         user.adminAccess = adminAccess;
 
-        // 5. Save the updated user to the database
         await user.save();
 
-        // 6. Send success response
-        // You might want to return a subset of user data, not the whole user object
-        // to avoid sending sensitive info back unnecessarily.
         const updatedUser = {
           _id: user._id,
           fullName: user.fullName,
           userName: user.userName,
           email: user.email,
           adminAccess: user.adminAccess,
-          // Include other non-sensitive fields you need on the frontend
         };
         res.status(200).json({
           message: "User admin access updated successfully.",
           user: updatedUser,
         });
       } catch (error) {
-        // Handle server errors
         console.error("Error updating user admin access:", error);
         res
           .status(500)
@@ -665,9 +623,8 @@ mongoose
             },
           ]),
 
-          // Feedback distribution (1–5) - MODIFIED to include null feedback
+          // Feedback distribution (1–5) and includes null feedback
           Summary.aggregate([
-            // Removed the $match stage to include documents where feedback is null
             { $group: { _id: "$feedback", count: { $sum: 1 } } }, // Group by feedback value (including null) and count
             { $sort: { _id: 1 } }, // Sort by feedback value
           ]),
@@ -689,6 +646,13 @@ mongoose
             { $sort: { _id: 1 } },
           ]),
         ]);
+
+        const lengthLabels = {
+          0: "Very Short",
+          1: "Short",
+          2: "Medium",
+          3: "Long",
+        };
 
         const mappedLengthDistribution = lengthDistribution.map((entry) => ({
           category: entry._id,

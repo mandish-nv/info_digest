@@ -1,5 +1,3 @@
-// current user and admin can view
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +5,7 @@ import StatusBar from "../components/statusBar";
 import SummaryCard from "../components/summaryCard";
 
 export default function UserProfile() {
-  const { id } = useParams(); // Get ID from URL (e.g., /profile/123)
+  const { id } = useParams(); 
   const [userProfile, setUserProfile] = useState(null);
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +18,6 @@ export default function UserProfile() {
     setShowPopup(!showPopup);
   };
 
-  // Get the current logged-in user's ID from sessionStorage
   const loggedInUser = sessionStorage.getItem("login");
 
   useEffect(() => {
@@ -84,16 +81,14 @@ export default function UserProfile() {
       } else if (loggedInUser) {
         profileIdToFetch = loggedInUser;
       } else {
-        // No ID available to fetch a profile
         setError("No user ID provided or logged in to display a profile.");
         setLoading(false);
         return;
       }
       try {
-        setLoading(true); // Indicate loading has started
-        setError(null); // Clear any previous errors
+        setLoading(true); 
+        setError(null); 
 
-        // Fetch user profile
         const profileResponse = await axios.get(
           `http://localhost:5000/findById/${profileIdToFetch}`
         );
@@ -104,12 +99,12 @@ export default function UserProfile() {
           err.response || err.message || "An unexpected error occurred."
         );
       } finally {
-        setLoading(false); // Set loading to false once all requests are complete
+        setLoading(false); 
       }
 
       try {
-        setLoading(true); // Indicate loading has started
-        setError(null); // Clear any previous errors
+        setLoading(true); 
+        setError(null); 
         setSummaryError(null);
         const summariesResponse = await axios.get(
           `http://localhost:5000/retrieveSummary/${profileIdToFetch}`
@@ -124,7 +119,7 @@ export default function UserProfile() {
           );
         }
       } finally {
-        setLoading(false); // Set loading to false once all requests are complete
+        setLoading(false); 
       }
     };
     fetchUserProfile();
@@ -188,7 +183,6 @@ export default function UserProfile() {
             <h2>Summaries Found:</h2>
             <div>
               {summaries.map((summary) => (
-                // Each SummaryCard instance now has its own isolated state for the popup
                 <SummaryCard key={summary._id} summary={summary} />
               ))}
             </div>

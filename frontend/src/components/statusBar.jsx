@@ -1,6 +1,3 @@
-//retrieve all data and check seperately for admin access
-//fix display issue for adminStatus and userProfile
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -43,7 +40,6 @@ export default function StatusBar() {
     checkAdminStatus();
   }, []);
 
-  // 2 – combined effect: on mount AND whenever any tab changes storage
   useEffect(() => {
     const sync = () => {
       const current = userId;
@@ -61,7 +57,7 @@ export default function StatusBar() {
       setLoggedInUser(current); // triggers re‑render when needed
     };
 
-    sync(); // run once on mount
+    sync(); 
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
   }, []);

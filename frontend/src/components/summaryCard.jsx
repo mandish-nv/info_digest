@@ -1,4 +1,3 @@
-// SummaryCard.jsx
 import React, { useState } from 'react';
 
 function SummaryCard({ summary }) {
@@ -9,7 +8,7 @@ function SummaryCard({ summary }) {
   };
 
   return (
-    <div className="summary-card"> {/* Added a class for potential styling */}
+    <div className="summary-card"> 
       <p>
         <span>Summary ID:</span> {summary._id}
       </p>

@@ -39,9 +39,8 @@ export default function Login({ value }) {
       const res1 = await axios.post("http://localhost:5000/login", loginInfo);
       if (res1.data === "Logged in successfully!") {
         console.log("Logged in successfully!");
-        const res2 = await axios.post(
-          "http://localhost:5000/findUserOrEmail",
-          loginInfo
+        const res2 = await axios.get(
+          `http://localhost:5000/findUserOrEmail/${loginInfo.userName}`
         );
         const userId = res2.data;
         localStorage.setItem("currentUser", (userId));

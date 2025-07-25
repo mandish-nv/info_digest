@@ -92,7 +92,7 @@ export default function Register() {
 
   const handleChangeReg = (event, name) => {
     setRegInfo({ ...regInfo, [name]: event.target.value });
-    setFormErrors({ ...formErrors, [name]: "" }); // clear error on change
+    setFormErrors({ ...formErrors, [name]: "" }); 
   };
 
   const handleFile = (event) => {
@@ -102,14 +102,14 @@ export default function Register() {
       reader.onload = () => {
         if (reader.result) {
           setRegInfo({ ...regInfo, profilePicture: reader.result });
-          setFormErrors({ ...formErrors, profilePicture: "" }); // clear error
+          setFormErrors({ ...formErrors, profilePicture: "" }); 
         }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Function to get today's date in YYYY-MM-DD format
+  // Date -> YYYY-MM-DD format
   const getTodayDateString = () => {
     const today = new Date();
     const year = today.getFullYear();

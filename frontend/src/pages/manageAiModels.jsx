@@ -5,5 +5,3 @@ export default function ManageAiModels(){
   </div>
 );
 }
-
-        {/* admin access, view user history, search */}

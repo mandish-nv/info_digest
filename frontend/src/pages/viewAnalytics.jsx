@@ -35,8 +35,6 @@ export default function ViewAnalytics() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        // IMPORTANT: Update this URL to match your backend's address and port.
-        // For example, if your Express backend runs on port 5000, use 'http://localhost:5000/analytics'.
         const response = await fetch("http://localhost:5000/analytics");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -54,7 +52,7 @@ export default function ViewAnalytics() {
     };
 
     fetchAnalytics();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []); 
 
   if (loading) {
     return (

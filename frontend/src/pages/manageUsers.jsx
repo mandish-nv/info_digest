@@ -48,19 +48,16 @@ export default function ManageUsers() {
     return matchesUserType && matchesSearch;
   });
 
-  // Function to open the access modification modal
   const openAccessModal = (user) => {
     setSelectedUserForAccess(user);
     setShowAccessModal(true);
   };
 
-  // Function to close the access modification modal
   const closeAccessModal = () => {
     setShowAccessModal(false);
-    setSelectedUserForAccess(null); // Clear selected user
+    setSelectedUserForAccess(null);
   };
 
-  // Function to handle the actual access change after modal confirmation
   const handleConfirmAccessChange = async (userId, newAdminStatus) => {
     try {
       const res = await axios.put(
@@ -89,7 +86,7 @@ export default function ManageUsers() {
       console.error(`Error updating access for user ${userId}:`, err);
       alert(`Failed to update access for user ${userId}.`);
     } finally {
-      closeAccessModal(); // Always close the modal after attempt
+      closeAccessModal(); 
     }
   };
 
@@ -170,7 +167,6 @@ export default function ManageUsers() {
       {showAccessModal && selectedUserForAccess && (
         <div
           style={{
-            // Minimal inline styles for visibility
             position: "fixed",
             top: 0,
             left: 0,

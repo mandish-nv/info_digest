@@ -1,26 +1,20 @@
-# python-api/main.py
-
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import uvicorn
-from typing import Optional, Dict, List
+
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
-import os
-import re
 import io
-import docx # For .docx files
-from PyPDF2 import PdfReader # For .pdf files (PyPDF2)
 
 from extractive_functions import Extractive_Summarizer
-from helper_file_functions import get_file_extension, extract_text_from_docx, extract_text_from_pdf, post_process_for_summarization
+from helper_file_functions import get_file_extension, extract_text_from_docx, extract_text_from_pdf
 
 app = FastAPI()
 
 # --- CORS Configuration ---
 origins = [
-    "http://localhost:5173",# React frontend's default port
+    "http://localhost:5173", # React frontend port
     "http://localhost:3000"
 ]
 
@@ -70,11 +64,9 @@ async def api_extractive_summary(request: ExtractiveSummarizerRequest):
 @app.post("/api/extractive-summary-file")
 async def api_extractive_summary_file(
     file: UploadFile = File(..., description="The document file (.txt, .pdf, .docx) to summarize."),
-    # 'ratio' is a form field. FastAPI uses Pydantic's Field for validation here.
     ratio: float = Form(..., ge=0.01, le=1.0, description="The summarization ratio (0.01 to 1.0)."),
     selectedOptionValue: str = Form(...,description="selectedOptionValue")
 ):
-    # --- Allowed File Types for Server-Side Validation ---
     ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
     ALLOWED_MIME_TYPES = {
     'text/plain',
@@ -136,10 +128,8 @@ async def api_extractive_summary_file(
         )
 
     try:
-        # Call your actual summarization function with the extracted text and parsed ratio
         summary, top_n_nouns_dict = Extractive_Summarizer(raw_text, ratio, selectedOptionValue)
         
-        # Prepare response data
         keywords_list = list(top_n_nouns_dict.keys())
         original_length_sentences = len(sent_tokenize(raw_text))
         summary_length_sentences = len(sent_tokenize(summary))
@@ -149,7 +139,7 @@ async def api_extractive_summary_file(
         return {
             "summary": summary,
             "originalContentText": raw_text,
-            "original_filename": file.filename, # Include original filename in response
+            "original_filename": file.filename, 
             "processed_ratio": ratio,
             "selectedOptionValue": selectedOptionValue,
             "original_length_sentences": original_length_sentences,
@@ -160,8 +150,7 @@ async def api_extractive_summary_file(
             "message": "File processed and summarized successfully."
         }
     except Exception as e:
-        # Catch any errors that occur during the summarization process itself
-        print(f"Error during summarization: {e}") # Log the error for debugging
+        print(f"Error during summarization: {e}") 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An error occurred during summarization: {str(e)}"
@@ -169,4 +158,4 @@ async def api_extractive_summary_file(
 
 # You can optionally run the app directly from this file for testing
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000) # Run on a different port than Node.js
+    uvicorn.run(app, host="0.0.0.0", port=8000) 

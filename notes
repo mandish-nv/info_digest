@@ -23,6 +23,7 @@ IMPLEMENT:
   modify pdf/docx. text extraction (ignore headings)
   keywords filter -> "", emoji, non-nouns
   output formatting
+  minimum number of sentences
   add css
   Highlight original text?
   

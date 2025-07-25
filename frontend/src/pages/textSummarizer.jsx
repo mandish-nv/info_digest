@@ -25,23 +25,20 @@ export default function TextSummarizer() {
     : false;
 
   const summaryOptions = [
-    { label: "Very Short", ratio: 0.05, value: "very_short" }, // 5%
-    { label: "Short", ratio: 0.15, value: "short" }, // 25%
-    { label: "Medium", ratio: 0.25, value: "medium" }, // 25%
-    { label: "Long", ratio: 0.40, value: "long" }, // 40%
+    { label: "Very Short", ratio: 0.05, value: "very_short" }, 
+    { label: "Short", ratio: 0.15, value: "short" }, 
+    { label: "Medium", ratio: 0.25, value: "medium" }, 
+    { label: "Long", ratio: 0.40, value: "long" }, 
   ];
 
-  // Initialize the state to store the index of the selected option (default to 'Medium' which is index 2)
+  // default to 'Medium' which is index 2
   const [selectedIndex, setSelectedIndex] = useState(2);
 
-  // Get the currently selected option based on the index
   const selectedOption = summaryOptions[selectedIndex];
-  const ratio = selectedOption.ratio; // The actual ratio value
+  const ratio = selectedOption.ratio; 
   const selectedOptionValue = selectedOption.value;
 
-  // Handle changes to the slider input
   const handleSliderChange = (event) => {
-    // Update the state with the new index from the slider
     setSelectedIndex(parseInt(event.target.value, 10));
   };
 
@@ -77,7 +74,7 @@ export default function TextSummarizer() {
       } else if (inputMedium === "file") {
         const formData = new FormData();
         formData.append("summaryFile", uploadedFile); // 'summaryFile' must match the name in your Express Multer config
-        formData.append("ratio", ratio); // Append the ratio as well
+        formData.append("ratio", ratio); 
         formData.append("selectedOptionValue", selectedOptionValue)
 
         response = await axios.post(
@@ -177,11 +174,10 @@ export default function TextSummarizer() {
     }
   };
 
-  const [selectedRating, setSelectedRating] = useState(null); // State to store the selected rating
+  const [selectedRating, setSelectedRating] = useState(null); 
 
-  // Function to handle rating change
   const handleRatingChange = (event) => {
-    setSelectedRating(parseInt(event.target.value)); // Convert the value to an integer
+    setSelectedRating(parseInt(event.target.value)); 
   };
 
   const submitFeedback = async () => {
@@ -266,7 +262,7 @@ export default function TextSummarizer() {
               alignItems: "center",
               justifyContent: "center",
               padding: "16px",
-              fontFamily: "sans-serif", // Fallback for no specific font
+              fontFamily: "sans-serif", 
             }}
           >
             <div
@@ -277,15 +273,15 @@ export default function TextSummarizer() {
                 boxShadow:
                   "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                 width: "100%",
-                maxWidth: "448px", // Equivalent to max-w-md
+                maxWidth: "448px", 
               }}
             >
               <h1
                 style={{
-                  fontSize: "24px", // Equivalent to text-3xl
+                  fontSize: "24px", 
                   fontWeight: "bold",
-                  color: "#1a202c", // Equivalent to gray-800
-                  marginBottom: "24px", // Equivalent to mb-6
+                  color: "#1a202c",
+                  marginBottom: "24px", 
                   textAlign: "center",
                 }}
               >
@@ -294,25 +290,25 @@ export default function TextSummarizer() {
 
               <div
                 style={{
-                  marginBottom: "32px", // Equivalent to mb-8
+                  marginBottom: "32px", 
                 }}
               >
                 <label
                   htmlFor="summary-length-slider"
                   style={{
                     display: "block",
-                    color: "#4a5568", // Equivalent to gray-700
-                    fontSize: "18px", // Equivalent to text-lg
-                    fontWeight: "500", // Equivalent to font-medium
-                    marginBottom: "12px", // Equivalent to mb-3
+                    color: "#4a5568", 
+                    fontSize: "18px",
+                    fontWeight: "500", 
+                    marginBottom: "12px", 
                     textAlign: "center",
                   }}
                 >
                   Summary Length:{" "}
                   <span
                     style={{
-                      color: "#4c51bf", // Equivalent to indigo-600
-                      fontWeight: "600", // Equivalent to font-semibold
+                      color: "#4c51bf", 
+                      fontWeight: "600", 
                     }}
                   >
                     {selectedOption.label}
@@ -325,33 +321,30 @@ export default function TextSummarizer() {
                   max={summaryOptions.length - 1} // Corresponds to the last option (Long)
                   step="1" // Ensure discrete steps
                   value={selectedIndex} // Current index of the selected option
-                  onChange={handleSliderChange} // Event handler for changes
+                  onChange={handleSliderChange} 
                   style={{
                     width: "100%",
-                    height: "12px", // Equivalent to h-3
-                    backgroundColor: "#a3bffa", // Equivalent to indigo-200
-                    borderRadius: "8px", // Equivalent to rounded-lg
-                    appearance: "none", // Reset default browser styling
+                    height: "12px", 
+                    backgroundColor: "#a3bffa", 
+                    borderRadius: "8px", 
+                    appearance: "none",
                     cursor: "pointer",
                   }}
-                  // Note: Direct styling of thumb is complex/inconsistent without CSS,
-                  // so pseudo-elements like `::-webkit-slider-thumb` cannot be used directly in inline style.
-                  // This is a limitation when explicitly removing CSS classes.
                 />
               </div>
 
               <p
                 style={{
-                  color: "#718096", // Equivalent to gray-600
-                  fontSize: "14px", // Equivalent to text-sm
+                  color: "#718096", 
+                  fontSize: "14px", 
                   textAlign: "center",
                 }}
               >
                 This corresponds to a ratio of{" "}
                 <span
                   style={{
-                    fontWeight: "600", // Equivalent to font-semibold
-                    color: "#1a202c", // Equivalent to gray-800
+                    fontWeight: "600", 
+                    color: "#1a202c",
                   }}
                 >
                   {ratio.toFixed(2)}
@@ -359,7 +352,6 @@ export default function TextSummarizer() {
                 of the original text length.
               </p>
 
-              {/* The 'ratio' variable can now be used for summarization logic */}
               {console.log("Selected ratio for summarization:", ratio)}
             </div>
           </div>

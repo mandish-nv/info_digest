@@ -86,7 +86,7 @@ class TFIDFVectorizer:
         df_t = self.document_frequency.get(word, 0)
         return math.log((self.num_documents + 1) / (df_t + 1)) + 1
 
-    # Transforms a list of documents into TF-IDF vectors with optional L2 normalization.
+    # Transforms a list of documents into TF-IDF vectors with L2 normalization.
     def transform(self, documents):
         tfidf_matrix = []
 
@@ -136,7 +136,7 @@ class TFIDFVectorizer:
 
 
 class TextRankSummarizer:
-    def __init__(self, k_neighbors, damping_factor=0.85, max_iterations=100, tolerance=1e-4):
+    def __init__(self, k_neighbors=None, damping_factor=0.85, max_iterations=100, tolerance=1e-4):
         # k_neighbors (int): The number of most similar neighbors to connect to each sentence.
         # damping_factor (float): The damping factor for the PageRank algorithm (typically 0.85).
         # max_iterations (int): Maximum number of PageRank iterations.
@@ -184,14 +184,16 @@ class TextRankSummarizer:
         # print(cosine_sim_df.round(4))
         # print("-" * 50)
         
-        # Determine k_neighbors based on document count, if not explicitly set
         if self.k_neighbors is None:
             if num_docs <= 15:
                 k_neighbors_effective = 2
+                self.k_neighbors = 2
             elif num_docs > 15 and num_docs <= 100:
                 k_neighbors_effective = 5
+                self.k_neighbors = 5
             elif num_docs > 100:
                 k_neighbors_effective = 10
+                self.k_neighbors = 10
         else:
             k_neighbors_effective = self.k_neighbors
         
@@ -342,7 +344,6 @@ class TextRankSummarizer:
             reverse=True
         )
         
-        # Determine how many sentences to extract
         # if num_sentences is not None:
         #     final_num_sentences = min(num_sentences, len(self.sentences))
         # elif ratio is not None:
@@ -354,7 +355,7 @@ class TextRankSummarizer:
         original_sentence_count = len(self.sentences)
     
         if original_sentence_count <= 0:
-            return 0 #"Sentence count is zero"
+            return "Sentence count is zero"
 
         summary_option = selectedOptionValue.lower().strip() # Normalize input
 
@@ -465,20 +466,10 @@ def get_top_n_tfidf_words(summarizer, n=10):
    
 
 def Extractive_Summarizer(input_text: str, ratio: float, selectedOptionValue:str) -> str:
-    sentences = sent_tokenize(input_text)
-    sentence_count = len(sentences)
-    
-    if sentence_count <= 15:
-        k_val = 2
-    elif 15 < sentence_count <= 100:
-        k_val = 5
-    else:  # sentence_count > 100
-        k_val = 10
-
     # tfidf_vectorizer = TFIDFVectorizer(norm='l2')
     # tfidf_vectors=tfidf_vectorizer.fit_transform(sentences)
     
-    summarizer = TextRankSummarizer(k_neighbors=k_val)  
+    summarizer = TextRankSummarizer()  
     
     summary = summarizer.summarize(input_text, selectedOptionValue = selectedOptionValue)
     top_n_nouns = get_top_n_tfidf_words(summarizer,n = 10)
