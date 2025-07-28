@@ -5,6 +5,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import networkx as nx
+import re
 
 import nltk
 from nltk.corpus import stopwords
@@ -34,9 +35,37 @@ class TFIDFVectorizer:
         else:
             # Default to noun if no clear mapping, or return None to let lemmatizer default
             return wordnet.NOUN
+        
+    def remove_emojis_and_symbols(self, text):
+        # Remove emojis and symbols (anything that's not basic punctuation, letters, or digits)
+        emoji_pattern = re.compile(
+            "["
+            u"\U0001F600-\U0001F64F"  # Emoticons
+            u"\U0001F300-\U0001F5FF"  # Symbols & Pictographs
+            u"\U0001F680-\U0001F6FF"  # Transport & Map Symbols
+            u"\U0001F700-\U0001F77F"  # Alchemical Symbols
+            u"\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+            u"\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+            u"\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+            u"\U0001FA00-\U0001FA6F"  # Chess Symbols, etc.
+            u"\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+            u"\U00002702-\U000027B0"  # Dingbats
+            u"\U000024C2-\U0001F251"
+            "]+",
+            flags=re.UNICODE
+        )
+        text = emoji_pattern.sub(r'', text)
+
+        # Remove non-ASCII characters (optional, for symbols like ©, ™)
+        text = re.sub(r'[^\x00-\x7F]+', '', text)
+
+        return text
 
     def preprocess_text(self, input_text):
         input_text = input_text.lower()
+
+        # Remove emojis and symbols
+        input_text = self.remove_emojis_and_symbols(input_text)
 
         # Remove punctuations
         normalized_sentence = input_text.translate(str.maketrans('', '', string.punctuation))
@@ -434,35 +463,77 @@ class TextRankSummarizer:
         return " ".join(summary_sentences)
 
 
+# Global dictionary to track noun priority for sorting (1 = proper noun, 2 = common noun)
+noun_priority_map = {}
+
+def is_clean_noun(word):
+    # Skip quotes and symbols
+    if re.search(r'[\"\'“”‘’`´&—–-]', word):
+        return False
+
+    # Remove emojis and symbols using unicode ranges
+    emoji_symbol_pattern = re.compile(
+        "[" 
+        u"\U0001F600-\U0001F64F"
+        u"\U0001F300-\U0001F5FF"
+        u"\U0001F680-\U0001F6FF"
+        u"\U0001F1E0-\U0001F1FF"
+        u"\U00002500-\U00002BEF"
+        u"\U00002702-\U000027B0"
+        u"\U000024C2-\U0001F251"
+        u"\U0001f926-\U0001f937"
+        u"\U00010000-\U0010ffff"
+        u"\u200d"
+        u"\u2640-\u2642"
+        u"\u2600-\u2B55"
+        u"\u23cf"
+        u"\u23e9"
+        u"\u231a"
+        u"\u3030"
+        u"\ufe0f"
+        "]+", flags=re.UNICODE)
+    
+    if emoji_symbol_pattern.search(word):
+        return False
+
+    # Only allow alphanumeric
+    if not word.isalnum():
+        return False
+
+    try:
+        tag = nltk.pos_tag([word])[0][1]
+    except Exception:
+        return False
+
+    # Prioritize proper nouns
+    if tag in ('NNP', 'NNPS'):
+        noun_priority_map[word] = 1  # Proper noun
+        return True
+    elif tag in ('NN', 'NNS'):
+        noun_priority_map[word] = 2  # Common noun
+        return True
+    else:
+        return False
+
+
+
 def get_top_n_tfidf_words(summarizer, n=10):
     all_word_scores = defaultdict(float)
     
     vectorizer = summarizer.tfidf_vectorizer
     idx_to_word = {idx: word for word, idx in vectorizer.word_to_idx.items()}
 
-    for i, vector in enumerate(summarizer.tfidf_vectors):
+    for vector in summarizer.tfidf_vectors:
         for j, score in enumerate(vector):
             if score > 1e-9:
                 word = idx_to_word.get(j)
-                if word:
+                if word and is_clean_noun(word):
                     all_word_scores[word] = max(all_word_scores[word], score)
 
     sorted_words = sorted(all_word_scores.items(), key=lambda item: item[1], reverse=True)
+    # sorted_words = sorted(all_word_scores.items(), key=lambda item: (noun_priority_map.get(item[0], 3), -item[1]), reverse=True) # 1 for proper noun, 2 for common, 3 default
+    return dict(sorted_words[:n])
 
-    top_n_nouns = {}
-    for word, score in sorted_words:
-        try:
-            tag = nltk.pos_tag([word])[0][1]
-        except Exception:
-            tag = None
-
-        if tag and tag.startswith('N'):
-            top_n_nouns[word] = score
-
-        if len(top_n_nouns) >= n:
-            break
-
-    return top_n_nouns
    
 
 def Extractive_Summarizer(input_text: str, ratio: float, selectedOptionValue:str) -> str:

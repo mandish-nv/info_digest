@@ -73,10 +73,6 @@ async def api_extractive_summary_file(
     'application/pdf',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 }
-    """
-    Receives a document file and a ratio, performs server-side validation,
-    extracts text, and returns a summary.
-    """
     # 1. Server-side File Type Validation
     file_extension = get_file_extension(file.filename)
     if file_extension not in ALLOWED_EXTENSIONS:

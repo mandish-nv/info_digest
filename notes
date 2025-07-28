@@ -20,9 +20,7 @@ You should now be able to access your FastAPI documentation at http://localhost:
 
 
 IMPLEMENT:
-  modify pdf/docx. text extraction (ignore headings)
-  keywords filter -> "", emoji, non-nouns
-  output formatting
+  output formatting (bullet points)
   minimum number of sentences
   add css
   Highlight original text?
