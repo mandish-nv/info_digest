@@ -10,6 +10,8 @@ import ErrorMessage from './errorMessage'
 import AdminPanel from './pages/adminPanel'
 import UserProfile from './pages/userProfile'
 
+import "./css/General.css"
+
 const router=createBrowserRouter([
   {
     path:'/',

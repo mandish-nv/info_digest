@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../css/StatusBar.css"; // Import the CSS file
 
 export default function StatusBar() {
   const userId =
@@ -37,12 +38,13 @@ export default function StatusBar() {
         setAdminAccessFlag(false);
       }
     };
+    // Only call checkAdminStatus if loggedInUser changes or on initial render
     checkAdminStatus();
-  }, []);
+  }, [loggedInUser]); // Dependency array includes loggedInUser
 
   useEffect(() => {
     const sync = () => {
-      const current = userId;
+      const current = sessionStorage.getItem("login") || localStorage.getItem("login"); // Get current from either
 
       if (current) {
         // keep both stores in sync
@@ -57,10 +59,11 @@ export default function StatusBar() {
       setLoggedInUser(current); // triggers re‑render when needed
     };
 
-    sync(); 
+    sync();
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
-  }, []);
+  }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+
 
   const logOut = () => {
     sessionStorage.removeItem("login");
@@ -71,41 +74,32 @@ export default function StatusBar() {
   };
 
   return (
-    <div style={{ display: "flex", backgroundColor: "green" }}>
+    <div className="status-bar">
       <h1>
         <Link to="/">OmniDigest</Link>
       </h1>
-      {adminAccessFlag && (
-        <div>
-          <Link to="/adminPanel">Admin Panel</Link>
-        </div>
-      )}
-      {loggedInUser ? (
-        <div>
-          <Link to="/profile">User Profile</Link>
-        </div>
-      ) : (
-        ""
-      )}
 
-      {/* Logged in status */}
-      <div>
+      <div className="status-bar-links">
+        {adminAccessFlag && (
+          <Link to="/adminPanel">Admin Panel</Link>
+        )}
+        {loggedInUser && (
+          <Link to="/profile">User Profile</Link>
+        )}
+      </div>
+
+      <div className="status-bar-user-status">
         <p>LoggedInStatus:</p>
 
-        <div style={{ display: loggedInUser ? "block" : "none" }}>
-          <p>Logged in: </p>
-          <p>{loggedInUser}</p>
-          <button onClick={() => logOut()}>Log out</button>
+        <div className="status-bar-logout-section" style={{ display: loggedInUser ? "flex" : "none" }}>
+          <p>Logged in: {loggedInUser}</p>
+          <button onClick={logOut}>Log out</button>
         </div>
 
-        <br />
-
-        <div style={{ display: loggedInUser ? "none" : "block" }}>
+        <div className="status-bar-auth-links" style={{ display: loggedInUser ? "none" : "flex", flexDirection: 'column' }}>
           <Link to={"/register"}>Register</Link>
-          <br />
           <Link to={"/login"}>Log in</Link>
         </div>
-        <br />
       </div>
     </div>
   );
