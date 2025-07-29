@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import "../css/TextSummarizer.css"; // Import the CSS file
 
 let summaryId;
 
@@ -14,33 +15,44 @@ export default function TextSummarizer() {
   const [inputMedium, setInputMedium] = useState("text");
   const [uploadedFile, setUploadedFile] = useState(null); // State to store the File object
   const [uploadStatus, setUploadStatus] = useState("");
+  const [originalContentText, setOriginalContentText] = useState(""); // To store the original text for side-by-side display
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const NODE_JS_API_URL = "http://localhost:5000/api";
+  // Create a ref for the summary results container
+  const summaryResultsRef = useRef(null);
+
+  const NODE_JS_API_URL = "http://localhost:5000/api"; // This variable is not used in the provided code.
 
   const loggedInUser = sessionStorage.getItem("login")
     ? sessionStorage.getItem("login")
     : false;
 
   const summaryOptions = [
-    { label: "Very Short", ratio: 0.05, value: "very_short" }, 
-    { label: "Short", ratio: 0.15, value: "short" }, 
-    { label: "Medium", ratio: 0.25, value: "medium" }, 
-    { label: "Long", ratio: 0.40, value: "long" }, 
+    { label: "Very Short", ratio: 0.05, value: "very_short" },
+    { label: "Short", ratio: 0.15, value: "short" },
+    { label: "Medium", ratio: 0.25, value: "medium" },
+    { label: "Long", ratio: 0.40, value: "long" },
   ];
 
   // default to 'Medium' which is index 2
   const [selectedIndex, setSelectedIndex] = useState(2);
 
   const selectedOption = summaryOptions[selectedIndex];
-  const ratio = selectedOption.ratio; 
+  const ratio = selectedOption.ratio;
   const selectedOptionValue = selectedOption.value;
 
   const handleSliderChange = (event) => {
     setSelectedIndex(parseInt(event.target.value, 10));
   };
+
+  // Effect to scroll to the summary results section when summarizeResult changes
+  useEffect(() => {
+    if (summarizeResult && summaryResultsRef.current) {
+      summaryResultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [summarizeResult]);
 
   const handleSummarize = async (e) => {
     e.preventDefault();
@@ -52,7 +64,7 @@ export default function TextSummarizer() {
     }
     if (inputMedium === "file") {
       if (!uploadedFile) {
-        setError("Please enter a file first.");
+        setError("Please select a file first.");
         return;
       }
     }
@@ -64,18 +76,20 @@ export default function TextSummarizer() {
     setWordCount(0);
     setSummaryWordCount(0);
     setKeywords([]);
+    setOriginalContentText(""); // Clear previous original text
+
     let response;
     try {
       if (inputMedium === "text") {
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary",
-          { text: text, ratio: ratio, selectedOptionValue:selectedOptionValue  }
+          { text: text, ratio: ratio, selectedOptionValue: selectedOptionValue }
         );
       } else if (inputMedium === "file") {
         const formData = new FormData();
         formData.append("summaryFile", uploadedFile); // 'summaryFile' must match the name in your Express Multer config
-        formData.append("ratio", ratio); 
-        formData.append("selectedOptionValue", selectedOptionValue)
+        formData.append("ratio", ratio);
+        formData.append("selectedOptionValue", selectedOptionValue);
 
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary-file",
@@ -98,6 +112,7 @@ export default function TextSummarizer() {
       setWordCount(response.data.originalWordCount);
       setSummaryWordCount(response.data.summaryWordCount);
       setKeywords(response.data.keywords);
+      setOriginalContentText(response.data.originalContentText); // Set original text
 
       if (loggedInUser) {
         const summaryData = {
@@ -136,7 +151,7 @@ export default function TextSummarizer() {
             summaryData
           );
           summaryId = res.data.summary._id;
-          if(inputMedium==="file"){
+          if (inputMedium === "file") {
             const formData = new FormData();
             formData.append("summaryFile", uploadedFile);
             const res2 = await axios.post(
@@ -151,11 +166,17 @@ export default function TextSummarizer() {
               }
             );
           }
-          alert(res.data.message);
+          // Using a custom modal/message box instead of alert()
+          showCustomMessage(res.data.message);
         } catch (err) {
           console.error(
             "Error saving summary",
             err.response ? err.response.data : err.message
+          );
+          showCustomMessage(
+            `Error saving summary: ${
+              err.response ? err.response.data.error : err.message
+            }`
           );
         }
       }
@@ -174,10 +195,10 @@ export default function TextSummarizer() {
     }
   };
 
-  const [selectedRating, setSelectedRating] = useState(null); 
+  const [selectedRating, setSelectedRating] = useState(null);
 
   const handleRatingChange = (event) => {
-    setSelectedRating(parseInt(event.target.value)); 
+    setSelectedRating(parseInt(event.target.value));
   };
 
   const submitFeedback = async () => {
@@ -187,11 +208,17 @@ export default function TextSummarizer() {
         `http://localhost:5000/updateSummaryFeedback/${summaryId}`,
         { rating: selectedRating }
       );
-      alert(res.data.message);
+      // Using a custom modal/message box instead of alert()
+      showCustomMessage(res.data.message);
     } catch (err) {
       console.error(
         "Error saving summary",
         err.response ? err.response.data : err.message
+      );
+      showCustomMessage(
+        `Error submitting feedback: ${
+          err.response ? err.response.data.error : err.message
+        }`
       );
     }
   };
@@ -207,35 +234,62 @@ export default function TextSummarizer() {
     }
   };
 
+  // Custom message box function
+  const showCustomMessage = (message) => {
+    const messageBox = document.createElement("div");
+    messageBox.className = "custom-message-box";
+    messageBox.innerHTML = `
+      <div class="custom-message-content">
+        <p>${message}</p>
+        <button class="custom-message-button">OK</button>
+      </div>
+    `;
+    document.body.appendChild(messageBox);
+
+    messageBox.querySelector(".custom-message-button").onclick = () => {
+      document.body.removeChild(messageBox);
+    };
+  };
+
   return (
     <div className="App">
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      {loading && <p>Loading...</p>}
+      {error && <p className="error-message">Error: {error}</p>}
+      {loading && <p className="loading-message">Loading...</p>}
 
-      <section>
+      <section className="summarizer-section">
         <h2>Extractive Summarization</h2>
-        <form onSubmit={handleSummarize}>
-          <span
-            onClick={() => {
-              setInputMedium("text");
-              setText("");
-              setError("");
-            }}
-          >
-            Text input
-          </span>
-          <br />
-          <span
-            onClick={() => {
-              setInputMedium("file");
-              setUploadStatus("");
-              setUploadedFile(null);
-              setError("");
-            }}
-          >
-            File input
-          </span>
-          <br />
+        <form onSubmit={handleSummarize} className="summarizer-form">
+          <div className="input-medium-selector">
+            <span
+              className={`input-medium-option ${
+                inputMedium === "text" ? "active" : ""
+              }`}
+              onClick={() => {
+                setInputMedium("text");
+                setText("");
+                setError("");
+                setUploadedFile(null);
+                setUploadStatus("");
+              }}
+            >
+              Text input
+            </span>
+            <span
+              className={`input-medium-option ${
+                inputMedium === "file" ? "active" : ""
+              }`}
+              onClick={() => {
+                setInputMedium("file");
+                setUploadStatus("");
+                setUploadedFile(null);
+                setText("");
+                setError("");
+              }}
+            >
+              File input
+            </span>
+          </div>
+
           {inputMedium === "text" && (
             <textarea
               value={text}
@@ -243,189 +297,120 @@ export default function TextSummarizer() {
               placeholder="Enter text to summarize"
               rows="8"
               cols="80"
+              className="text-input"
             ></textarea>
           )}
           {inputMedium === "file" && (
-            <div>
+            <div className="file-input-container">
               <p>Enter .docx, .txt or .pdf</p>
               <input
                 type="file"
                 onChange={handleFileChange}
                 accept=".docx,.pdf,.txt"
+                className="file-input"
               />
-              {uploadStatus && <p>{uploadStatus}</p>}
+              {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
             </div>
           )}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "16px",
-              fontFamily: "sans-serif", 
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "#ffffff",
-                padding: "32px",
-                borderRadius: "12px",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                width: "100%",
-                maxWidth: "448px", 
-              }}
-            >
-              <h1
-                style={{
-                  fontSize: "24px", 
-                  fontWeight: "bold",
-                  color: "#1a202c",
-                  marginBottom: "24px", 
-                  textAlign: "center",
-                }}
-              >
-                Select Summary Length
-              </h1>
-
-              <div
-                style={{
-                  marginBottom: "32px", 
-                }}
-              >
-                <label
-                  htmlFor="summary-length-slider"
-                  style={{
-                    display: "block",
-                    color: "#4a5568", 
-                    fontSize: "18px",
-                    fontWeight: "500", 
-                    marginBottom: "12px", 
-                    textAlign: "center",
-                  }}
-                >
-                  Summary Length:{" "}
-                  <span
-                    style={{
-                      color: "#4c51bf", 
-                      fontWeight: "600", 
-                    }}
-                  >
-                    {selectedOption.label}
-                  </span>
-                </label>
-                <input
-                  type="range"
-                  id="summary-length-slider"
-                  min="0" // Corresponds to the first option (Very Short)
-                  max={summaryOptions.length - 1} // Corresponds to the last option (Long)
-                  step="1" // Ensure discrete steps
-                  value={selectedIndex} // Current index of the selected option
-                  onChange={handleSliderChange} 
-                  style={{
-                    width: "100%",
-                    height: "12px", 
-                    backgroundColor: "#a3bffa", 
-                    borderRadius: "8px", 
-                    appearance: "none",
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
-
-              <p
-                style={{
-                  color: "#718096", 
-                  fontSize: "14px", 
-                  textAlign: "center",
-                }}
-              >
-                This corresponds to a ratio of{" "}
-                <span
-                  style={{
-                    fontWeight: "600", 
-                    color: "#1a202c",
-                  }}
-                >
-                  {ratio.toFixed(2)}
-                </span>{" "}
-                of the original text length.
-              </p>
-
-              {console.log("Selected ratio for summarization:", ratio)}
+          <div className="summary-length-card">
+            <h1 className="summary-length-title">Select Summary Length</h1>
+            <div className="summary-length-slider-container">
+              <label htmlFor="summary-length-slider" className="slider-label">
+                Summary Length:{" "}
+                <span className="selected-length-label">
+                  {selectedOption.label}
+                </span>
+              </label>
+              <input
+                type="range"
+                id="summary-length-slider"
+                min="0" // Corresponds to the first option (Very Short)
+                max={summaryOptions.length - 1} // Corresponds to the last option (Long)
+                step="1" // Ensure discrete steps
+                value={selectedIndex} // Current index of the selected option
+                onChange={handleSliderChange}
+                className="summary-slider"
+              />
             </div>
+            <p className="ratio-info">
+              This corresponds to a ratio of{" "}
+              <span className="ratio-value">{ratio.toFixed(2)}</span> of the
+              original text length.
+            </p>
           </div>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="summarize-button">
             Summarize
           </button>
         </form>
+
         {summarizeResult && (
-          <div>
-            <h4>Summary:</h4>
-            <p>{summarizeResult}</p>
-            <p>Original Text Length: {originalSentencesCount} sentences</p>
-            <p>Summary Length: {summarySentencesCount} sentences</p>
-            <p>Original word count: {wordCount}</p>
-            <p>Summary word count: {summaryWordCount}</p>
-            <p>Keywords: </p>
-            <ul>
-              {keywords.map((word, index) => (
-                <li key={word}>{word}</li>
-              ))}
-            </ul>
-            <div>
-              <h1>Rate Your Experience</h1>
+          <div className="summary-results-container" ref={summaryResultsRef}>
+            <div className="content-panel">
+              <h4>Original Text:</h4>
+              <p className="content-text">{originalContentText}</p>
+              <p>Original Text Length: {originalSentencesCount} sentences</p>
+              <p>Original word count: {wordCount}</p>
+            </div>
 
-              {/* Feedback form */}
-              <div>
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <div key={rating}>
-                    <input
-                      type="radio"
-                      id={`rating-${rating}`}
-                      name="feedback-rating"
-                      value={rating}
-                      checked={selectedRating === rating}
-                      onChange={handleRatingChange}
-                    />
-                    <label htmlFor={`rating-${rating}`}>{rating}</label>
-                    <span>
-                      {rating === 1 && "Very Poor"}
-                      {rating === 2 && "Poor"}
-                      {rating === 3 && "Average"}
-                      {rating === 4 && "Good"}
-                      {rating === 5 && "Excellent"}
-                    </span>
-                  </div>
+            <div className="content-panel">
+              <h4>Summary:</h4>
+              <p className="content-text">{summarizeResult}</p>
+              <p>Summary Length: {summarySentencesCount} sentences</p>
+              <p>Summary word count: {summaryWordCount}</p>
+              <p>Keywords: </p>
+              <ul className="keywords-list">
+                {keywords.map((word, index) => (
+                  <li key={index}>{word}</li>
                 ))}
-              </div>
+              </ul>
+            </div>
+          </div>
+        )}
 
-              {/* Display selected rating */}
-              {selectedRating !== null && (
-                <p>
-                  You have selected: <span>{selectedRating}</span>
-                </p>
-              )}
+        {summarizeResult && (
+          <div className="feedback-section">
+            <h1 className="feedback-title">Rate Your Experience</h1>
+            <div className="rating-options">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <div key={rating} className="rating-option">
+                  <input
+                    type="radio"
+                    id={`rating-${rating}`}
+                    name="feedback-rating"
+                    value={rating}
+                    checked={selectedRating === rating}
+                    onChange={handleRatingChange}
+                    className="rating-input"
+                  />
+                  <label htmlFor={`rating-${rating}`} className="rating-label">
+                    {rating}
+                  </label>
+                  <span className="rating-text">
+                    {rating === 1 && "Very Poor"}
+                    {rating === 2 && "Poor"}
+                    {rating === 3 && "Average"}
+                    {rating === 4 && "Good"}
+                    {rating === 5 && "Excellent"}
+                  </span>
+                </div>
+              ))}
+            </div>
 
-              <div>
-                <button
-                  onClick={() => submitFeedback()}
-                  disabled={selectedRating === null}
-                  style={{
-                    backgroundColor:
-                      selectedRating === null ? "#ccc" : "#4CAF50", // Gray if disabled, green otherwise
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: selectedRating === null ? "not-allowed" : "pointer",
-                    fontSize: "16px",
-                    marginTop: "20px",
-                  }}
-                >
-                  Submit Feedback
-                </button>
-              </div>
+            {selectedRating !== null && (
+              <p className="selected-rating-display">
+                You have selected:{" "}
+                <span className="selected-rating-value">{selectedRating}</span>
+              </p>
+            )}
+
+            <div>
+              <button
+                onClick={submitFeedback}
+                disabled={selectedRating === null}
+                className="submit-feedback-button"
+              >
+                Submit Feedback
+              </button>
             </div>
           </div>
         )}

@@ -31,3 +31,4 @@ IMPLEMENT:
   summary length: numeric -> string
   modify user roles: user, admin, superAdmin
   rating per summarization medium/length
+  copy result option

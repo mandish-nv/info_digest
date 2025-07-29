@@ -22,8 +22,6 @@ export default function LandingPage() {
   return (
     <div>
       <StatusBar />
-      <br />
-      <br />
       <TextSummarizer />
     </div>
   );
