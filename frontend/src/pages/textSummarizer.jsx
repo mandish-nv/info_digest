@@ -33,7 +33,7 @@ export default function TextSummarizer() {
     { label: "Very Short", ratio: 0.05, value: "very_short" },
     { label: "Short", ratio: 0.15, value: "short" },
     { label: "Medium", ratio: 0.25, value: "medium" },
-    { label: "Long", ratio: 0.40, value: "long" },
+    { label: "Long", ratio: 0.4, value: "long" },
   ];
 
   // default to 'Medium' which is index 2
@@ -50,7 +50,10 @@ export default function TextSummarizer() {
   // Effect to scroll to the summary results section when summarizeResult changes
   useEffect(() => {
     if (summarizeResult && summaryResultsRef.current) {
-      summaryResultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      summaryResultsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, [summarizeResult]);
 
@@ -113,6 +116,7 @@ export default function TextSummarizer() {
       setSummaryWordCount(response.data.summaryWordCount);
       setKeywords(response.data.keywords);
       setOriginalContentText(response.data.originalContentText); // Set original text
+      setSelectedRating(null)
 
       if (loggedInUser) {
         const summaryData = {
@@ -259,37 +263,63 @@ export default function TextSummarizer() {
       <section className="summarizer-section">
         <h2>Extractive Summarization</h2>
         <form onSubmit={handleSummarize} className="summarizer-form">
-          <div className="input-medium-selector">
-            <span
-              className={`input-medium-option ${
-                inputMedium === "text" ? "active" : ""
-              }`}
-              onClick={() => {
-                setInputMedium("text");
-                setText("");
-                setError("");
-                setUploadedFile(null);
-                setUploadStatus("");
-              }}
-            >
-              Text input
-            </span>
-            <span
-              className={`input-medium-option ${
-                inputMedium === "file" ? "active" : ""
-              }`}
-              onClick={() => {
-                setInputMedium("file");
-                setUploadStatus("");
-                setUploadedFile(null);
-                setText("");
-                setError("");
-              }}
-            >
-              File input
-            </span>
+          <div className="controls-container">
+            {" "}
+            {/* New container */}
+            <div className="summary-length-card">
+              <h1 className="summary-length-title">Select Summary Length</h1>
+              <div className="summary-length-slider-container">
+                <span className="slider-min-label">Short</span>
+                <input
+                  type="range"
+                  id="summary-length-slider"
+                  min="0" // Corresponds to the first option (Very Short)
+                  max={summaryOptions.length - 1} // Corresponds to the last option (Long)
+                  step="1" // Ensure discrete steps
+                  value={selectedIndex} // Current index of the selected option
+                  onChange={handleSliderChange}
+                  className="summary-slider"
+                />
+                <span className="slider-max-label">Long</span>
+              </div>
+            </div>
+            <div className="summary-length-card">
+              {" "}
+              <h1 className="summary-length-title">Select Summary Length</h1>
+              <div className="input-medium-selector-card">
+                {" "}
+                {/* Renamed for specific styling */}
+                <span
+                  className={`input-medium-option ${
+                    inputMedium === "text" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setInputMedium("text");
+                    setText("");
+                    setError("");
+                    setUploadedFile(null);
+                    setUploadStatus("");
+                  }}
+                >
+                  Text input
+                </span>
+                <span
+                  className={`input-medium-option ${
+                    inputMedium === "file" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setInputMedium("file");
+                    setUploadStatus("");
+                    setUploadedFile(null);
+                    setText("");
+                    setError("");
+                  }}
+                >
+                  File input
+                </span>
+              </div>
+            </div>
           </div>
-
           {inputMedium === "text" && (
             <textarea
               value={text}
@@ -312,52 +342,29 @@ export default function TextSummarizer() {
               {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
             </div>
           )}
-          <div className="summary-length-card">
-            <h1 className="summary-length-title">Select Summary Length</h1>
-            <div className="summary-length-slider-container">
-              <label htmlFor="summary-length-slider" className="slider-label">
-                Summary Length:{" "}
-                <span className="selected-length-label">
-                  {selectedOption.label}
-                </span>
-              </label>
-              <input
-                type="range"
-                id="summary-length-slider"
-                min="0" // Corresponds to the first option (Very Short)
-                max={summaryOptions.length - 1} // Corresponds to the last option (Long)
-                step="1" // Ensure discrete steps
-                value={selectedIndex} // Current index of the selected option
-                onChange={handleSliderChange}
-                className="summary-slider"
-              />
-            </div>
-            <p className="ratio-info">
-              This corresponds to a ratio of{" "}
-              <span className="ratio-value">{ratio.toFixed(2)}</span> of the
-              original text length.
-            </p>
-          </div>
           <button type="submit" disabled={loading} className="summarize-button">
             Summarize
           </button>
+          <div ref={summaryResultsRef}></div>
         </form>
 
+        
+
         {summarizeResult && (
-          <div className="summary-results-container" ref={summaryResultsRef}>
+          <div className="summary-results-container">
             <div className="content-panel">
               <h4>Original Text:</h4>
-              <p className="content-text">{originalContentText}</p>
-              <p>Original Text Length: {originalSentencesCount} sentences</p>
-              <p>Original word count: {wordCount}</p>
+              <span className="content-text">{originalContentText}</span>
+              <span>Original Text Length: {originalSentencesCount} sentences</span>
+              <span>Original word count: {wordCount}</span>
             </div>
 
             <div className="content-panel">
               <h4>Summary:</h4>
-              <p className="content-text">{summarizeResult}</p>
-              <p>Summary Length: {summarySentencesCount} sentences</p>
-              <p>Summary word count: {summaryWordCount}</p>
-              <p>Keywords: </p>
+              <span className="content-text">{summarizeResult}</span>
+              <span>Summary Length: {summarySentencesCount} sentences</span>
+              <span>Summary word count: {summaryWordCount}</span>
+              <span>Keywords: </span>
               <ul className="keywords-list">
                 {keywords.map((word, index) => (
                   <li key={index}>{word}</li>
@@ -395,13 +402,6 @@ export default function TextSummarizer() {
                 </div>
               ))}
             </div>
-
-            {selectedRating !== null && (
-              <p className="selected-rating-display">
-                You have selected:{" "}
-                <span className="selected-rating-value">{selectedRating}</span>
-              </p>
-            )}
 
             <div>
               <button

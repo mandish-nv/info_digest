@@ -11,18 +11,19 @@ body {
 .App {
     max-width: 1200px;
     margin: 20px auto;
+    margin-top: 100px;
     padding: 20px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0px;
 }
 
 /* Section and Heading Styling */
 .summarizer-section {
-    padding: 20px;
+    padding: 0px;
     border-radius: 8px;
     background-color: #fdfdfd;
 }
@@ -30,7 +31,7 @@ body {
 h2 {
     text-align: center;
     color: #28a745; /* Accent color */
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 2.2em;
     font-weight: 700;
 }
@@ -45,18 +46,39 @@ h4 {
 .summarizer-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
 }
 
-.input-medium-selector {
+/* New container for controls */
+.controls-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    justify-content: center; /* Center items horizontally */
+    align-items: flex-start; /* Align items to the start of the cross axis */
+    gap: 20px; /* Space between the two cards */
+    width: 100%; /* Take full width */
+    margin-bottom: 0px;
+    margin: 0 10px 0 10px
+}
+
+.input-medium-selector-card { /* Renamed for specific styling */
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
+    padding: 0px; /* Added padding to make it look like a card */
+    /* border: 1px solid #eee; */
+    border-radius: 12px;
+    background-color: #ffffff;
+    /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
+    flex-basis: 300px; /* Initial width, allows shrinking */
+    flex-grow: 1; /* Allows it to grow */
+    justify-content: center; /* Center buttons horizontally */
+    align-items: center; /* Center buttons vertically */
+    height: 80px; /* Set a fixed height for consistency with summary card */
 }
 
 .input-medium-option {
-    padding: 10px 20px;
+    padding: 6px 10px;
     border: 1px solid #ccc;
     border-radius: 25px;
     cursor: pointer;
@@ -136,35 +158,57 @@ h4 {
 /* Summary Length Slider Card */
 .summary-length-card {
     background-color: #ffffff;
-    padding: 32px;
+    padding: 20px; /* Reduced padding */
     border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
     width: 90%;
-    max-width: 350px; /* Made smaller */
-    margin-top: 20px;
+    max-width: 450px; /* Adjusted max-width to allow side-by-side */
+    flex-basis: 450px; /* Initial width, allows shrinking */
+    flex-grow: 1; /* Allows it to grow */
     box-sizing: border-box; /* Include padding in width */
+    margin-bottom: 10px; /* Remove margin-top */
+    height: 80px; /* Set a fixed height for consistency */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .summary-length-title {
-    font-size: 24px;
+    font-size: 1em; /* Smaller font size */
     font-weight: bold;
     color: #1a202c;
-    margin-bottom: 24px;
+    margin-bottom: 4px; /* Adjusted margin */
     text-align: center;
 }
 
 .summary-length-slider-container {
-    margin-bottom: 32px;
+    margin-bottom: 10px; /* Adjusted margin */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Space out items */
+    gap: 10px; /* Add some gap between items */
+    width: 80%; /* Take full width of its parent */
 }
 
-.slider-label {
+.slider-min-label,
+.slider-max-label {
+    color: #4a5568;
+    font-size: 1em; /* Smaller font size */
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Removed .slider-label as it's replaced by direct text */
+/* .slider-label {
     display: block;
     color: #4a5568;
     font-size: 18px;
     font-weight: 500;
-    margin-bottom: 12px;
-    text-align: center;
-}
+    margin-bottom: 0;
+    text-align: left;
+    white-space: nowrap;
+} */
 
 .selected-length-label {
     color: #28a745; /* Accent color */
@@ -172,7 +216,7 @@ h4 {
 }
 
 .summary-slider {
-    width: 100%;
+    flex-grow: 1; /* Allow slider to take available space */
     height: 12px;
     background-color: #a3bffa; /* Light blue for track */
     border-radius: 8px;
@@ -222,8 +266,9 @@ h4 {
 
 .ratio-info {
     color: #718096;
-    font-size: 14px;
+    font-size: 0.8em; /* Smaller font size */
     text-align: center;
+    margin-top: 5px; /* Adjusted margin */
 }
 
 .ratio-value {
@@ -253,10 +298,10 @@ h4 {
 }
 
 .content-text {
-    white-space: pre-wrap; /* Preserves whitespace and wraps text */
-    word-wrap: break-word; /* Breaks long words */
+    /* white-space: pre-wrap; Preserves whitespace and wraps text */
+    /* word-wrap: break-word; Breaks long words */
     max-height: 300px; /* Limit height for scrollable content */
-    min-height: 200px; /* Ensures consistent height even for short content */
+    min-height: 300px; /* Ensures consistent height even for short content */
     overflow-y: auto; /* Add scrollbar if content exceeds height */
     padding: 10px;
     border: 1px solid #e0e0e0;
@@ -391,14 +436,14 @@ h4 {
     color: red;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 .loading-message {
     color: #007bff;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 /* Custom Message Box (Replaces alert) */
@@ -491,8 +536,9 @@ h4 {
         font-size: 20px;
     }
 
-    .slider-label {
-        font-size: 16px;
+    .slider-min-label,
+    .slider-max-label {
+        font-size: 0.9em;
     }
 
     .rating-options {

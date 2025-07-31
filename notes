@@ -20,6 +20,7 @@ You should now be able to access your FastAPI documentation at http://localhost:
 
 
 IMPLEMENT:
+  add css to this page of summarization project. do not change any code. the css should be in a seperate file and also include existing css to it if any. use raw css with no tailwind. the accent color of th page is #28a745.
   add css
   Highlight original text?
   
@@ -28,6 +29,7 @@ IMPLEMENT:
   OCR
   
   OPTIONAL:
+  kwywords fix
   summary length: numeric -> string
   modify user roles: user, admin, superAdmin
   rating per summarization medium/length

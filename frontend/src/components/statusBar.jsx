@@ -76,7 +76,7 @@ export default function StatusBar() {
   return (
     <div className="status-bar">
       <h1>
-        <Link to="/">OmniDigest</Link>
+        <Link to="/">InfoDigest</Link>
       </h1>
 
       <div className="status-bar-links">
