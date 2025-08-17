@@ -1,3 +1,177 @@
+/* General Body and Container Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.user-profile-container-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin-top: 60px;
+}
+
+.user-profile-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 95%; /* Changed to almost fill the screen */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Headings */
+.user-profile-heading,
+.user-profile-history-heading {
+    text-align: center;
+    color: #28a745; /* Accent color */
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: 700;
+    border-bottom: 3px solid #28a745;
+    padding-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+}
+
+.user-profile-summaries-found {
+    color: #555;
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* User Profile Details Section */
+.user-profile-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed #ddd;
+}
+
+@media (min-width: 768px) {
+    .user-profile-details {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+    }
+}
+
+.user-profile-picture-container {
+    flex-shrink: 0;
+    margin-bottom: 20px;
+}
+
+.user-profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #28a745; /* Accent color border */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-item {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.user-profile-item strong {
+    color: #333;
+    min-width: 120px; /* Align text for better readability */
+    display: inline-block;
+}
+
+/* History Section */
+.user-profile-history {
+    padding-top: 25px;
+}
+
+.summary-cards-grid {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+    gap: 25px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Messages (Loading, Error, No Data, No Summaries) */
+.user-profile-loading,
+.user-profile-error,
+.user-profile-no-data,
+.no-summaries-message,
+.summary-error {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.user-profile-loading {
+    background-color: #e0f7fa;
+    color: #00796b;
+    border: 1px solid #00bcd4;
+}
+
+.user-profile-error,
+.summary-error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ef5350;
+}
+
+.user-profile-no-data,
+.no-summaries-message {
+    background-color: #fffde7;
+    color: #fbc02d;
+    border: 1px solid #ffeb3b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .user-profile-container {
+        padding: 20px;
+    }
+
+    .user-profile-heading,
+    .user-profile-history-heading {
+        font-size: 1.8em;
+    }
+
+    .user-profile-summaries-found {
+        font-size: 1.3em;
+    }
+
+    .user-profile-item {
+        font-size: 1em;
+    }
+
+    .user-profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+}
 /* General Body and App Styling */
 body {
     font-family: 'Inter', sans-serif;
@@ -6,6 +180,7 @@ body {
     background-color: #f4f7f6; /* Light background */
     color: #333;
     line-height: 1.6;
+    overflow-x: hidden; /* Added to prevent horizontal overflow */
 }
 
 .App {

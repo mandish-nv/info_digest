@@ -4,8 +4,10 @@ import axios from "axios";
 import StatusBar from "../components/statusBar";
 import SummaryCard from "../components/summaryCard";
 
+import "../css/userProfile.css"; // Ensure this import is present
+
 export default function UserProfile() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,8 +88,8 @@ export default function UserProfile() {
         return;
       }
       try {
-        setLoading(true); 
-        setError(null); 
+        setLoading(true);
+        setError(null);
 
         const profileResponse = await axios.get(
           `http://localhost:5000/findById/${profileIdToFetch}`
@@ -96,22 +98,25 @@ export default function UserProfile() {
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(
-          err.response || err.message || "An unexpected error occurred."
+          err.response?.data?.message ||
+            err.message ||
+            "An unexpected error occurred."
         );
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
 
       try {
-        setLoading(true); 
-        setError(null); 
+        setLoading(true);
+        setError(null);
         setSummaryError(null);
         const summariesResponse = await axios.get(
           `http://localhost:5000/retrieveSummary/${profileIdToFetch}`
         );
         setSummaries(summariesResponse.data);
       } catch (err) {
-        if (err.status == "404") {
+        if (err.response && err.response.status === 404) {
+          // Corrected access to status
           setSummaryError("No summary available");
         } else {
           setSummaryError(
@@ -119,75 +124,83 @@ export default function UserProfile() {
           );
         }
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchUserProfile();
   }, [adminAccessFlag, id]);
 
   if (loading) {
-    return <div>Loading user profile...</div>;
+    return <div className="user-profile-loading">Loading user profile...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="user-profile-error">Error: {error}</div>;
   }
 
   if (!userProfile) {
-    return <div>No user profile data available.</div>;
+    return (
+      <div className="user-profile-no-data">
+        No user profile data available.
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="user-profile-container-main">
       <StatusBar />
-      <h2>User Profile</h2>
-      <div>
-        <p>
-          <strong>Full Name:</strong> {userProfile.fullName}
-        </p>
-        <p>
-          <strong>Username:</strong> {userProfile.userName}
-        </p>
-        <p>
-          <strong>Email:</strong> {userProfile.email}
-        </p>
-        <p>
-          <strong>Gender:</strong> {userProfile.gender}
-        </p>
-        <p>
-          <strong>Date of Birth:</strong>{" "}
-          {new Date(userProfile.dob).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Registered On:</strong>{" "}
-          {new Date(userProfile.createdAt).toLocaleDateString()}
-        </p>
-        {userProfile.profilePicture && (
-          <div>
-            <strong>Profile Picture:</strong>
-            <br />
-            <img
-              src={userProfile.profilePicture}
-              alt="Profile"
-              width="150"
-              height="150"
-            />
-          </div>
-        )}
-      </div>
-      <div>
-        <h2>History</h2>
-        <div>{summaryError}</div>
-        {summaries.length > 0 && (
-          <div>
-            <h2>Summaries Found:</h2>
-            <div>
-              {summaries.map((summary) => (
-                <SummaryCard key={summary._id} summary={summary} />
-              ))}
+      <div className="user-profile-container">
+        <h2 className="user-profile-heading">User Profile</h2>
+        <div className="user-profile-details">
+          {userProfile.profilePicture && (
+            <div className="user-profile-picture-container">
+              <img
+                src={userProfile.profilePicture}
+                alt="Profile"
+                className="user-profile-picture"
+              />
             </div>
+          )}
+          <div>
+            <p className="user-profile-item">
+              <strong>Full Name:</strong> {userProfile.fullName}
+            </p>
+            <p className="user-profile-item">
+              <strong>Username:</strong> {userProfile.userName}
+            </p>
+            <p className="user-profile-item">
+              <strong>Email:</strong> {userProfile.email}
+            </p>
+            <p className="user-profile-item">
+              <strong>Gender:</strong> {userProfile.gender}
+            </p>
+            <p className="user-profile-item">
+              <strong>Date of Birth:</strong>{" "}
+              {new Date(userProfile.dob).toLocaleDateString()}
+            </p>
+            <p className="user-profile-item">
+              <strong>Registered On:</strong>{" "}
+              {new Date(userProfile.createdAt).toLocaleDateString()}
+            </p>
           </div>
-        )}
+        </div>
+        <div className="user-profile-history">
+          <h2 className="user-profile-history-heading">History</h2>
+          {summaryError && <div className="summary-error">{summaryError}</div>}
+          {summaries.length > 0 && (
+            <div className="user-profile-summaries">
+              <h3 className="user-profile-summaries-found">Summaries Found:</h3>
+              <div className="summary-cards-grid">
+                {summaries.map((summary) => (
+                  <SummaryCard key={summary._id} summary={summary} />
+                ))}
+              </div>
+            </div>
+          )}
+          {summaries.length === 0 && !summaryError && (
+            <p className="no-summaries-message">No summaries available yet.</p>
+          )}
+        </div>
       </div>
     </div>
   );

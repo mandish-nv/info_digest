@@ -1,0 +1,713 @@
+0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  0%|          | 200/91366 [08:45<66:34:03,  2.63s/it]
+{'loss': 8.5949, 'grad_norm': 11.936530113220215, 'learning_rate': 9.978110019044285e-06, 'epoch': 0.0}
+  0%|          | 400/91366 [17:31<66:22:31,  2.63s/it]
+{'loss': 3.3536, 'grad_norm': 4.017805099487305, 'learning_rate': 9.956220038088567e-06, 'epoch': 0.0}
+  1%|          | 600/91366 [26:17<66:12:47,  2.63s/it]
+{'loss': 2.8517, 'grad_norm': 9.389226913452148, 'learning_rate': 9.934330057132851e-06, 'epoch': 0.01}
+  1%|          | 800/91366 [35:03<66:00:53,  2.62s/it]
+{'loss': 2.2962, 'grad_norm': 2.436415910720825, 'learning_rate': 9.912440076177135e-06, 'epoch': 0.01}
+  1%|          | 1000/91366 [43:48<65:52:29,  2.62s/it]
+{'loss': 2.1096, 'grad_norm': 2.3851675987243652, 'learning_rate': 9.89055009522142e-06, 'epoch': 0.01}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  1%|▏         | 1200/91366 [53:03<65:37:37,  2.62s/it] 
+{'loss': 2.1277, 'grad_norm': 2.175662040710449, 'learning_rate': 9.868660114265702e-06, 'epoch': 0.01}
+  2%|▏         | 1400/91366 [1:01:47<68:01:10,  2.72s/it]
+{'loss': 2.0052, 'grad_norm': 2.385141134262085, 'learning_rate': 9.846770133309986e-06, 'epoch': 0.02}
+  2%|▏         | 1600/91366 [1:10:31<65:17:43,  2.62s/it]
+{'loss': 2.0609, 'grad_norm': 2.1832094192504883, 'learning_rate': 9.824880152354268e-06, 'epoch': 0.02}
+  2%|▏         | 1800/91366 [1:19:15<65:12:12,  2.62s/it]
+{'loss': 1.9915, 'grad_norm': 1.924565315246582, 'learning_rate': 9.802990171398552e-06, 'epoch': 0.02}
+  2%|▏         | 2000/91366 [1:27:59<64:55:18,  2.62s/it]
+{'loss': 1.9972, 'grad_norm': 1.7491676807403564, 'learning_rate': 9.781100190442834e-06, 'epoch': 0.02}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  2%|▏         | 2200/91366 [1:37:32<66:22:27,  2.68s/it] 
+{'loss': 1.9526, 'grad_norm': 1.6828551292419434, 'learning_rate': 9.759210209487118e-06, 'epoch': 0.02}
+  3%|▎         | 2400/91366 [1:46:39<65:54:06,  2.67s/it]
+{'loss': 1.9387, 'grad_norm': 2.2621517181396484, 'learning_rate': 9.737320228531402e-06, 'epoch': 0.03}
+  3%|▎         | 2600/91366 [1:55:47<68:26:43,  2.78s/it]
+{'loss': 2.0005, 'grad_norm': 2.3279550075531006, 'learning_rate': 9.715430247575686e-06, 'epoch': 0.03}
+  3%|▎         | 2800/91366 [2:04:54<66:58:45,  2.72s/it]
+{'loss': 1.9029, 'grad_norm': 1.8265084028244019, 'learning_rate': 9.693540266619969e-06, 'epoch': 0.03}
+  3%|▎         | 3000/91366 [2:14:02<67:29:09,  2.75s/it]
+{'loss': 1.9938, 'grad_norm': 2.123621702194214, 'learning_rate': 9.671650285664253e-06, 'epoch': 0.03}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  4%|▎         | 3200/91366 [2:24:12<70:19:42,  2.87s/it] 
+{'loss': 1.8921, 'grad_norm': 1.6733241081237793, 'learning_rate': 9.649760304708535e-06, 'epoch': 0.04}
+  4%|▎         | 3400/91366 [2:33:48<69:56:42,  2.86s/it]
+{'loss': 1.9539, 'grad_norm': 1.9334604740142822, 'learning_rate': 9.627870323752819e-06, 'epoch': 0.04}
+  4%|▍         | 3600/91366 [2:43:25<70:35:41,  2.90s/it]
+{'loss': 1.8616, 'grad_norm': 1.876526117324829, 'learning_rate': 9.605980342797103e-06, 'epoch': 0.04}
+  4%|▍         | 3800/91366 [2:53:01<69:55:15,  2.87s/it]
+{'loss': 1.8864, 'grad_norm': 1.4074516296386719, 'learning_rate': 9.584090361841385e-06, 'epoch': 0.04}
+  4%|▍         | 4000/91366 [3:02:39<70:12:55,  2.89s/it]
+{'loss': 1.8553, 'grad_norm': 1.894199013710022, 'learning_rate': 9.56220038088567e-06, 'epoch': 0.04}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  5%|▍         | 4200/91366 [3:12:47<70:07:12,  2.90s/it] 
+{'loss': 1.85, 'grad_norm': 1.6958816051483154, 'learning_rate': 9.540310399929953e-06, 'epoch': 0.05}
+  5%|▍         | 4400/91366 [3:22:25<69:36:16,  2.88s/it]
+{'loss': 1.8917, 'grad_norm': 2.0357065200805664, 'learning_rate': 9.518420418974236e-06, 'epoch': 0.05}
+  5%|▌         | 4600/91366 [3:32:01<69:12:32,  2.87s/it]
+{'loss': 1.8739, 'grad_norm': 1.5442864894866943, 'learning_rate': 9.49653043801852e-06, 'epoch': 0.05}
+  5%|▌         | 4800/91366 [3:41:36<69:01:13,  2.87s/it]
+{'loss': 1.8267, 'grad_norm': 1.9047791957855225, 'learning_rate': 9.474640457062804e-06, 'epoch': 0.05}
+  5%|▌         | 5000/91366 [3:51:12<69:08:21,  2.88s/it]
+{'loss': 1.7873, 'grad_norm': 1.6955878734588623, 'learning_rate': 9.452750476107086e-06, 'epoch': 0.05}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  6%|▌         | 5200/91366 [4:01:19<69:11:37,  2.89s/it] 
+{'loss': 1.8306, 'grad_norm': 1.6185871362686157, 'learning_rate': 9.43086049515137e-06, 'epoch': 0.06}
+  6%|▌         | 5400/91366 [4:10:56<68:34:15,  2.87s/it]
+{'loss': 1.841, 'grad_norm': 1.8088688850402832, 'learning_rate': 9.408970514195654e-06, 'epoch': 0.06}
+  6%|▌         | 5600/91366 [4:20:33<68:35:19,  2.88s/it]
+{'loss': 1.8577, 'grad_norm': 1.570822834968567, 'learning_rate': 9.387080533239938e-06, 'epoch': 0.06}
+  6%|▋         | 5800/91366 [4:30:11<67:03:15,  2.82s/it]
+{'loss': 1.7935, 'grad_norm': 2.1414737701416016, 'learning_rate': 9.36519055228422e-06, 'epoch': 0.06}
+  7%|▋         | 6000/91366 [4:39:46<68:13:37,  2.88s/it]
+{'loss': 1.8711, 'grad_norm': 1.7084553241729736, 'learning_rate': 9.343300571328504e-06, 'epoch': 0.07}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  7%|▋         | 6200/91366 [4:49:49<68:09:14,  2.88s/it] 
+{'loss': 1.8256, 'grad_norm': 1.9616297483444214, 'learning_rate': 9.321410590372787e-06, 'epoch': 0.07}
+  7%|▋         | 6400/91366 [4:59:26<67:43:14,  2.87s/it]
+{'loss': 1.8151, 'grad_norm': 1.7785093784332275, 'learning_rate': 9.29952060941707e-06, 'epoch': 0.07}
+  7%|▋         | 6600/91366 [5:09:03<67:25:58,  2.86s/it]
+{'loss': 1.7858, 'grad_norm': 2.014860153198242, 'learning_rate': 9.277630628461353e-06, 'epoch': 0.07}
+  7%|▋         | 6800/91366 [5:18:39<67:23:54,  2.87s/it]
+{'loss': 1.7498, 'grad_norm': 1.9973362684249878, 'learning_rate': 9.255740647505637e-06, 'epoch': 0.07}
+  8%|▊         | 7000/91366 [5:28:14<67:12:06,  2.87s/it]
+{'loss': 1.83, 'grad_norm': 1.6358646154403687, 'learning_rate': 9.233850666549921e-06, 'epoch': 0.08}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  8%|▊         | 7200/91366 [5:38:21<67:32:22,  2.89s/it] 
+{'loss': 1.7231, 'grad_norm': 1.9598170518875122, 'learning_rate': 9.211960685594205e-06, 'epoch': 0.08}
+  8%|▊         | 7400/91366 [5:47:58<67:09:59,  2.88s/it]
+{'loss': 1.8456, 'grad_norm': 1.3978195190429688, 'learning_rate': 9.190070704638487e-06, 'epoch': 0.08}
+  8%|▊         | 7600/91366 [5:57:34<66:47:52,  2.87s/it]
+{'loss': 1.8442, 'grad_norm': 1.882536768913269, 'learning_rate': 9.168180723682771e-06, 'epoch': 0.08}
+  9%|▊         | 7800/91366 [6:07:09<66:36:22,  2.87s/it]
+{'loss': 1.821, 'grad_norm': 1.57537841796875, 'learning_rate': 9.146290742727054e-06, 'epoch': 0.09}
+  9%|▊         | 7945/91366 [6:14:08<73:37:24,  3.18s/it]
+
+
+
+
+
+
+
+
+There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  8%|▊         | 7200/91366 [09:12<66:13:06,  2.83s/it]{'loss': 1.8684, 'grad_norm': 1.677078366279602, 'learning_rate': 9.211960685594205e-06, 'epoch': 0.08}
+  8%|▊         | 7400/91366 [18:39<67:37:57,  2.90s/it]{'loss': 1.7872, 'grad_norm': 1.6149628162384033, 'learning_rate': 9.190070704638487e-06, 'epoch': 0.08}
+  8%|▊         | 7600/91366 [28:29<69:05:15,  2.97s/it]{'loss': 1.9204, 'grad_norm': 1.6630513668060303, 'learning_rate': 9.168180723682771e-06, 'epoch': 0.08}
+  9%|▊         | 7800/91366 [38:16<68:45:57,  2.96s/it]{'loss': 1.8046, 'grad_norm': 1.842712640762329, 'learning_rate': 9.146290742727054e-06, 'epoch': 0.09}
+  9%|▉         | 8000/91366 [48:10<69:28:55,  3.00s/it]{'loss': 1.7272, 'grad_norm': 1.9900362491607666, 'learning_rate': 9.124400761771338e-06, 'epoch': 0.09}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+  9%|▉         | 8200/91366 [58:35<68:41:17,  2.97s/it] {'loss': 1.7791, 'grad_norm': 1.4718294143676758, 'learning_rate': 9.102510780815622e-06, 'epoch': 0.09}
+  9%|▉         | 8400/91366 [1:08:29<68:37:10,  2.98s/it]{'loss': 1.7976, 'grad_norm': 1.754366159439087, 'learning_rate': 9.080620799859904e-06, 'epoch': 0.09}
+  9%|▉         | 8600/91366 [1:18:22<68:01:17,  2.96s/it]{'loss': 1.8236, 'grad_norm': 1.5843805074691772, 'learning_rate': 9.058730818904188e-06, 'epoch': 0.09}
+ 10%|▉         | 8800/91366 [1:28:15<67:57:15,  2.96s/it]{'loss': 1.725, 'grad_norm': 2.4761338233947754, 'learning_rate': 9.036840837948472e-06, 'epoch': 0.1}
+ 10%|▉         | 9000/91366 [1:38:06<68:01:48,  2.97s/it]{'loss': 1.7714, 'grad_norm': 1.8713172674179077, 'learning_rate': 9.014950856992754e-06, 'epoch': 0.1}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 10%|█         | 9200/91366 [1:48:29<68:18:27,  2.99s/it] {'loss': 1.8402, 'grad_norm': 2.3371505737304688, 'learning_rate': 8.993060876037039e-06, 'epoch': 0.1}
+ 10%|█         | 9400/91366 [1:58:25<68:03:24,  2.99s/it]{'loss': 1.8637, 'grad_norm': 2.2407402992248535, 'learning_rate': 8.971170895081323e-06, 'epoch': 0.1}
+ 11%|█         | 9600/91366 [2:08:18<66:50:50,  2.94s/it]{'loss': 1.8459, 'grad_norm': 1.991908311843872, 'learning_rate': 8.949280914125605e-06, 'epoch': 0.11}
+ 11%|█         | 9800/91366 [2:18:10<67:22:07,  2.97s/it]{'loss': 1.844, 'grad_norm': 2.069495677947998, 'learning_rate': 8.927390933169889e-06, 'epoch': 0.11}
+ 11%|█         | 10000/91366 [2:28:02<67:13:36,  2.97s/it]{'loss': 1.756, 'grad_norm': 1.532358169555664, 'learning_rate': 8.905500952214173e-06, 'epoch': 0.11}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 11%|█         | 10200/91366 [2:38:31<66:38:48,  2.96s/it] {'loss': 1.8039, 'grad_norm': 1.9219290018081665, 'learning_rate': 8.883610971258457e-06, 'epoch': 0.11}
+ 11%|█▏        | 10400/91366 [2:48:20<66:25:01,  2.95s/it]{'loss': 1.8536, 'grad_norm': 1.2238332033157349, 'learning_rate': 8.86172099030274e-06, 'epoch': 0.11}
+ 12%|█▏        | 10600/91366 [2:58:10<66:10:13,  2.95s/it]{'loss': 1.7599, 'grad_norm': 1.7174956798553467, 'learning_rate': 8.839831009347023e-06, 'epoch': 0.12}
+ 12%|█▏        | 10800/91366 [3:08:00<65:39:52,  2.93s/it]{'loss': 1.7926, 'grad_norm': 1.574903130531311, 'learning_rate': 8.817941028391306e-06, 'epoch': 0.12}
+ 12%|█▏        | 11000/91366 [3:17:48<65:22:46,  2.93s/it]{'loss': 1.7675, 'grad_norm': 1.9256913661956787, 'learning_rate': 8.79605104743559e-06, 'epoch': 0.12}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 12%|█▏        | 11200/91366 [3:28:09<65:38:06,  2.95s/it] {'loss': 1.7764, 'grad_norm': 1.551554799079895, 'learning_rate': 8.774161066479872e-06, 'epoch': 0.12}
+ 12%|█▏        | 11400/91366 [3:37:58<65:36:09,  2.95s/it]{'loss': 1.7752, 'grad_norm': 1.653634786605835, 'learning_rate': 8.752271085524156e-06, 'epoch': 0.12}
+ 13%|█▎        | 11600/91366 [3:47:46<64:44:46,  2.92s/it]{'loss': 1.7376, 'grad_norm': 1.7822308540344238, 'learning_rate': 8.73038110456844e-06, 'epoch': 0.13}
+ 13%|█▎        | 11800/91366 [3:57:28<63:29:34,  2.87s/it]{'loss': 1.7378, 'grad_norm': 1.9363526105880737, 'learning_rate': 8.708491123612724e-06, 'epoch': 0.13}
+ 13%|█▎        | 12000/91366 [4:07:21<65:54:18,  2.99s/it]{'loss': 1.7756, 'grad_norm': 2.0371508598327637, 'learning_rate': 8.686601142657006e-06, 'epoch': 0.13}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 13%|█▎        | 12200/91366 [4:17:44<65:03:46,  2.96s/it] {'loss': 1.8092, 'grad_norm': 1.410190224647522, 'learning_rate': 8.66471116170129e-06, 'epoch': 0.13}
+ 14%|█▎        | 12400/91366 [4:27:34<64:51:36,  2.96s/it]{'loss': 1.7768, 'grad_norm': 1.4224299192428589, 'learning_rate': 8.642821180745573e-06, 'epoch': 0.14}
+ 14%|█▍        | 12600/91366 [4:37:24<64:45:35,  2.96s/it]{'loss': 1.7556, 'grad_norm': 1.4085453748703003, 'learning_rate': 8.620931199789857e-06, 'epoch': 0.14}
+ 14%|█▍        | 12800/91366 [4:47:14<64:03:56,  2.94s/it]{'loss': 1.6984, 'grad_norm': 1.8374462127685547, 'learning_rate': 8.59904121883414e-06, 'epoch': 0.14}
+ 14%|█▍        | 13000/91366 [4:56:58<63:44:01,  2.93s/it]{'loss': 1.7664, 'grad_norm': 1.7182413339614868, 'learning_rate': 8.577151237878425e-06, 'epoch': 0.14}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 14%|█▍        | 13200/91366 [5:07:13<63:42:08,  2.93s/it] {'loss': 1.748, 'grad_norm': 1.711514949798584, 'learning_rate': 8.555261256922707e-06, 'epoch': 0.14}
+ 15%|█▍        | 13400/91366 [5:16:59<63:50:25,  2.95s/it]{'loss': 1.8509, 'grad_norm': 1.8537052869796753, 'learning_rate': 8.533371275966991e-06, 'epoch': 0.15}
+ 15%|█▍        | 13600/91366 [5:26:51<64:35:10,  2.99s/it]{'loss': 1.8262, 'grad_norm': 1.8385155200958252, 'learning_rate': 8.511481295011273e-06, 'epoch': 0.15}
+ 15%|█▌        | 13800/91366 [5:36:44<64:01:41,  2.97s/it]{'loss': 1.8135, 'grad_norm': 1.5205974578857422, 'learning_rate': 8.489591314055557e-06, 'epoch': 0.15}
+ 15%|█▌        | 14000/91366 [5:46:39<64:36:54,  3.01s/it]{'loss': 1.7886, 'grad_norm': 1.3552922010421753, 'learning_rate': 8.467701333099841e-06, 'epoch': 0.15}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 15%|█▌        | 14002/91366 [5:47:14<194:50:56,  9.07s/it]
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 19%|█▉        | 17200/91366 [09:02<55:26:32,  2.69s/it]{'loss': 1.7395, 'grad_norm': 1.9534846544265747, 'learning_rate': 8.117461637808375e-06, 'epoch': 0.19}
+ 19%|█▉        | 17400/91366 [18:05<55:21:12,  2.69s/it]{'loss': 1.7095, 'grad_norm': 1.5782158374786377, 'learning_rate': 8.09557165685266e-06, 'epoch': 0.19}
+ 19%|█▉        | 17600/91366 [27:07<55:41:10,  2.72s/it]{'loss': 1.7436, 'grad_norm': 1.7868508100509644, 'learning_rate': 8.073681675896944e-06, 'epoch': 0.19}
+ 19%|█▉        | 17800/91366 [36:08<54:46:14,  2.68s/it]{'loss': 1.7788, 'grad_norm': 1.4451383352279663, 'learning_rate': 8.051791694941226e-06, 'epoch': 0.19}
+ 20%|█▉        | 18000/91366 [45:08<55:08:22,  2.71s/it]{'loss': 1.79, 'grad_norm': 2.1225597858428955, 'learning_rate': 8.02990171398551e-06, 'epoch': 0.2}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 20%|█▉        | 18200/91366 [54:47<55:43:31,  2.74s/it] {'loss': 1.7954, 'grad_norm': 2.0067765712738037, 'learning_rate': 8.008011733029792e-06, 'epoch': 0.2}
+ 20%|██        | 18400/91366 [1:03:58<56:46:58,  2.80s/it]{'loss': 1.7528, 'grad_norm': 1.4478719234466553, 'learning_rate': 7.986121752074076e-06, 'epoch': 0.2}
+ 20%|██        | 18600/91366 [1:13:08<55:36:10,  2.75s/it]{'loss': 1.7224, 'grad_norm': 1.6495567560195923, 'learning_rate': 7.96423177111836e-06, 'epoch': 0.2}
+ 21%|██        | 18800/91366 [1:22:27<57:15:06,  2.84s/it]{'loss': 1.749, 'grad_norm': 2.0420491695404053, 'learning_rate': 7.942341790162643e-06, 'epoch': 0.21}
+ 21%|██        | 19000/91366 [1:31:52<56:50:36,  2.83s/it]{'loss': 1.6939, 'grad_norm': 1.5873308181762695, 'learning_rate': 7.920451809206927e-06, 'epoch': 0.21}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 21%|██        | 19200/91366 [1:41:59<57:53:31,  2.89s/it] {'loss': 1.7749, 'grad_norm': 1.8033149242401123, 'learning_rate': 7.89856182825121e-06, 'epoch': 0.21}
+ 21%|██        | 19400/91366 [1:51:37<57:42:21,  2.89s/it]{'loss': 1.7173, 'grad_norm': 1.5919708013534546, 'learning_rate': 7.876671847295495e-06, 'epoch': 0.21}
+ 21%|██▏       | 19600/91366 [2:01:16<57:34:51,  2.89s/it]{'loss': 1.7194, 'grad_norm': 277.55279541015625, 'learning_rate': 7.854781866339777e-06, 'epoch': 0.21}
+ 22%|██▏       | 19800/91366 [2:10:52<57:31:25,  2.89s/it]{'loss': 1.7293, 'grad_norm': 1.8561149835586548, 'learning_rate': 7.832891885384061e-06, 'epoch': 0.22}
+ 22%|██▏       | 20000/91366 [2:20:27<56:30:53,  2.85s/it]{'loss': 1.6903, 'grad_norm': 1.6808769702911377, 'learning_rate': 7.811001904428343e-06, 'epoch': 0.22}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 22%|██▏       | 20200/91366 [2:30:41<57:02:26,  2.89s/it] {'loss': 1.6982, 'grad_norm': 1.3061538934707642, 'learning_rate': 7.789111923472627e-06, 'epoch': 0.22}
+ 22%|██▏       | 20400/91366 [2:40:17<56:38:07,  2.87s/it]{'loss': 1.7668, 'grad_norm': 1.4448026418685913, 'learning_rate': 7.76722194251691e-06, 'epoch': 0.22}
+ 23%|██▎       | 20600/91366 [2:49:53<56:41:33,  2.88s/it]{'loss': 1.7082, 'grad_norm': 1.4269752502441406, 'learning_rate': 7.745331961561194e-06, 'epoch': 0.23}
+ 23%|██▎       | 20800/91366 [2:59:26<56:17:06,  2.87s/it]{'loss': 1.7113, 'grad_norm': 1.3086246252059937, 'learning_rate': 7.723441980605478e-06, 'epoch': 0.23}
+ 23%|██▎       | 21000/91366 [3:08:59<56:03:19,  2.87s/it]{'loss': 1.7529, 'grad_norm': 1.9442572593688965, 'learning_rate': 7.701551999649762e-06, 'epoch': 0.23}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 23%|██▎       | 21200/91366 [3:19:04<56:07:01,  2.88s/it] {'loss': 1.6828, 'grad_norm': 1.5627481937408447, 'learning_rate': 7.679662018694044e-06, 'epoch': 0.23}
+ 23%|██▎       | 21400/91366 [3:28:39<55:39:14,  2.86s/it]{'loss': 1.6641, 'grad_norm': 1.164253830909729, 'learning_rate': 7.657772037738328e-06, 'epoch': 0.23}
+ 24%|██▎       | 21600/91366 [3:38:13<55:38:19,  2.87s/it]{'loss': 1.8179, 'grad_norm': 1.9382387399673462, 'learning_rate': 7.63588205678261e-06, 'epoch': 0.24}
+ 24%|██▍       | 21800/91366 [3:47:48<55:54:19,  2.89s/it]{'loss': 1.645, 'grad_norm': 1.6462087631225586, 'learning_rate': 7.613992075826895e-06, 'epoch': 0.24}
+ 24%|██▍       | 22000/91366 [3:57:23<55:16:54,  2.87s/it]{'loss': 1.7626, 'grad_norm': 1.3412597179412842, 'learning_rate': 7.5921020948711775e-06, 'epoch': 0.24}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 24%|██▍       | 22200/91366 [4:07:42<55:05:30,  2.87s/it] {'loss': 1.7491, 'grad_norm': 1.538824200630188, 'learning_rate': 7.5702121139154615e-06, 'epoch': 0.24}
+ 25%|██▍       | 22400/91366 [4:17:15<54:45:43,  2.86s/it]{'loss': 1.7762, 'grad_norm': 1.4629064798355103, 'learning_rate': 7.548322132959745e-06, 'epoch': 0.25}
+ 25%|██▍       | 22600/91366 [4:26:49<55:08:52,  2.89s/it]{'loss': 1.7483, 'grad_norm': 1.4150536060333252, 'learning_rate': 7.526432152004029e-06, 'epoch': 0.25}
+ 25%|██▍       | 22800/91366 [4:36:22<54:25:00,  2.86s/it]{'loss': 1.6645, 'grad_norm': 2.098822832107544, 'learning_rate': 7.504542171048311e-06, 'epoch': 0.25}
+ 25%|██▌       | 23000/91366 [4:45:55<54:26:39,  2.87s/it]{'loss': 1.7523, 'grad_norm': 1.8279370069503784, 'learning_rate': 7.482652190092595e-06, 'epoch': 0.25}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 25%|██▌       | 23200/91366 [4:56:02<54:34:42,  2.88s/it] {'loss': 1.7626, 'grad_norm': 1.3599056005477905, 'learning_rate': 7.460762209136879e-06, 'epoch': 0.25}
+ 26%|██▌       | 23400/91366 [5:05:38<54:20:37,  2.88s/it]{'loss': 1.7453, 'grad_norm': 1.5788501501083374, 'learning_rate': 7.438872228181162e-06, 'epoch': 0.26}
+ 26%|██▌       | 23600/91366 [5:15:13<53:51:32,  2.86s/it]{'loss': 1.7204, 'grad_norm': 1.7472983598709106, 'learning_rate': 7.416982247225446e-06, 'epoch': 0.26}
+ 26%|██▌       | 23800/91366 [5:24:48<53:58:56,  2.88s/it]{'loss': 1.803, 'grad_norm': 1.7060446739196777, 'learning_rate': 7.395092266269729e-06, 'epoch': 0.26}
+ 26%|██▋       | 24000/91366 [5:34:22<53:52:26,  2.88s/it]{'loss': 1.7238, 'grad_norm': 1.6092747449874878, 'learning_rate': 7.373202285314013e-06, 'epoch': 0.26}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 26%|██▋       | 24200/91366 [5:44:34<53:41:41,  2.88s/it] {'loss': 1.6804, 'grad_norm': 1.5346428155899048, 'learning_rate': 7.351312304358296e-06, 'epoch': 0.26}
+ 27%|██▋       | 24400/91366 [5:54:09<53:52:13,  2.90s/it]{'loss': 1.7363, 'grad_norm': 1.6160253286361694, 'learning_rate': 7.32942232340258e-06, 'epoch': 0.27}
+ 27%|██▋       | 24600/91366 [6:03:43<53:19:27,  2.88s/it]{'loss': 1.7398, 'grad_norm': 1.6730612516403198, 'learning_rate': 7.307532342446862e-06, 'epoch': 0.27}
+ 27%|██▋       | 24800/91366 [6:13:18<53:07:45,  2.87s/it]{'loss': 1.7145, 'grad_norm': 1.3722760677337646, 'learning_rate': 7.285642361491146e-06, 'epoch': 0.27}
+ 27%|██▋       | 25000/91366 [6:22:51<53:04:50,  2.88s/it]{'loss': 1.7132, 'grad_norm': 1.7742894887924194, 'learning_rate': 7.263752380535429e-06, 'epoch': 0.27}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 28%|██▊       | 25200/91366 [6:33:00<52:53:16,  2.88s/it] {'loss': 1.7028, 'grad_norm': 1.6662819385528564, 'learning_rate': 7.241862399579713e-06, 'epoch': 0.28}
+ 28%|██▊       | 25400/91366 [6:42:35<52:42:17,  2.88s/it]{'loss': 1.6987, 'grad_norm': 1.7559709548950195, 'learning_rate': 7.2199724186239965e-06, 'epoch': 0.28}
+ 28%|██▊       | 25600/91366 [6:52:10<52:27:58,  2.87s/it]{'loss': 1.7556, 'grad_norm': 1.64285409450531, 'learning_rate': 7.1980824376682805e-06, 'epoch': 0.28}
+ 28%|██▊       | 25800/91366 [7:01:44<52:20:18,  2.87s/it]{'loss': 1.703, 'grad_norm': 1.5780291557312012, 'learning_rate': 7.176192456712563e-06, 'epoch': 0.28}
+ 28%|██▊       | 26000/91366 [7:11:19<51:27:17,  2.83s/it]{'loss': 1.682, 'grad_norm': 1.6995900869369507, 'learning_rate': 7.154302475756847e-06, 'epoch': 0.28}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 29%|██▊       | 26200/91366 [7:21:34<51:41:52,  2.86s/it] {'loss': 1.709, 'grad_norm': 1.705998182296753, 'learning_rate': 7.13241249480113e-06, 'epoch': 0.29}
+ 29%|██▉       | 26400/91366 [7:31:09<51:54:06,  2.88s/it]{'loss': 1.7572, 'grad_norm': 1.6819672584533691, 'learning_rate': 7.110522513845414e-06, 'epoch': 0.29}
+ 29%|██▉       | 26600/91366 [7:40:44<51:36:17,  2.87s/it]{'loss': 1.633, 'grad_norm': 1.5729641914367676, 'learning_rate': 7.088632532889696e-06, 'epoch': 0.29}
+ 29%|██▉       | 26800/91366 [7:50:17<51:40:43,  2.88s/it]{'loss': 1.7335, 'grad_norm': 1.597847819328308, 'learning_rate': 7.06674255193398e-06, 'epoch': 0.29}
+ 30%|██▉       | 27000/91366 [7:59:51<51:29:04,  2.88s/it]{'loss': 1.7075, 'grad_norm': 1.3706783056259155, 'learning_rate': 7.0448525709782635e-06, 'epoch': 0.3}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 30%|██▉       | 27200/91366 [8:09:52<51:14:00,  2.87s/it] {'loss': 1.6944, 'grad_norm': 1.4039239883422852, 'learning_rate': 7.0229625900225476e-06, 'epoch': 0.3}
+ 30%|██▉       | 27400/91366 [8:19:28<51:04:52,  2.87s/it]{'loss': 1.6993, 'grad_norm': 1.067832589149475, 'learning_rate': 7.00107260906683e-06, 'epoch': 0.3}
+ 30%|███       | 27600/91366 [8:29:03<50:37:32,  2.86s/it]{'loss': 1.715, 'grad_norm': 1.7361268997192383, 'learning_rate': 6.979182628111114e-06, 'epoch': 0.3}
+ 30%|███       | 27800/91366 [8:38:36<50:29:07,  2.86s/it]{'loss': 1.7289, 'grad_norm': 1.512006163597107, 'learning_rate': 6.957292647155398e-06, 'epoch': 0.3}
+ 31%|███       | 28000/91366 [8:48:10<50:10:43,  2.85s/it]{'loss': 1.7768, 'grad_norm': 1.632110357284546, 'learning_rate': 6.935402666199681e-06, 'epoch': 0.31}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 31%|███       | 28200/91366 [8:58:09<50:30:42,  2.88s/it] {'loss': 1.6964, 'grad_norm': 1.074615716934204, 'learning_rate': 6.913512685243965e-06, 'epoch': 0.31}
+ 31%|███       | 28250/91366 [9:00:33<51:09:24,  2.92s/it]
+
+
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 31%|███       | 28200/91366 [09:45<50:41:46,  2.89s/it]{'loss': 1.6985, 'grad_norm': 1.8155239820480347, 'learning_rate': 6.913512685243965e-06, 'epoch': 0.31}
+ 31%|███       | 28400/91366 [19:24<50:37:42,  2.89s/it]{'loss': 1.7609, 'grad_norm': 1.2469854354858398, 'learning_rate': 6.8916227042882474e-06, 'epoch': 0.31}
+ 31%|███▏      | 28600/91366 [29:02<50:36:23,  2.90s/it]{'loss': 1.7252, 'grad_norm': 1.4659115076065063, 'learning_rate': 6.8697327233325314e-06, 'epoch': 0.31}
+ 32%|███▏      | 28800/91366 [38:39<49:24:37,  2.84s/it]{'loss': 1.6717, 'grad_norm': 1.4856902360916138, 'learning_rate': 6.847842742376815e-06, 'epoch': 0.32}
+ 32%|███▏      | 29000/91366 [48:14<49:52:02,  2.88s/it]{'loss': 1.6722, 'grad_norm': 1.482422947883606, 'learning_rate': 6.825952761421099e-06, 'epoch': 0.32}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 32%|███▏      | 29200/91366 [58:25<49:56:25,  2.89s/it] {'loss': 1.7019, 'grad_norm': 1.6786386966705322, 'learning_rate': 6.804062780465382e-06, 'epoch': 0.32}
+ 32%|███▏      | 29400/91366 [1:08:00<49:26:47,  2.87s/it]{'loss': 1.7592, 'grad_norm': 1.9632511138916016, 'learning_rate': 6.782172799509665e-06, 'epoch': 0.32}
+ 32%|███▏      | 29600/91366 [1:17:34<49:28:29,  2.88s/it]{'loss': 1.7009, 'grad_norm': 1.4210363626480103, 'learning_rate': 6.760282818553948e-06, 'epoch': 0.32}
+ 33%|███▎      | 29800/91366 [1:27:10<49:01:11,  2.87s/it]{'loss': 1.7186, 'grad_norm': 1.8615986108779907, 'learning_rate': 6.738392837598232e-06, 'epoch': 0.33}
+ 33%|███▎      | 30000/91366 [1:36:44<48:35:21,  2.85s/it]{'loss': 1.6566, 'grad_norm': 1.648807406425476, 'learning_rate': 6.716502856642515e-06, 'epoch': 0.33}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 33%|███▎      | 30200/91366 [1:46:45<48:53:30,  2.88s/it] {'loss': 1.6545, 'grad_norm': 1.038008213043213, 'learning_rate': 6.694612875686799e-06, 'epoch': 0.33}
+ 33%|███▎      | 30400/91366 [1:56:20<48:32:07,  2.87s/it]{'loss': 1.6918, 'grad_norm': 1.5676988363265991, 'learning_rate': 6.672722894731082e-06, 'epoch': 0.33}
+ 33%|███▎      | 30600/91366 [2:05:54<48:26:10,  2.87s/it]{'loss': 1.6674, 'grad_norm': 1.54621160030365, 'learning_rate': 6.650832913775366e-06, 'epoch': 0.33}
+ 34%|███▎      | 30800/91366 [2:15:26<48:32:24,  2.89s/it]{'loss': 1.7199, 'grad_norm': 1.4325815439224243, 'learning_rate': 6.628942932819649e-06, 'epoch': 0.34}
+ 34%|███▍      | 31000/91366 [2:24:58<48:04:43,  2.87s/it]{'loss': 1.7474, 'grad_norm': 1.5123085975646973, 'learning_rate': 6.607052951863933e-06, 'epoch': 0.34}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 34%|███▍      | 31200/91366 [2:35:02<48:05:50,  2.88s/it] {'loss': 1.6758, 'grad_norm': 1.562740445137024, 'learning_rate': 6.585162970908215e-06, 'epoch': 0.34}
+ 34%|███▍      | 31400/91366 [2:44:34<48:01:57,  2.88s/it]{'loss': 1.7521, 'grad_norm': 1.8011348247528076, 'learning_rate': 6.563272989952499e-06, 'epoch': 0.34}
+ 35%|███▍      | 31600/91366 [2:54:10<47:29:53,  2.86s/it]{'loss': 1.7717, 'grad_norm': 1.596727728843689, 'learning_rate': 6.541383008996782e-06, 'epoch': 0.35}
+ 35%|███▍      | 31800/91366 [3:03:42<47:10:38,  2.85s/it]{'loss': 1.6537, 'grad_norm': 1.6641509532928467, 'learning_rate': 6.519493028041066e-06, 'epoch': 0.35}
+ 35%|███▌      | 32000/91366 [3:13:14<47:10:24,  2.86s/it]{'loss': 1.7141, 'grad_norm': 1.6778976917266846, 'learning_rate': 6.497603047085349e-06, 'epoch': 0.35}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 35%|███▌      | 32200/91366 [3:23:14<47:30:12,  2.89s/it] {'loss': 1.754, 'grad_norm': 1.8773828744888306, 'learning_rate': 6.475713066129633e-06, 'epoch': 0.35}
+ 35%|███▌      | 32400/91366 [3:32:48<47:02:06,  2.87s/it]{'loss': 1.7124, 'grad_norm': 1.3188717365264893, 'learning_rate': 6.453823085173917e-06, 'epoch': 0.35}
+ 36%|███▌      | 32600/91366 [3:42:22<46:55:46,  2.87s/it]{'loss': 1.6531, 'grad_norm': 1.5143193006515503, 'learning_rate': 6.4319331042182e-06, 'epoch': 0.36}
+ 36%|███▌      | 32800/91366 [3:51:56<47:00:43,  2.89s/it]{'loss': 1.7208, 'grad_norm': 1.5913221836090088, 'learning_rate': 6.410043123262484e-06, 'epoch': 0.36}
+ 36%|███▌      | 33000/91366 [4:01:29<46:40:22,  2.88s/it]{'loss': 1.6876, 'grad_norm': 1.4649217128753662, 'learning_rate': 6.388153142306766e-06, 'epoch': 0.36}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 36%|███▋      | 33200/91366 [4:11:32<46:32:50,  2.88s/it] {'loss': 1.6638, 'grad_norm': 1.219008207321167, 'learning_rate': 6.36626316135105e-06, 'epoch': 0.36}
+ 37%|███▋      | 33400/91366 [4:21:07<46:13:15,  2.87s/it]{'loss': 1.6559, 'grad_norm': 1.2603685855865479, 'learning_rate': 6.3443731803953335e-06, 'epoch': 0.37}
+ 37%|███▋      | 33600/91366 [4:30:40<46:03:17,  2.87s/it]{'loss': 1.7142, 'grad_norm': 6.068550109863281, 'learning_rate': 6.3224831994396175e-06, 'epoch': 0.37}
+ 37%|███▋      | 33800/91366 [4:40:14<45:48:48,  2.87s/it]{'loss': 1.6715, 'grad_norm': 1.2984516620635986, 'learning_rate': 6.300593218483901e-06, 'epoch': 0.37}
+ 37%|███▋      | 34000/91366 [4:49:47<45:38:33,  2.86s/it]{'loss': 1.6543, 'grad_norm': 1.2328314781188965, 'learning_rate': 6.278703237528184e-06, 'epoch': 0.37}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 37%|███▋      | 34200/91366 [4:59:48<45:23:16,  2.86s/it] {'loss': 1.6142, 'grad_norm': 1.5455435514450073, 'learning_rate': 6.256813256572467e-06, 'epoch': 0.37}
+ 38%|███▊      | 34400/91366 [5:09:22<45:40:21,  2.89s/it]{'loss': 1.706, 'grad_norm': 1.5077236890792847, 'learning_rate': 6.234923275616751e-06, 'epoch': 0.38}
+ 38%|███▊      | 34600/91366 [5:18:56<45:23:23,  2.88s/it]{'loss': 1.6383, 'grad_norm': 1.511664867401123, 'learning_rate': 6.213033294661034e-06, 'epoch': 0.38}
+ 38%|███▊      | 34800/91366 [5:28:29<44:58:50,  2.86s/it]{'loss': 1.6997, 'grad_norm': 1.8588988780975342, 'learning_rate': 6.191143313705318e-06, 'epoch': 0.38}
+ 38%|███▊      | 35000/91366 [5:38:01<44:04:00,  2.81s/it]{'loss': 1.6774, 'grad_norm': 1.4537270069122314, 'learning_rate': 6.1692533327496005e-06, 'epoch': 0.38}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 39%|███▊      | 35200/91366 [5:48:09<44:41:26,  2.86s/it] {'loss': 1.6838, 'grad_norm': 1.718618631362915, 'learning_rate': 6.1473633517938845e-06, 'epoch': 0.39}
+ 39%|███▊      | 35400/91366 [5:57:43<44:36:40,  2.87s/it]{'loss': 1.71, 'grad_norm': 1.409556269645691, 'learning_rate': 6.125473370838168e-06, 'epoch': 0.39}
+ 39%|███▉      | 35600/91366 [6:07:16<44:36:02,  2.88s/it]{'loss': 1.6746, 'grad_norm': 1.7683407068252563, 'learning_rate': 6.103583389882452e-06, 'epoch': 0.39}
+ 39%|███▉      | 35800/91366 [6:16:47<44:08:07,  2.86s/it]{'loss': 1.6729, 'grad_norm': 1.6469390392303467, 'learning_rate': 6.081693408926734e-06, 'epoch': 0.39}
+ 39%|███▉      | 36000/91366 [6:26:19<44:06:33,  2.87s/it]{'loss': 1.7185, 'grad_norm': 1.9357391595840454, 'learning_rate': 6.059803427971018e-06, 'epoch': 0.39}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 40%|███▉      | 36200/91366 [6:36:24<43:51:03,  2.86s/it] {'loss': 1.6878, 'grad_norm': 1.5145270824432373, 'learning_rate': 6.037913447015301e-06, 'epoch': 0.4}
+ 40%|███▉      | 36400/91366 [6:45:57<43:49:06,  2.87s/it]{'loss': 1.7005, 'grad_norm': 1.5617997646331787, 'learning_rate': 6.016023466059585e-06, 'epoch': 0.4}
+ 40%|████      | 36600/91366 [6:55:29<43:40:00,  2.87s/it]{'loss': 1.6382, 'grad_norm': 2.0399129390716553, 'learning_rate': 5.9941334851038676e-06, 'epoch': 0.4}
+ 40%|████      | 36800/91366 [7:05:01<43:33:16,  2.87s/it]{'loss': 1.6769, 'grad_norm': 1.6833553314208984, 'learning_rate': 5.972243504148152e-06, 'epoch': 0.4}
+ 40%|████      | 37000/91366 [7:14:34<43:10:32,  2.86s/it]{'loss': 1.6322, 'grad_norm': 1.6189278364181519, 'learning_rate': 5.950353523192435e-06, 'epoch': 0.4}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 41%|████      | 37200/91366 [7:24:37<42:57:16,  2.85s/it] {'loss': 1.6955, 'grad_norm': 1.410882830619812, 'learning_rate': 5.928463542236719e-06, 'epoch': 0.41}
+ 41%|████      | 37400/91366 [7:34:12<42:53:40,  2.86s/it]{'loss': 1.6592, 'grad_norm': 1.7013884782791138, 'learning_rate': 5.906573561281003e-06, 'epoch': 0.41}
+ 41%|████      | 37600/91366 [7:43:46<42:52:25,  2.87s/it]{'loss': 1.7095, 'grad_norm': 1.949466347694397, 'learning_rate': 5.884683580325285e-06, 'epoch': 0.41}
+ 41%|████▏     | 37800/91366 [7:53:19<42:48:05,  2.88s/it]{'loss': 1.668, 'grad_norm': 1.9368565082550049, 'learning_rate': 5.862793599369569e-06, 'epoch': 0.41}
+ 42%|████▏     | 38000/91366 [8:02:51<42:32:00,  2.87s/it]{'loss': 1.7087, 'grad_norm': 1.5798149108886719, 'learning_rate': 5.840903618413852e-06, 'epoch': 0.42}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 42%|████▏     | 38200/91366 [8:12:55<42:24:57,  2.87s/it] {'loss': 1.7375, 'grad_norm': 1.5620951652526855, 'learning_rate': 5.819013637458136e-06, 'epoch': 0.42}
+ 42%|████▏     | 38400/91366 [8:22:29<41:59:23,  2.85s/it]{'loss': 1.7133, 'grad_norm': 1.5322015285491943, 'learning_rate': 5.7971236565024195e-06, 'epoch': 0.42}
+ 42%|████▏     | 38600/91366 [8:32:02<40:54:37,  2.79s/it]{'loss': 1.6364, 'grad_norm': 1.7363941669464111, 'learning_rate': 5.7752336755467035e-06, 'epoch': 0.42}
+ 42%|████▏     | 38800/91366 [8:41:35<41:37:39,  2.85s/it]{'loss': 1.6508, 'grad_norm': 1.3839976787567139, 'learning_rate': 5.753343694590986e-06, 'epoch': 0.42}
+ 43%|████▎     | 39000/91366 [8:51:34<43:54:02,  3.02s/it]{'loss': 1.655, 'grad_norm': 1.3697980642318726, 'learning_rate': 5.73145371363527e-06, 'epoch': 0.43}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 43%|████▎     | 39200/91366 [9:02:14<44:25:45,  3.07s/it] {'loss': 1.7135, 'grad_norm': 1.2654224634170532, 'learning_rate': 5.709563732679553e-06, 'epoch': 0.43}
+ 43%|████▎     | 39400/91366 [9:12:17<44:14:12,  3.06s/it]{'loss': 1.6331, 'grad_norm': 1.2995953559875488, 'learning_rate': 5.687673751723837e-06, 'epoch': 0.43}
+ 43%|████▎     | 39600/91366 [9:21:47<41:26:36,  2.88s/it]{'loss': 1.6574, 'grad_norm': 1.7444807291030884, 'learning_rate': 5.665783770768119e-06, 'epoch': 0.43}
+ 44%|████▎     | 39800/91366 [9:31:19<40:59:48,  2.86s/it]{'loss': 1.6911, 'grad_norm': 1.424675703048706, 'learning_rate': 5.643893789812403e-06, 'epoch': 0.44}
+ 44%|████▍     | 40000/91366 [9:40:59<41:32:27,  2.91s/it]{'loss': 1.6605, 'grad_norm': 1.5810500383377075, 'learning_rate': 5.6220038088566865e-06, 'epoch': 0.44}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 44%|████▍     | 40200/91366 [9:51:03<40:32:32,  2.85s/it] {'loss': 1.7669, 'grad_norm': 1.5765032768249512, 'learning_rate': 5.6001138279009706e-06, 'epoch': 0.44}
+ 44%|████▍     | 40400/91366 [10:00:33<40:28:10,  2.86s/it]{'loss': 1.6745, 'grad_norm': 1.680740237236023, 'learning_rate': 5.578223846945253e-06, 'epoch': 0.44}
+ 44%|████▍     | 40600/91366 [10:10:01<40:04:51,  2.84s/it]{'loss': 1.7142, 'grad_norm': 1.6193950176239014, 'learning_rate': 5.556333865989537e-06, 'epoch': 0.44}
+ 45%|████▍     | 40800/91366 [10:19:34<40:15:21,  2.87s/it]{'loss': 1.6573, 'grad_norm': 1.628857970237732, 'learning_rate': 5.53444388503382e-06, 'epoch': 0.45}
+ 45%|████▍     | 41000/91366 [10:29:14<40:29:15,  2.89s/it]{'loss': 1.6947, 'grad_norm': 3.0416414737701416, 'learning_rate': 5.512553904078104e-06, 'epoch': 0.45}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 45%|████▌     | 41200/91366 [10:39:33<42:20:39,  3.04s/it] {'loss': 1.7003, 'grad_norm': 1.254041314125061, 'learning_rate': 5.490663923122386e-06, 'epoch': 0.45}
+ 45%|████▌     | 41323/91366 [10:45:33<39:58:51,  2.88s/it]
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 45%|████▌     | 41200/91366 [09:40<40:16:08,  2.89s/it]{'loss': 1.6062, 'grad_norm': 1.5758041143417358, 'learning_rate': 5.490663923122386e-06, 'epoch': 0.45}
+ 45%|████▌     | 41400/91366 [19:16<39:45:12,  2.86s/it]{'loss': 1.7038, 'grad_norm': 1.9095773696899414, 'learning_rate': 5.4687739421666704e-06, 'epoch': 0.45}
+ 46%|████▌     | 41600/91366 [28:50<39:58:00,  2.89s/it]{'loss': 1.6446, 'grad_norm': 1.6463721990585327, 'learning_rate': 5.446883961210954e-06, 'epoch': 0.46}
+ 46%|████▌     | 41800/91366 [38:24<39:17:24,  2.85s/it]{'loss': 1.6973, 'grad_norm': 1.2409473657608032, 'learning_rate': 5.424993980255238e-06, 'epoch': 0.46}
+ 46%|████▌     | 42000/91366 [47:56<39:28:15,  2.88s/it]{'loss': 1.701, 'grad_norm': 1.0158026218414307, 'learning_rate': 5.403103999299522e-06, 'epoch': 0.46}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 46%|████▌     | 42200/91366 [57:55<39:04:02,  2.86s/it] {'loss': 1.7319, 'grad_norm': 1.6088021993637085, 'learning_rate': 5.381214018343805e-06, 'epoch': 0.46}
+ 46%|████▋     | 42400/91366 [1:07:26<38:06:18,  2.80s/it]{'loss': 1.6607, 'grad_norm': 1.4322243928909302, 'learning_rate': 5.359324037388088e-06, 'epoch': 0.46}
+ 47%|████▋     | 42600/91366 [1:16:57<38:49:19,  2.87s/it]{'loss': 1.6645, 'grad_norm': 1.1012409925460815, 'learning_rate': 5.337434056432371e-06, 'epoch': 0.47}
+ 47%|████▋     | 42800/91366 [1:26:26<38:40:46,  2.87s/it]{'loss': 1.7095, 'grad_norm': 1.8396615982055664, 'learning_rate': 5.315544075476655e-06, 'epoch': 0.47}
+ 47%|████▋     | 43000/91366 [1:35:57<38:26:18,  2.86s/it]{'loss': 1.7069, 'grad_norm': 1.640289306640625, 'learning_rate': 5.293654094520938e-06, 'epoch': 0.47}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 47%|████▋     | 43200/91366 [1:46:06<38:12:12,  2.86s/it] {'loss': 1.6715, 'grad_norm': 1.2121655941009521, 'learning_rate': 5.271764113565222e-06, 'epoch': 0.47}
+ 48%|████▊     | 43400/91366 [1:55:40<38:08:56,  2.86s/it]{'loss': 1.683, 'grad_norm': 1.796035885810852, 'learning_rate': 5.249874132609505e-06, 'epoch': 0.48}
+ 48%|████▊     | 43600/91366 [2:05:14<37:42:31,  2.84s/it]{'loss': 1.6336, 'grad_norm': 1.5406347513198853, 'learning_rate': 5.227984151653789e-06, 'epoch': 0.48}
+ 48%|████▊     | 43800/91366 [2:14:48<37:55:54,  2.87s/it]{'loss': 1.67, 'grad_norm': 1.645102620124817, 'learning_rate': 5.206094170698072e-06, 'epoch': 0.48}
+ 48%|████▊     | 44000/91366 [2:24:21<37:54:33,  2.88s/it]{'loss': 1.6591, 'grad_norm': 1.0156447887420654, 'learning_rate': 5.184204189742356e-06, 'epoch': 0.48}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 48%|████▊     | 44200/91366 [2:34:26<37:23:02,  2.85s/it] {'loss': 1.657, 'grad_norm': 1.4679876565933228, 'learning_rate': 5.162314208786638e-06, 'epoch': 0.48}
+ 49%|████▊     | 44400/91366 [2:44:00<37:05:43,  2.84s/it]{'loss': 1.6468, 'grad_norm': 1.628005027770996, 'learning_rate': 5.140424227830922e-06, 'epoch': 0.49}
+ 49%|████▉     | 44600/91366 [2:53:34<37:04:19,  2.85s/it]{'loss': 1.6591, 'grad_norm': 1.908791422843933, 'learning_rate': 5.118534246875205e-06, 'epoch': 0.49}
+ 49%|████▉     | 44800/91366 [3:03:06<36:43:02,  2.84s/it]{'loss': 1.6789, 'grad_norm': 1.7058188915252686, 'learning_rate': 5.096644265919489e-06, 'epoch': 0.49}
+ 49%|████▉     | 45000/91366 [3:12:39<36:47:51,  2.86s/it]{'loss': 1.7409, 'grad_norm': 1.610440969467163, 'learning_rate': 5.074754284963772e-06, 'epoch': 0.49}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 49%|████▉     | 45200/91366 [3:22:43<36:51:54,  2.87s/it] {'loss': 1.6916, 'grad_norm': 1.5282171964645386, 'learning_rate': 5.052864304008056e-06, 'epoch': 0.49}
+ 50%|████▉     | 45400/91366 [3:32:17<36:38:24,  2.87s/it]{'loss': 1.6602, 'grad_norm': 1.1434369087219238, 'learning_rate': 5.030974323052339e-06, 'epoch': 0.5}
+ 50%|████▉     | 45600/91366 [3:41:51<36:09:53,  2.84s/it]{'loss': 1.6881, 'grad_norm': 1.462234616279602, 'learning_rate': 5.009084342096623e-06, 'epoch': 0.5}
+ 50%|█████     | 45800/91366 [3:51:25<36:17:36,  2.87s/it]{'loss': 1.6744, 'grad_norm': 1.7938213348388672, 'learning_rate': 4.987194361140906e-06, 'epoch': 0.5}
+ 50%|█████     | 46000/91366 [4:00:58<36:12:32,  2.87s/it]{'loss': 1.6721, 'grad_norm': 1.5971720218658447, 'learning_rate': 4.965304380185189e-06, 'epoch': 0.5}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 51%|█████     | 46200/91366 [4:11:03<36:06:27,  2.88s/it] {'loss': 1.673, 'grad_norm': 1.6741676330566406, 'learning_rate': 4.943414399229473e-06, 'epoch': 0.51}
+ 51%|█████     | 46400/91366 [4:20:37<35:45:44,  2.86s/it]{'loss': 1.6772, 'grad_norm': 1.626461148262024, 'learning_rate': 4.9215244182737565e-06, 'epoch': 0.51}
+ 51%|█████     | 46600/91366 [4:30:10<35:54:22,  2.89s/it]{'loss': 1.6419, 'grad_norm': 1.3319792747497559, 'learning_rate': 4.89963443731804e-06, 'epoch': 0.51}
+ 51%|█████     | 46800/91366 [4:39:44<35:34:13,  2.87s/it]{'loss': 1.6708, 'grad_norm': 1.345024585723877, 'learning_rate': 4.877744456362324e-06, 'epoch': 0.51}
+ 51%|█████▏    | 47000/91366 [4:49:16<34:50:01,  2.83s/it]{'loss': 1.716, 'grad_norm': 1.6184161901474, 'learning_rate': 4.855854475406607e-06, 'epoch': 0.51}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 52%|█████▏    | 47200/91366 [4:59:21<35:08:01,  2.86s/it] {'loss': 1.6542, 'grad_norm': 1.1886227130889893, 'learning_rate': 4.83396449445089e-06, 'epoch': 0.52}
+ 52%|█████▏    | 47400/91366 [5:08:56<35:06:09,  2.87s/it]{'loss': 1.6494, 'grad_norm': 1.52291738986969, 'learning_rate': 4.812074513495173e-06, 'epoch': 0.52}
+ 52%|█████▏    | 47600/91366 [5:18:30<34:43:15,  2.86s/it]{'loss': 1.6567, 'grad_norm': 1.4596699476242065, 'learning_rate': 4.790184532539457e-06, 'epoch': 0.52}
+ 52%|█████▏    | 47800/91366 [5:28:04<34:41:39,  2.87s/it]{'loss': 1.6758, 'grad_norm': 2.013967275619507, 'learning_rate': 4.76829455158374e-06, 'epoch': 0.52}
+ 53%|█████▎    | 48000/91366 [5:37:37<34:20:29,  2.85s/it]{'loss': 1.6464, 'grad_norm': 1.4772841930389404, 'learning_rate': 4.7464045706280235e-06, 'epoch': 0.53}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 53%|█████▎    | 48200/91366 [5:47:42<34:19:19,  2.86s/it] {'loss': 1.6623, 'grad_norm': 1.1765165328979492, 'learning_rate': 4.7245145896723075e-06, 'epoch': 0.53}
+ 53%|█████▎    | 48400/91366 [5:57:17<34:16:00,  2.87s/it]{'loss': 1.6429, 'grad_norm': 1.5910505056381226, 'learning_rate': 4.702624608716591e-06, 'epoch': 0.53}
+ 53%|█████▎    | 48600/91366 [6:06:50<34:03:00,  2.87s/it]{'loss': 1.6273, 'grad_norm': 1.4776568412780762, 'learning_rate': 4.680734627760875e-06, 'epoch': 0.53}
+ 53%|█████▎    | 48800/91366 [6:16:24<33:50:53,  2.86s/it]{'loss': 1.6167, 'grad_norm': 1.2663257122039795, 'learning_rate': 4.658844646805158e-06, 'epoch': 0.53}
+ 54%|█████▎    | 49000/91366 [6:25:57<33:56:27,  2.88s/it]{'loss': 1.6476, 'grad_norm': 1.5223984718322754, 'learning_rate': 4.636954665849441e-06, 'epoch': 0.54}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 54%|█████▍    | 49200/91366 [6:35:57<33:43:27,  2.88s/it] {'loss': 1.6208, 'grad_norm': 1.4221417903900146, 'learning_rate': 4.615064684893725e-06, 'epoch': 0.54}
+ 54%|█████▍    | 49400/91366 [6:45:33<33:36:12,  2.88s/it]{'loss': 1.6245, 'grad_norm': 1.4263310432434082, 'learning_rate': 4.593174703938008e-06, 'epoch': 0.54}
+ 54%|█████▍    | 49417/91366 [6:46:22<33:30:00,  2.87s/it]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 54%|█████▍    | 49200/91366 [08:58<31:13:03,  2.67s/it]{'loss': 1.6518, 'grad_norm': 1.455130696296692, 'learning_rate': 4.615064684893725e-06, 'epoch': 0.54}
+ 54%|█████▍    | 49400/91366 [17:57<31:21:43,  2.69s/it]{'loss': 1.653, 'grad_norm': 1.2475781440734863, 'learning_rate': 4.593174703938008e-06, 'epoch': 0.54}
+ 54%|█████▍    | 49600/91366 [26:58<31:24:44,  2.71s/it]{'loss': 1.6839, 'grad_norm': 1.4007810354232788, 'learning_rate': 4.5712847229822914e-06, 'epoch': 0.54}
+ 55%|█████▍    | 49800/91366 [35:59<31:33:44,  2.73s/it]{'loss': 1.6775, 'grad_norm': 1.1200206279754639, 'learning_rate': 4.549394742026575e-06, 'epoch': 0.55}
+ 55%|█████▍    | 50000/91366 [44:57<31:18:52,  2.73s/it]{'loss': 1.708, 'grad_norm': 1.4773962497711182, 'learning_rate': 4.527504761070859e-06, 'epoch': 0.55}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 55%|█████▍    | 50200/91366 [54:29<31:19:40,  2.74s/it] {'loss': 1.6211, 'grad_norm': 1.6647119522094727, 'learning_rate': 4.505614780115142e-06, 'epoch': 0.55}
+ 55%|█████▌    | 50400/91366 [1:03:29<29:54:52,  2.63s/it]{'loss': 1.6748, 'grad_norm': 1.6934581995010376, 'learning_rate': 4.483724799159425e-06, 'epoch': 0.55}
+ 55%|█████▌    | 50600/91366 [1:12:28<30:41:39,  2.71s/it]{'loss': 1.639, 'grad_norm': 0.9581242203712463, 'learning_rate': 4.461834818203709e-06, 'epoch': 0.55}
+ 56%|█████▌    | 50800/91366 [1:21:30<31:08:25,  2.76s/it]{'loss': 1.6704, 'grad_norm': 0.934878408908844, 'learning_rate': 4.439944837247992e-06, 'epoch': 0.56}
+ 56%|█████▌    | 51000/91366 [1:30:32<30:33:58,  2.73s/it]{'loss': 1.6765, 'grad_norm': 1.4385913610458374, 'learning_rate': 4.418054856292275e-06, 'epoch': 0.56}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 56%|█████▌    | 51200/91366 [1:40:36<31:13:48,  2.80s/it] {'loss': 1.671, 'grad_norm': 1.6125702857971191, 'learning_rate': 4.3961648753365585e-06, 'epoch': 0.56}
+ 56%|█████▋    | 51400/91366 [1:50:08<31:48:41,  2.87s/it]{'loss': 1.6629, 'grad_norm': 1.8186330795288086, 'learning_rate': 4.3742748943808425e-06, 'epoch': 0.56}
+ 56%|█████▋    | 51600/91366 [1:59:38<31:35:29,  2.86s/it]{'loss': 1.6912, 'grad_norm': 1.1791611909866333, 'learning_rate': 4.352384913425126e-06, 'epoch': 0.56}
+ 57%|█████▋    | 51800/91366 [2:09:08<31:08:09,  2.83s/it]{'loss': 1.608, 'grad_norm': 1.3899048566818237, 'learning_rate': 4.330494932469409e-06, 'epoch': 0.57}
+ 57%|█████▋    | 52000/91366 [2:18:36<30:17:59,  2.77s/it]{'loss': 1.635, 'grad_norm': 1.2350223064422607, 'learning_rate': 4.308604951513692e-06, 'epoch': 0.57}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 57%|█████▋    | 52200/91366 [2:28:38<31:07:20,  2.86s/it] {'loss': 1.7379, 'grad_norm': 1.6356654167175293, 'learning_rate': 4.286714970557976e-06, 'epoch': 0.57}
+ 57%|█████▋    | 52400/91366 [2:38:09<30:52:56,  2.85s/it]{'loss': 1.6968, 'grad_norm': 1.3591022491455078, 'learning_rate': 4.264824989602259e-06, 'epoch': 0.57}
+ 58%|█████▊    | 52600/91366 [2:47:38<30:32:57,  2.84s/it]{'loss': 1.6759, 'grad_norm': 1.8187001943588257, 'learning_rate': 4.242935008646542e-06, 'epoch': 0.58}
+ 58%|█████▊    | 52800/91366 [2:57:08<31:07:30,  2.91s/it]{'loss': 1.6801, 'grad_norm': 1.3652127981185913, 'learning_rate': 4.221045027690826e-06, 'epoch': 0.58}
+ 58%|█████▊    | 53000/91366 [3:06:37<29:50:59,  2.80s/it]{'loss': 1.6619, 'grad_norm': 1.3583614826202393, 'learning_rate': 4.1991550467351096e-06, 'epoch': 0.58}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 58%|█████▊    | 53200/91366 [3:16:34<30:16:04,  2.86s/it] {'loss': 1.705, 'grad_norm': 1.5417667627334595, 'learning_rate': 4.177265065779393e-06, 'epoch': 0.58}
+ 58%|█████▊    | 53400/91366 [3:26:04<29:57:38,  2.84s/it]{'loss': 1.6182, 'grad_norm': 1.3527549505233765, 'learning_rate': 4.155375084823677e-06, 'epoch': 0.58}
+ 59%|█████▊    | 53600/91366 [3:35:33<30:00:14,  2.86s/it]{'loss': 1.6547, 'grad_norm': 1.7077730894088745, 'learning_rate': 4.13348510386796e-06, 'epoch': 0.59}
+ 59%|█████▉    | 53800/91366 [3:45:02<29:44:38,  2.85s/it]{'loss': 1.6788, 'grad_norm': 1.6089739799499512, 'learning_rate': 4.111595122912244e-06, 'epoch': 0.59}
+ 59%|█████▉    | 54000/91366 [3:54:30<29:17:26,  2.82s/it]{'loss': 1.6844, 'grad_norm': 1.3809014558792114, 'learning_rate': 4.089705141956527e-06, 'epoch': 0.59}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 59%|█████▉    | 54200/91366 [4:04:30<29:34:52,  2.87s/it] {'loss': 1.6092, 'grad_norm': 1.4465926885604858, 'learning_rate': 4.06781516100081e-06, 'epoch': 0.59}
+ 60%|█████▉    | 54400/91366 [4:13:59<29:14:28,  2.85s/it]{'loss': 1.6502, 'grad_norm': 1.1548564434051514, 'learning_rate': 4.0459251800450934e-06, 'epoch': 0.6}
+ 60%|█████▉    | 54600/91366 [4:23:29<29:14:28,  2.86s/it]{'loss': 1.593, 'grad_norm': 1.5665708780288696, 'learning_rate': 4.0240351990893775e-06, 'epoch': 0.6}
+ 60%|█████▉    | 54800/91366 [4:32:57<28:53:27,  2.84s/it]{'loss': 1.6881, 'grad_norm': 1.8311107158660889, 'learning_rate': 4.002145218133661e-06, 'epoch': 0.6}
+ 60%|██████    | 55000/91366 [4:42:25<28:45:11,  2.85s/it]{'loss': 1.6485, 'grad_norm': 1.6287702322006226, 'learning_rate': 3.980255237177944e-06, 'epoch': 0.6}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 60%|██████    | 55200/91366 [4:52:24<28:36:50,  2.85s/it] {'loss': 1.6906, 'grad_norm': 1.6657465696334839, 'learning_rate': 3.958365256222228e-06, 'epoch': 0.6}
+ 61%|██████    | 55372/91366 [5:00:34<28:52:08,  2.89s/it]
+
+
+
+
+
+
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 74%|███████▎  | 67200/91366 [09:06<17:59:34,  2.68s/it]{'loss': 1.6758, 'grad_norm': 1.5830429792404175, 'learning_rate': 2.6449663988792333e-06, 'epoch': 0.74}
+ 74%|███████▍  | 67400/91366 [18:13<18:01:01,  2.71s/it]{'loss': 1.6283, 'grad_norm': 1.6565899848937988, 'learning_rate': 2.623076417923517e-06, 'epoch': 0.74}
+ 74%|███████▍  | 67600/91366 [27:21<18:20:39,  2.78s/it]{'loss': 1.6555, 'grad_norm': 1.5041719675064087, 'learning_rate': 2.6011864369678005e-06, 'epoch': 0.74}
+ 74%|███████▍  | 67800/91366 [36:29<18:22:25,  2.81s/it]{'loss': 1.6265, 'grad_norm': 1.5635148286819458, 'learning_rate': 2.5792964560120836e-06, 'epoch': 0.74}
+ 74%|███████▍  | 68000/91366 [45:34<17:10:57,  2.65s/it]{'loss': 1.6364, 'grad_norm': 1.412855625152588, 'learning_rate': 2.5574064750563672e-06, 'epoch': 0.74}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 75%|███████▍  | 68200/91366 [55:25<18:01:20,  2.80s/it]{'loss': 1.6182, 'grad_norm': 1.1147582530975342, 'learning_rate': 2.5355164941006504e-06, 'epoch': 0.75}
+ 75%|███████▍  | 68400/91366 [1:04:44<17:29:23,  2.74s/it]{'loss': 1.6384, 'grad_norm': 1.4320262670516968, 'learning_rate': 2.513626513144934e-06, 'epoch': 0.75}
+ 75%|███████▌  | 68600/91366 [1:14:09<17:43:02,  2.80s/it]{'loss': 1.6539, 'grad_norm': 1.7676044702529907, 'learning_rate': 2.491736532189217e-06, 'epoch': 0.75}
+ 75%|███████▌  | 68800/91366 [1:23:34<17:37:22,  2.81s/it]{'loss': 1.5778, 'grad_norm': 1.4725801944732666, 'learning_rate': 2.4698465512335008e-06, 'epoch': 0.75}
+ 76%|███████▌  | 69000/91366 [1:32:55<17:31:17,  2.82s/it]{'loss': 1.6288, 'grad_norm': 1.2693003416061401, 'learning_rate': 2.447956570277784e-06, 'epoch': 0.76}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 76%|███████▌  | 69200/91366 [1:42:58<17:48:39,  2.89s/it]{'loss': 1.6655, 'grad_norm': 1.002725601196289, 'learning_rate': 2.4260665893220675e-06, 'epoch': 0.76}
+ 76%|███████▌  | 69400/91366 [1:52:36<17:30:01,  2.87s/it]{'loss': 1.6392, 'grad_norm': 1.5247727632522583, 'learning_rate': 2.404176608366351e-06, 'epoch': 0.76}
+ 76%|███████▌  | 69600/91366 [2:02:13<17:26:30,  2.88s/it]{'loss': 1.6359, 'grad_norm': 1.1570876836776733, 'learning_rate': 2.3822866274106343e-06, 'epoch': 0.76}
+ 76%|███████▋  | 69800/91366 [2:11:49<17:13:01,  2.87s/it]{'loss': 1.6205, 'grad_norm': 1.3044582605361938, 'learning_rate': 2.360396646454918e-06, 'epoch': 0.76}
+ 77%|███████▋  | 70000/91366 [2:21:23<16:45:45,  2.82s/it]{'loss': 1.5711, 'grad_norm': 1.5778521299362183, 'learning_rate': 2.338506665499201e-06, 'epoch': 0.77}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 77%|███████▋  | 70200/91366 [2:31:23<16:51:37,  2.87s/it]{'loss': 1.627, 'grad_norm': 1.5884613990783691, 'learning_rate': 2.3166166845434847e-06, 'epoch': 0.77}
+ 77%|███████▋  | 70400/91366 [2:40:56<16:52:16,  2.90s/it]{'loss': 1.6342, 'grad_norm': 1.5603063106536865, 'learning_rate': 2.294726703587768e-06, 'epoch': 0.77}
+ 77%|███████▋  | 70600/91366 [2:50:30<16:35:34,  2.88s/it]{'loss': 1.6367, 'grad_norm': 1.4735510349273682, 'learning_rate': 2.272836722632052e-06, 'epoch': 0.77}
+ 77%|███████▋  | 70800/91366 [3:00:05<16:12:11,  2.84s/it]{'loss': 1.6509, 'grad_norm': 1.624525547027588, 'learning_rate': 2.250946741676335e-06, 'epoch': 0.77}
+ 78%|███████▊  | 71000/91366 [3:09:38<16:06:01,  2.85s/it]{'loss': 1.6284, 'grad_norm': 1.196225643157959, 'learning_rate': 2.2290567607206186e-06, 'epoch': 0.78}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 78%|███████▊  | 71200/91366 [3:19:46<16:05:43,  2.87s/it]{'loss': 1.6493, 'grad_norm': 1.4226082563400269, 'learning_rate': 2.2071667797649018e-06, 'epoch': 0.78}
+ 78%|███████▊  | 71400/91366 [3:29:21<15:53:23,  2.87s/it]{'loss': 1.6291, 'grad_norm': 1.532896637916565, 'learning_rate': 2.1852767988091854e-06, 'epoch': 0.78}
+ 78%|███████▊  | 71600/91366 [3:38:54<15:44:02,  2.87s/it]{'loss': 1.6502, 'grad_norm': 1.7551919221878052, 'learning_rate': 2.1633868178534685e-06, 'epoch': 0.78}
+ 79%|███████▊  | 71800/91366 [3:48:28<15:34:04,  2.86s/it]{'loss': 1.5866, 'grad_norm': 1.1351045370101929, 'learning_rate': 2.141496836897752e-06, 'epoch': 0.79}
+ 79%|███████▉  | 72000/91366 [3:58:02<15:17:41,  2.84s/it]{'loss': 1.6776, 'grad_norm': 1.658913254737854, 'learning_rate': 2.1196068559420353e-06, 'epoch': 0.79}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 79%|███████▉  | 72200/91366 [4:08:14<15:19:04,  2.88s/it]{'loss': 1.7155, 'grad_norm': 1.6694505214691162, 'learning_rate': 2.097716874986319e-06, 'epoch': 0.79}
+ 79%|███████▉  | 72400/91366 [4:17:48<15:00:43,  2.85s/it]{'loss': 1.7149, 'grad_norm': 1.510483980178833, 'learning_rate': 2.0758268940306025e-06, 'epoch': 0.79}
+ 79%|███████▉  | 72600/91366 [4:27:23<14:54:32,  2.86s/it]{'loss': 1.6338, 'grad_norm': 1.2734096050262451, 'learning_rate': 2.0539369130748857e-06, 'epoch': 0.79}
+ 80%|███████▉  | 72800/91366 [4:36:57<14:46:23,  2.86s/it]{'loss': 1.6511, 'grad_norm': 1.579251766204834, 'learning_rate': 2.0320469321191693e-06, 'epoch': 0.8}
+ 80%|███████▉  | 73000/91366 [4:46:31<14:38:54,  2.87s/it]{'loss': 1.6784, 'grad_norm': 1.134802222251892, 'learning_rate': 2.010156951163453e-06, 'epoch': 0.8}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 80%|████████  | 73200/91366 [4:56:34<14:29:55,  2.87s/it]{'loss': 1.6244, 'grad_norm': 1.6047413349151611, 'learning_rate': 1.988266970207736e-06, 'epoch': 0.8}
+ 80%|████████  | 73400/91366 [5:06:06<14:12:02,  2.85s/it]{'loss': 1.6747, 'grad_norm': 1.9358326196670532, 'learning_rate': 1.9663769892520196e-06, 'epoch': 0.8}
+ 81%|████████  | 73600/91366 [5:15:38<14:12:00,  2.88s/it]{'loss': 1.6621, 'grad_norm': 1.4064792394638062, 'learning_rate': 1.9444870082963028e-06, 'epoch': 0.81}
+ 81%|████████  | 73800/91366 [5:25:09<13:57:52,  2.86s/it]{'loss': 1.699, 'grad_norm': 1.7172679901123047, 'learning_rate': 1.9225970273405864e-06, 'epoch': 0.81}
+ 81%|████████  | 74000/91366 [5:34:37<13:46:10,  2.85s/it]{'loss': 1.6602, 'grad_norm': 1.8925138711929321, 'learning_rate': 1.9007070463848698e-06, 'epoch': 0.81}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 81%|████████  | 74200/91366 [5:44:36<13:37:42,  2.86s/it]{'loss': 1.6479, 'grad_norm': 1.6569145917892456, 'learning_rate': 1.8788170654291531e-06, 'epoch': 0.81}
+ 81%|████████▏ | 74400/91366 [5:54:07<13:31:35,  2.87s/it]{'loss': 1.6245, 'grad_norm': 1.6974736452102661, 'learning_rate': 1.8569270844734365e-06, 'epoch': 0.81}
+ 82%|████████▏ | 74600/91366 [6:03:38<13:11:04,  2.83s/it]{'loss': 1.6687, 'grad_norm': 1.9301341772079468, 'learning_rate': 1.8350371035177201e-06, 'epoch': 0.82}
+ 82%|████████▏ | 74800/91366 [6:13:08<13:01:16,  2.83s/it]{'loss': 1.6401, 'grad_norm': 1.4153972864151, 'learning_rate': 1.8131471225620035e-06, 'epoch': 0.82}
+ 82%|████████▏ | 75000/91366 [6:22:38<12:46:21,  2.81s/it]{'loss': 1.618, 'grad_norm': 1.513101577758789, 'learning_rate': 1.7912571416062869e-06, 'epoch': 0.82}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 82%|████████▏ | 75200/91366 [6:32:42<12:41:27,  2.83s/it]{'loss': 1.6543, 'grad_norm': 0.9216808676719666, 'learning_rate': 1.7693671606505705e-06, 'epoch': 0.82}
+ 83%|████████▎ | 75400/91366 [6:42:13<12:43:09,  2.87s/it]{'loss': 1.6722, 'grad_norm': 1.214770793914795, 'learning_rate': 1.7474771796948539e-06, 'epoch': 0.83}
+ 83%|████████▎ | 75600/91366 [6:51:45<12:25:33,  2.84s/it]{'loss': 1.6621, 'grad_norm': 1.7981220483779907, 'learning_rate': 1.7255871987391372e-06, 'epoch': 0.83}
+ 83%|████████▎ | 75800/91366 [7:01:15<12:19:56,  2.85s/it]{'loss': 1.5872, 'grad_norm': 1.684065341949463, 'learning_rate': 1.7036972177834208e-06, 'epoch': 0.83}
+ 83%|████████▎ | 76000/91366 [7:10:43<12:11:35,  2.86s/it]{'loss': 1.6861, 'grad_norm': 1.2730594873428345, 'learning_rate': 1.6818072368277042e-06, 'epoch': 0.83}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 83%|████████▎ | 76200/91366 [7:20:47<12:03:40,  2.86s/it]{'loss': 1.614, 'grad_norm': 1.4844907522201538, 'learning_rate': 1.6599172558719876e-06, 'epoch': 0.83}
+ 84%|████████▎ | 76400/91366 [7:30:19<11:55:32,  2.87s/it]{'loss': 1.6099, 'grad_norm': 1.6942023038864136, 'learning_rate': 1.638027274916271e-06, 'epoch': 0.84}
+ 84%|████████▍ | 76600/91366 [7:39:51<11:46:33,  2.87s/it]{'loss': 1.6363, 'grad_norm': 1.4714006185531616, 'learning_rate': 1.6161372939605544e-06, 'epoch': 0.84}
+ 84%|████████▍ | 76800/91366 [7:49:21<11:30:52,  2.85s/it]{'loss': 1.6849, 'grad_norm': 1.5876449346542358, 'learning_rate': 1.5942473130048377e-06, 'epoch': 0.84}
+ 84%|████████▍ | 77000/91366 [7:58:53<11:25:33,  2.86s/it]{'loss': 1.629, 'grad_norm': 1.4106903076171875, 'learning_rate': 1.5723573320491211e-06, 'epoch': 0.84}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 84%|████████▍ | 77200/91366 [8:08:58<11:16:10,  2.86s/it]{'loss': 1.6446, 'grad_norm': 1.4546289443969727, 'learning_rate': 1.5504673510934045e-06, 'epoch': 0.84}
+ 85%|████████▍ | 77400/91366 [8:18:29<11:07:30,  2.87s/it]{'loss': 1.6772, 'grad_norm': 1.3460686206817627, 'learning_rate': 1.5285773701376879e-06, 'epoch': 0.85}
+ 85%|████████▍ | 77600/91366 [8:28:00<10:52:19,  2.84s/it]{'loss': 1.6386, 'grad_norm': 1.2596098184585571, 'learning_rate': 1.5066873891819717e-06, 'epoch': 0.85}
+ 85%|████████▌ | 77800/91366 [8:37:30<10:43:49,  2.85s/it]{'loss': 1.5845, 'grad_norm': 1.3565782308578491, 'learning_rate': 1.484797408226255e-06, 'epoch': 0.85}
+ 85%|████████▌ | 78000/91366 [8:46:59<10:31:51,  2.84s/it]{'loss': 1.627, 'grad_norm': 0.9813748002052307, 'learning_rate': 1.4629074272705385e-06, 'epoch': 0.85}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 86%|████████▌ | 78200/91366 [8:57:06<10:26:50,  2.86s/it]{'loss': 1.7288, 'grad_norm': 1.680070400238037, 'learning_rate': 1.4410174463148218e-06, 'epoch': 0.86}
+ 86%|████████▌ | 78400/91366 [9:06:37<10:17:36,  2.86s/it]{'loss': 1.644, 'grad_norm': 1.6083465814590454, 'learning_rate': 1.4191274653591052e-06, 'epoch': 0.86}
+ 86%|████████▌ | 78600/91366 [9:16:08<10:01:01,  2.82s/it]{'loss': 1.6576, 'grad_norm': 1.137623906135559, 'learning_rate': 1.3972374844033886e-06, 'epoch': 0.86}
+ 86%|████████▌ | 78800/91366 [9:25:39<10:01:56,  2.87s/it]{'loss': 1.6098, 'grad_norm': 1.5233852863311768, 'learning_rate': 1.3753475034476722e-06, 'epoch': 0.86}
+ 86%|████████▋ | 79000/91366 [9:35:09<9:45:43,  2.84s/it] {'loss': 1.6256, 'grad_norm': 1.9433605670928955, 'learning_rate': 1.3534575224919556e-06, 'epoch': 0.86}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 87%|████████▋ | 79200/91366 [9:45:12<9:41:55,  2.87s/it] {'loss': 1.6721, 'grad_norm': 1.7312750816345215, 'learning_rate': 1.331567541536239e-06, 'epoch': 0.87}
+ 87%|████████▋ | 79400/91366 [9:54:45<9:29:53,  2.86s/it]{'loss': 1.659, 'grad_norm': 1.0983203649520874, 'learning_rate': 1.3096775605805223e-06, 'epoch': 0.87}
+ 87%|████████▋ | 79600/91366 [10:04:16<9:20:36,  2.86s/it]{'loss': 1.6291, 'grad_norm': 1.3953571319580078, 'learning_rate': 1.2877875796248057e-06, 'epoch': 0.87}
+ 87%|████████▋ | 79800/91366 [10:14:09<9:30:56,  2.96s/it] {'loss': 1.6541, 'grad_norm': 1.3649044036865234, 'learning_rate': 1.2658975986690891e-06, 'epoch': 0.87}
+ 88%|████████▊ | 80000/91366 [10:24:05<9:23:36,  2.98s/it]{'loss': 1.6475, 'grad_norm': 1.7171382904052734, 'learning_rate': 1.2440076177133727e-06, 'epoch': 0.88}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 88%|████████▊ | 80200/91366 [10:34:27<9:12:26,  2.97s/it] {'loss': 1.665, 'grad_norm': 1.6532771587371826, 'learning_rate': 1.222117636757656e-06, 'epoch': 0.88}
+ 88%|████████▊ | 80277/91366 [10:38:16<9:01:15,  2.93s/it]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight'].
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:3017: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(os.path.join(checkpoint, OPTIMIZER_NAME), map_location=map_location)
+  0%|          | 0/91366 [00:00<?, ?it/s]c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\trainer.py:2758: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint_rng_state = torch.load(rng_file)
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 88%|████████▊ | 80200/91366 [09:15<8:31:54,  2.75s/it] {'loss': 1.6468, 'grad_norm': 1.8130735158920288, 'learning_rate': 1.222117636757656e-06, 'epoch': 0.88}
+ 88%|████████▊ | 80400/91366 [18:27<8:32:18,  2.80s/it]{'loss': 1.5932, 'grad_norm': 1.369865894317627, 'learning_rate': 1.2002276558019397e-06, 'epoch': 0.88}
+ 88%|████████▊ | 80600/91366 [27:38<8:02:15,  2.69s/it]{'loss': 1.6272, 'grad_norm': 1.2533254623413086, 'learning_rate': 1.178337674846223e-06, 'epoch': 0.88}
+ 88%|████████▊ | 80800/91366 [36:47<8:00:49,  2.73s/it]{'loss': 1.6607, 'grad_norm': 1.7352581024169922, 'learning_rate': 1.1564476938905064e-06, 'epoch': 0.88}
+ 89%|████████▊ | 81000/91366 [45:57<8:05:29,  2.81s/it]{'loss': 1.7128, 'grad_norm': 1.3939071893692017, 'learning_rate': 1.1345577129347898e-06, 'epoch': 0.89}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 89%|████████▉ | 81200/91366 [55:46<7:55:25,  2.81s/it] {'loss': 1.6437, 'grad_norm': 1.634934902191162, 'learning_rate': 1.1126677319790732e-06, 'epoch': 0.89}
+ 89%|████████▉ | 81400/91366 [1:05:08<7:43:45,  2.79s/it]{'loss': 1.6044, 'grad_norm': 1.3535339832305908, 'learning_rate': 1.0907777510233566e-06, 'epoch': 0.89}
+ 89%|████████▉ | 81600/91366 [1:14:28<7:33:05,  2.78s/it]{'loss': 1.5926, 'grad_norm': 1.5656934976577759, 'learning_rate': 1.0688877700676402e-06, 'epoch': 0.89}
+ 90%|████████▉ | 81800/91366 [1:23:49<7:25:55,  2.80s/it]{'loss': 1.641, 'grad_norm': 1.3374749422073364, 'learning_rate': 1.0469977891119236e-06, 'epoch': 0.9}
+ 90%|████████▉ | 82000/91366 [1:33:16<7:28:29,  2.87s/it]{'loss': 1.6186, 'grad_norm': 1.4941370487213135, 'learning_rate': 1.025107808156207e-06, 'epoch': 0.9}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 90%|████████▉ | 82200/91366 [1:43:24<7:24:25,  2.91s/it] {'loss': 1.687, 'grad_norm': 1.304487943649292, 'learning_rate': 1.0032178272004903e-06, 'epoch': 0.9}
+ 90%|█████████ | 82400/91366 [1:53:00<7:13:16,  2.90s/it]{'loss': 1.6383, 'grad_norm': 1.5726165771484375, 'learning_rate': 9.813278462447737e-07, 'epoch': 0.9}
+ 90%|█████████ | 82600/91366 [2:02:37<7:01:06,  2.88s/it]{'loss': 1.6089, 'grad_norm': 1.3715708255767822, 'learning_rate': 9.594378652890573e-07, 'epoch': 0.9}
+ 91%|█████████ | 82800/91366 [2:12:12<6:55:54,  2.91s/it]{'loss': 1.6628, 'grad_norm': 1.4764100313186646, 'learning_rate': 9.375478843333408e-07, 'epoch': 0.91}
+ 91%|█████████ | 83000/91366 [2:21:50<6:45:12,  2.91s/it]{'loss': 1.6189, 'grad_norm': 1.687374234199524, 'learning_rate': 9.156579033776242e-07, 'epoch': 0.91}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 91%|█████████ | 83200/91366 [2:31:57<6:33:06,  2.89s/it] {'loss': 1.6254, 'grad_norm': 1.6155369281768799, 'learning_rate': 8.937679224219076e-07, 'epoch': 0.91}
+ 91%|█████████▏| 83400/91366 [2:41:34<6:19:46,  2.86s/it]{'loss': 1.6239, 'grad_norm': 1.486980676651001, 'learning_rate': 8.718779414661909e-07, 'epoch': 0.91}
+ 92%|█████████▏| 83600/91366 [2:51:11<6:15:31,  2.90s/it]{'loss': 1.6357, 'grad_norm': 1.3865106105804443, 'learning_rate': 8.499879605104744e-07, 'epoch': 0.91}
+ 92%|█████████▏| 83800/91366 [3:00:48<6:01:25,  2.87s/it]{'loss': 1.5772, 'grad_norm': 1.5937201976776123, 'learning_rate': 8.280979795547578e-07, 'epoch': 0.92}
+ 92%|█████████▏| 84000/91366 [3:10:24<5:55:44,  2.90s/it]{'loss': 1.6719, 'grad_norm': 1.3160320520401, 'learning_rate': 8.062079985990413e-07, 'epoch': 0.92}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 92%|█████████▏| 84200/91366 [3:20:33<5:46:36,  2.90s/it] {'loss': 1.6569, 'grad_norm': 1.6407986879348755, 'learning_rate': 7.843180176433248e-07, 'epoch': 0.92}
+ 92%|█████████▏| 84400/91366 [3:30:11<5:36:36,  2.90s/it]{'loss': 1.627, 'grad_norm': 1.079128384590149, 'learning_rate': 7.624280366876082e-07, 'epoch': 0.92}
+ 93%|█████████▎| 84600/91366 [3:39:48<5:24:44,  2.88s/it]{'loss': 1.6153, 'grad_norm': 1.6658878326416016, 'learning_rate': 7.405380557318915e-07, 'epoch': 0.93}
+ 93%|█████████▎| 84800/91366 [3:49:24<5:14:19,  2.87s/it]{'loss': 1.7049, 'grad_norm': 1.5624920129776, 'learning_rate': 7.186480747761749e-07, 'epoch': 0.93}
+ 93%|█████████▎| 85000/91366 [3:59:00<5:04:51,  2.87s/it]{'loss': 1.6698, 'grad_norm': 1.0417295694351196, 'learning_rate': 6.967580938204583e-07, 'epoch': 0.93}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 93%|█████████▎| 85200/91366 [4:09:05<4:56:12,  2.88s/it] {'loss': 1.6684, 'grad_norm': 1.2860658168792725, 'learning_rate': 6.748681128647419e-07, 'epoch': 0.93}
+ 93%|█████████▎| 85400/91366 [4:18:42<4:49:32,  2.91s/it]{'loss': 1.6486, 'grad_norm': 1.6418567895889282, 'learning_rate': 6.529781319090253e-07, 'epoch': 0.93}
+ 94%|█████████▎| 85600/91366 [4:28:19<4:38:33,  2.90s/it]{'loss': 1.6406, 'grad_norm': 1.2053253650665283, 'learning_rate': 6.310881509533087e-07, 'epoch': 0.94}
+ 94%|█████████▍| 85800/91366 [4:37:56<4:28:23,  2.89s/it]{'loss': 1.6254, 'grad_norm': 1.635663390159607, 'learning_rate': 6.091981699975922e-07, 'epoch': 0.94}
+ 94%|█████████▍| 86000/91366 [4:47:32<4:18:25,  2.89s/it]{'loss': 1.6341, 'grad_norm': 1.610552430152893, 'learning_rate': 5.873081890418756e-07, 'epoch': 0.94}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 94%|█████████▍| 86200/91366 [4:57:42<4:09:37,  2.90s/it] {'loss': 1.633, 'grad_norm': 1.496829628944397, 'learning_rate': 5.65418208086159e-07, 'epoch': 0.94}
+ 95%|█████████▍| 86400/91366 [5:07:21<3:58:57,  2.89s/it]{'loss': 1.749, 'grad_norm': 1.4909229278564453, 'learning_rate': 5.435282271304424e-07, 'epoch': 0.95}
+ 95%|█████████▍| 86600/91366 [5:16:58<3:49:06,  2.88s/it]{'loss': 1.6694, 'grad_norm': 1.6730926036834717, 'learning_rate': 5.216382461747259e-07, 'epoch': 0.95}
+ 95%|█████████▌| 86800/91366 [5:26:34<3:39:41,  2.89s/it]{'loss': 1.6696, 'grad_norm': 1.9060451984405518, 'learning_rate': 4.997482652190093e-07, 'epoch': 0.95}
+ 95%|█████████▌| 87000/91366 [5:36:10<3:30:16,  2.89s/it]{'loss': 1.6269, 'grad_norm': 1.4555584192276, 'learning_rate': 4.778582842632927e-07, 'epoch': 0.95}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 95%|█████████▌| 87200/91366 [5:46:16<3:20:36,  2.89s/it] {'loss': 1.6387, 'grad_norm': 1.6321263313293457, 'learning_rate': 4.5596830330757615e-07, 'epoch': 0.95}
+ 96%|█████████▌| 87400/91366 [5:55:55<3:13:39,  2.93s/it]{'loss': 1.635, 'grad_norm': 1.9227468967437744, 'learning_rate': 4.340783223518596e-07, 'epoch': 0.96}
+ 96%|█████████▌| 87600/91366 [6:05:31<3:01:02,  2.88s/it]{'loss': 1.6246, 'grad_norm': 1.3618534803390503, 'learning_rate': 4.1218834139614297e-07, 'epoch': 0.96}
+ 96%|█████████▌| 87800/91366 [6:15:08<2:52:51,  2.91s/it]{'loss': 1.5836, 'grad_norm': 1.379206895828247, 'learning_rate': 3.9029836044042646e-07, 'epoch': 0.96}
+ 96%|█████████▋| 88000/91366 [6:24:42<2:41:07,  2.87s/it]{'loss': 1.6663, 'grad_norm': 1.9321445226669312, 'learning_rate': 3.684083794847099e-07, 'epoch': 0.96}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 97%|█████████▋| 88200/91366 [6:34:52<2:29:44,  2.84s/it] {'loss': 1.6345, 'grad_norm': 1.5059466361999512, 'learning_rate': 3.465183985289933e-07, 'epoch': 0.97}
+ 97%|█████████▋| 88400/91366 [6:44:29<2:23:35,  2.90s/it]{'loss': 1.6238, 'grad_norm': 0.7463447451591492, 'learning_rate': 3.2462841757327676e-07, 'epoch': 0.97}
+ 97%|█████████▋| 88600/91366 [6:54:07<2:13:43,  2.90s/it]{'loss': 1.6203, 'grad_norm': 1.728411316871643, 'learning_rate': 3.0273843661756014e-07, 'epoch': 0.97}
+ 97%|█████████▋| 88800/91366 [7:03:43<2:03:04,  2.88s/it]{'loss': 1.5867, 'grad_norm': 1.6074610948562622, 'learning_rate': 2.808484556618436e-07, 'epoch': 0.97}
+ 97%|█████████▋| 89000/91366 [7:13:20<1:52:54,  2.86s/it]{'loss': 1.662, 'grad_norm': 1.4596309661865234, 'learning_rate': 2.58958474706127e-07, 'epoch': 0.97}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 98%|█████████▊| 89200/91366 [7:23:28<1:44:44,  2.90s/it]{'loss': 1.648, 'grad_norm': 1.2075036764144897, 'learning_rate': 2.3706849375041047e-07, 'epoch': 0.98}
+ 98%|█████████▊| 89400/91366 [7:33:05<1:35:10,  2.90s/it]{'loss': 1.668, 'grad_norm': 1.3779888153076172, 'learning_rate': 2.1517851279469388e-07, 'epoch': 0.98}
+ 98%|█████████▊| 89600/91366 [7:42:42<1:24:55,  2.89s/it]{'loss': 1.6368, 'grad_norm': 1.5803570747375488, 'learning_rate': 1.9328853183897732e-07, 'epoch': 0.98}
+ 98%|█████████▊| 89800/91366 [7:52:19<1:15:05,  2.88s/it]{'loss': 1.659, 'grad_norm': 1.4741765260696411, 'learning_rate': 1.7139855088326075e-07, 'epoch': 0.98}
+ 99%|█████████▊| 90000/91366 [8:01:55<1:05:49,  2.89s/it]{'loss': 1.5966, 'grad_norm': 1.3723140954971313, 'learning_rate': 1.495085699275442e-07, 'epoch': 0.99}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+ 99%|█████████▊| 90200/91366 [8:12:06<55:09,  2.84s/it]  {'loss': 1.6433, 'grad_norm': 1.2734404802322388, 'learning_rate': 1.276185889718276e-07, 'epoch': 0.99}
+ 99%|█████████▉| 90400/91366 [8:21:43<46:18,  2.88s/it]{'loss': 1.6783, 'grad_norm': 1.3360705375671387, 'learning_rate': 1.0572860801611103e-07, 'epoch': 0.99}
+ 99%|█████████▉| 90600/91366 [8:31:20<36:59,  2.90s/it]{'loss': 1.6005, 'grad_norm': 1.5221649408340454, 'learning_rate': 8.383862706039447e-08, 'epoch': 0.99}
+ 99%|█████████▉| 90800/91366 [8:40:55<27:14,  2.89s/it]{'loss': 1.6632, 'grad_norm': 1.6639751195907593, 'learning_rate': 6.194864610467789e-08, 'epoch': 0.99}
+100%|█████████▉| 91000/91366 [8:50:29<17:35,  2.88s/it]{'loss': 1.6077, 'grad_norm': 5.3683390617370605, 'learning_rate': 4.005866514896132e-08, 'epoch': 1.0}
+c:\Users\PC\anaconda3\envs\longt5\lib\site-packages\transformers\modeling_utils.py:1006: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+100%|█████████▉| 91200/91366 [9:00:36<07:58,  2.88s/it]  {'loss': 1.6016, 'grad_norm': 1.4305497407913208, 'learning_rate': 1.8168684193244754e-08, 'epoch': 1.0}
+100%|██████████| 91366/91366 [9:08:35<00:00,  2.78it/s]{'train_runtime': 32915.9273, 'train_samples_per_second': 5.552, 'train_steps_per_second': 2.776, 'train_loss': 0.2038577084595285, 'epoch': 1.0}
+
+
+
+
+TrainOutput(global_step=91366, training_loss=0.2038577084595285, metrics={'train_runtime': 32915.9273, 'train_samples_per_second': 5.552, 'train_steps_per_second': 2.776, 'total_flos': 1.001058031632384e+18, 'train_loss': 0.2038577084595285, 'epoch': 0.9999945275347091})

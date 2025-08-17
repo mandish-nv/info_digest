@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import '../css/SummaryCard.css';
 
 function SummaryCard({ summary }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -7,96 +8,79 @@ function SummaryCard({ summary }) {
     setShowPopup(!showPopup);
   };
 
+   useEffect(() => {
+   if (showPopup) {
+     document.body.style.overflow = 'hidden';
+   } else {
+     document.body.style.overflow = 'auto';
+   }
+
+   return () => {
+     document.body.style.overflow = 'auto'; // Clean up on unmount
+   };
+ }, [showPopup]);
+
   return (
-    <div className="summary-card"> 
-      <p>
-        <span>Summary ID:</span> {summary._id}
-      </p>
-      <div>
-        <p>Original Content:</p>
+    <div className="summary-card">
+      <div className="summary-header">
+        <p>
+          <span className="summary-label">Summary ID:</span> {summary._id}
+        </p>
+      </div>
+      <hr className="divider" />
+      <div className="summary-content-section">
+        <h3 className="section-title">Original Content:</h3>
         {summary.inputMedium.type === "text" && (
-          <p>{summary.originalContent.text}</p>
+          <p className="content-text">{summary.originalContent.text}</p>
         )}
         {summary.inputMedium.type === "file" && (
-          <div>
-            <button onClick={togglePopup}>File</button>
-            <p>{summary.inputMedium.file.name}</p>
+          <div className="file-content">
+            <button onClick={togglePopup} className="file-button">View File Content</button>
+            <p className="file-name">{summary.inputMedium.file.name}</p>
 
             {showPopup && (
               <div
                 className="popup-overlay"
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  backdropFilter: "blur(5px)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  zIndex: 1000,
-                }}
+                onClick={togglePopup}
               >
                 <div
                   className="popup-content"
-                  style={{
-                    backgroundColor: "white",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    position: "relative",
-                    maxWidth: "500px",
-                    maxHeight: "80vh",
-                    overflowY: "auto",
-                  }}
+                  onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the popup
                 >
-                  <button
-                    onClick={togglePopup}
-                    style={{
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                      background: "none",
-                      border: "none",
-                      fontSize: "1.2rem",
-                      cursor: "pointer",
-                      color: "#333",
-                    }}
-                  >
-                    X
+                  <button onClick={togglePopup} className="close-popup-button">
+                    &times;
                   </button>
-                  <h3>Original Content</h3>
-                  <p>{summary.originalContent.text}</p>
+                  <h3 className="popup-title">Original Content</h3>
+                  <p className="popup-text">{summary.originalContent.text}</p>
                 </div>
               </div>
             )}
           </div>
         )}
-        <p>
-          Words: {summary.originalContent.wordCount}, Sentences:{" "}
+        <p className="content-stats">
+          <span className="stat-label">Words:</span> {summary.originalContent.wordCount}, <span className="stat-label">Sentences:</span>
           {summary.originalContent.sentenceCount}
         </p>
       </div>
-      <div>
-        <p>Summarized Content:</p>
-        <p>{summary.summarizedContent.text}</p>
-        <p>
-          Words: {summary.summarizedContent.wordCount}, Sentences:{" "}
+      <hr className="divider" />
+      <div className="summary-content-section">
+        <h3 className="section-title">Summarized Content:</h3>
+        <p className="content-text">{summary.summarizedContent.text}</p>
+        <p className="content-stats">
+          <span className="stat-label">Words:</span> {summary.summarizedContent.wordCount}, <span className="stat-label">Sentences:</span>
           {summary.summarizedContent.sentenceCount}
         </p>
       </div>
+      <hr className="divider" />
       {summary.keywords && summary.keywords.length > 0 && (
-        <p>
-          <span>Keywords:</span> {summary.keywords.join(", ")}
+        <p className="keywords-container">
+          <span className="summary-label">Keywords:</span> {summary.keywords.join(", ")}
         </p>
       )}
-      <p>
-        Created At:{" "}
+      <p className="creation-date">
+        <span className="summary-label">Created At:</span>
         {new Date(summary.createdAt).toLocaleDateString()}
       </p>
-      <hr />
     </div>
   );
 }
