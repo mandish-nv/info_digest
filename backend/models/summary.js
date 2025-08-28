@@ -51,10 +51,16 @@ const summarySchema = new mongoose.Schema(
       type: Number, //String
       required: false,
     },
+    summaryType: {
+      type: String,
+      enum: ["extractive", "abstractive"],
+      default: "extractive",
+      required: true,
+    },
     inputMedium: {
       type: {
         type: String,
-        enum: ["text", "file", "image"],
+        enum: ["text", "file"],
         default: "text",
         required: true,
       },

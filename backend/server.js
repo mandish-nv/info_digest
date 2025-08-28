@@ -520,6 +520,22 @@ mongoose
       }
     });
 
+    app.get("/users/:userId/name", async (req, res) => {
+      try {
+        const { userId } = req.params;
+        const user = await User.findOne({ _id: userId });
+
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ name: user.userName });
+      } catch (error) {
+        console.error("Error fetching user name:", error);
+        res.status(500).json({ message: "Server error" });
+      }
+    });
+
     app.get("/users", async (req, res) => {
       try {
         const users = await User.find({}).select("-password");

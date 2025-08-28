@@ -8,6 +8,8 @@ export default function StatusBar() {
     sessionStorage.getItem("login") || localStorage.getItem("login") || null;
   const [adminAccessFlag, setAdminAccessFlag] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(userId);
+  const [userName, setUserName] = useState('Loading...');
+  const [error, setError] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function StatusBar() {
     checkAdminStatus();
   }, [loggedInUser]); // Dependency array includes loggedInUser
 
-  useEffect(() => {
+    useEffect(() => {
     const sync = () => {
       const current = sessionStorage.getItem("login") || localStorage.getItem("login"); // Get current from either
 
@@ -63,6 +65,46 @@ export default function StatusBar() {
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
   }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      // Reset state for new fetch
+      setUserName('Loading...');
+      setError(null);
+
+      // Check if the userId is available before making the API call
+      if (!userId) {
+        setError('User ID not found.');
+        setUserName('Guest');
+        return;
+      }
+
+      try {
+        // Construct the API URL with the userId
+        const apiUrl = `http://localhost:5000/users/${userId}/name`;
+        
+        // Make the GET request to the backend
+        const response = await axios.get(apiUrl);
+        
+        // Update the state with the name from the response data
+        if (response.data && response.data.name) {
+          setUserName(response.data.name);
+        } else {
+          setError('Invalid response from server.');
+          setUserName('User'); // Fallback name
+        }
+      } catch (err) {
+        // Handle errors and update the state accordingly
+        console.error('Failed to fetch user name:', err);
+        setError('Failed to load user name.');
+        setUserName('User'); // Fallback name on error
+      }
+    };
+
+    fetchUserName();
+  }, [userId]); // The effect re-runs whenever the userId changes
+
 
 
   const logOut = () => {
@@ -89,11 +131,13 @@ export default function StatusBar() {
       </div>
 
       <div className="status-bar-user-status">
-        <p>LoggedInStatus:</p>
-
         <div className="status-bar-logout-section" style={{ display: loggedInUser ? "flex" : "none" }}>
-          <p>Logged in: {loggedInUser}</p>
+          <p>Welcome, {userName}</p>
           <button onClick={logOut}>Log out</button>
+        </div>
+
+        <div className="status-bar-logout-section" style={{ display: loggedInUser ? "none" : "flex" }}>
+          <p>Guest</p>
         </div>
 
         <div className="status-bar-auth-links" style={{ display: loggedInUser ? "none" : "flex", flexDirection: 'column' }}>
