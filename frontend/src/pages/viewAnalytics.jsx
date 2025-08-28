@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import "../css/Analytics.css"; // Import the CSS file
 
 const lengthLabels = {
   0: "Very Short",
@@ -52,20 +53,20 @@ export default function ViewAnalytics() {
     };
 
     fetchAnalytics();
-  }, []); 
+  }, []);
 
   if (loading) {
     return (
-      <div>
-        <div>Loading analytics...</div>
+      <div className="status-container">
+        <div className="loading-indicator">Loading analytics...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div>
-        <div>
+      <div className="status-container">
+        <div className="error-message">
           <strong>Error!</strong>
           <span>{error}</span>
         </div>
@@ -75,29 +76,24 @@ export default function ViewAnalytics() {
 
   if (!analyticsData) {
     return (
-      <div>
+      <div className="status-container">
         <div>No analytics data available.</div>
       </div>
     );
   }
 
-  // Prepare data for Summary Length Distribution Pie Chart
+  // Prepare data for Pie Charts
   const summaryLengthChartData =
     analyticsData.originalContentStats.lengthDistribution.map((item) => ({
       name: item.label,
       value: item.count,
     }));
 
-  // Prepare data for User Feedback Distribution Pie Chart
   const feedbackChartData = analyticsData.feedbackAnalysis.map((item) => ({
-    name:
-      item.rating === null
-        ? "No Feedback"
-        : `Rating ${item.rating} `,
+    name: item.rating === null ? "No Feedback" : `Rating ${item.rating} `,
     value: item.count,
   }));
 
-  // Prepare data for Input Medium Distribution Pie Chart
   const inputMediumChartData = analyticsData.inputMediumDistribution.map(
     (item) => ({
       name: item.type,
@@ -106,114 +102,131 @@ export default function ViewAnalytics() {
   );
 
   return (
-    <div>
-      <div>
-        <header>
-          <h1>Summary App Analytics</h1>
+    <div className="analytics-page">
+      <div className="analytics-container">
+        <header className="analytics-header">
+          <h1>System Analytics</h1>
         </header>
 
-        <div>
           {/* Total Summaries */}
-          <section>
-            <h2>Overall Summary Statistics</h2>
-            <div>
-              <p>{analyticsData.totalSummaries}</p>
-              <p>Total Summaries Generated</p>
+          <section className="analytics-card card-highlight">
+            <h2 className="card-title">Overall Summary Statistics</h2>
+            <div className="card-content">
+              <p className="metric-value total-summaries-value">
+                {analyticsData.totalSummaries}
+              </p>
+              <p className="metric-label">Total Summaries Generated</p>
+            </div>
+          </section>
+        <div className="analytics-grid">
+          
+
+          {/* Original Content Statistics by Length */}
+          <section className="analytics-card">
+            <h2 className="card-title">Original Content Metrics</h2>
+            <div className="card-content metrics-by-length-container">
+              {Object.keys(lengthLabels).map((key) => {
+                const label = lengthLabels[key];
+                const stats = analyticsData.originalContentStatsByLength?.[label];
+                if (!stats) return "null"; // Don't render if no data for this category
+
+                return (
+                  <div key={label} className="length-category-metrics">
+                    <h4 className="length-category-title">{label}</h4>
+                    <div className="metric-item">
+                      <span className="metric-label">Avg. Word Count:</span>
+                      <span className="metric-value">
+                        {stats.avgWordCount.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="metric-item">
+                      <span className="metric-label">Avg. Sentence Count:</span>
+                      <span className="metric-value">
+                        {stats.avgSentenceCount.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          
+          {/* Summarized Content Statistics by Length */}
+          <section className="analytics-card">
+            <h2 className="card-title">Summarized Content Metrics</h2>
+            <div className="card-content metrics-by-length-container">
+              {Object.keys(lengthLabels).map((key) => {
+                const label = lengthLabels[key];
+                const stats = analyticsData.summarizedContentStatsByLength?.[label];
+                if (!stats) return "null"; // Don't render if no data for this category
+
+                return (
+                  <div key={label} className="length-category-metrics">
+                    <h4 className="length-category-title">{label}</h4>
+                    <div className="metric-item">
+                      <span className="metric-label">Avg. Word Count:</span>
+                      <span className="metric-value">
+                        {stats.avgWordCount.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="metric-item">
+                      <span className="metric-label">Avg. Sentence Count:</span>
+                      <span className="metric-value">
+                        {stats.avgSentenceCount.toFixed(2)}
+                      </span>
+                    </div>
+                     <div className="metric-item">
+                       <span className="metric-label">Avg. Compression:</span>
+                       <span className="metric-value">
+                         {(stats.avgCompressionRatio * 100).toFixed(2)}%
+                       </span>
+                     </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
-          {/* Original Content Statistics */}
-          <section>
-            <h2>Original Content Metrics</h2>
-            <div>
-              <div>
-                <p>Average Original Word Count:</p>
-                <p>
-                  {analyticsData.originalContentStats.avgWordCount.toFixed(2)}
-                </p>
-              </div>
-              <div>
-                <p>Average Original Sentence Count:</p>
-                <p>
-                  {analyticsData.originalContentStats.avgSentenceCount.toFixed(
-                    2
-                  )}
-                </p>
-              </div>
-            </div>
-            <div>
-              <h3>Summary Length Distribution:</h3>
-              <div>
-                {/* Pie Chart for Summary Length Distribution */}
-                {summaryLengthChartData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={summaryLengthChartData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                        labelLine={false}
-                        label={({ name, percent }) =>
-                          `${name} (${(percent * 100).toFixed(0)}%)`
-                        }
-                      >
-                        {summaryLengthChartData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <p>No length distribution data available.</p>
-                )}
-              </div>
-            </div>
-          </section>
-
-          {/* Summarized Content Statistics */}
-          <section>
-            <h2>Summarized Content Metrics</h2>
-            <div>
-              <div>
-                <p>Average Summarized Word Count:</p>
-                <p>
-                  {analyticsData.summarizedContentStats.avgWordCount.toFixed(2)}
-                </p>
-              </div>
-              <div>
-                <p>Average Summarized Sentence Count:</p>
-                <p>
-                  {analyticsData.summarizedContentStats.avgSentenceCount.toFixed(
-                    2
-                  )}
-                </p>
-              </div>
-              <div>
-                <p>Average Compression Ratio:</p>
-                <p>
-                  {(
-                    analyticsData.summarizedContentStats.avgCompressionRatio *
-                    100
-                  ).toFixed(2)}
-                  %
-                </p>
-              </div>
+          {/* Summary Length Distribution */}
+          <section className="analytics-card">
+            <h2 className="card-title">Summary Length Distribution</h2>
+            <div className="card-content">
+              {summaryLengthChartData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={summaryLengthChartData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                      labelLine={false}
+                      label={({ name, percent }) =>
+                        `${name} (${(percent * 100).toFixed(0)}%)`
+                      }
+                    >
+                      {summaryLengthChartData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <p>No length distribution data available.</p>
+              )}
             </div>
           </section>
 
           {/* Feedback Analysis */}
-          <section>
-            <h2>User Feedback Distribution</h2>
-            <div>
-              {/* Pie Chart for User Feedback Distribution */}
+          <section className="analytics-card">
+            <h2 className="card-title">User Feedback Distribution</h2>
+            <div className="card-content">
               {feedbackChartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -247,10 +260,9 @@ export default function ViewAnalytics() {
           </section>
 
           {/* Input Medium Distribution */}
-          <section>
-            <h2>Input Medium Distribution</h2>
-            <div>
-              {/* Pie Chart for Input Medium Distribution */}
+          <section className="analytics-card">
+            <h2 className="card-title">Input Medium Distribution</h2>
+            <div className="card-content">
               {inputMediumChartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
