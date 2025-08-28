@@ -154,7 +154,7 @@ export default function ManageUsers() {
                 <td>{user.adminAccess ? "Yes" : "No"}</td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>
-                  {(loggedInUser != user._id) && <button onClick={() => openAccessModal(user)}>
+                  {(loggedInUser != user._id && !user.adminAccess) && <button onClick={() => openAccessModal(user)}>
                     Modify Access
                   </button>}
                 </td>

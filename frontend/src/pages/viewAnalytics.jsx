@@ -93,7 +93,7 @@ export default function ViewAnalytics() {
     name:
       item.rating === null
         ? "No Feedback"
-        : `Rating ${item.rating} Star${item.rating !== 1 ? "s" : ""}`,
+        : `Rating ${item.rating} `,
     value: item.count,
   }));
 

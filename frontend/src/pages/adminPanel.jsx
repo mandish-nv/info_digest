@@ -17,9 +17,9 @@ export default function AdminPanel(){
       <div>
         <span onClick={()=>setCurrentPage("View analytics")}>View analytics</span> 
       </div>
-      <div>
+      {/* <div>
         <span onClick={()=>setCurrentPage("Manage AI models")}>Manage AI models</span> 
-      </div>
+      </div> */}
       {currentPage=='Manage users'&&(<ManageUsers/>)}
       {currentPage=='View analytics'&&(<ViewAnalytics/>)}
       {currentPage=='Manage AI models'&&(<ManageAiModels/>)}
