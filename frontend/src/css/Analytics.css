@@ -12,6 +12,7 @@
 .analytics-container {
   max-width: 1400px;
   margin: 0 auto;
+  padding:1rem;
 }
 
 /* Header */
@@ -29,9 +30,14 @@
 }
 
 /* Grid Layout for Analytics Cards */
-.analytics-grid {
+/* .analytics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+} */
+ .analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
@@ -40,7 +46,7 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 1.5rem;
+  padding: 2.4rem;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -111,7 +117,7 @@
 
 .length-category-metrics {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   border: 1px solid #e9ecef;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -135,7 +141,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   border-top: 1px solid #f1f3f5;
 }
 .metric-item:first-of-type{
@@ -157,11 +163,11 @@
 }
 
 .error-message {
-  background-color: #f8d7da;
+  /* background-color: #f8d7da; */
   color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 8px;
-  padding: 2rem;
+  /* border: 1px solid #f5c6cb; */
+  /* border-radius: 8px; */
+  /* padding: 2rem; */
   max-width: 600px;
   text-align: center;
 }

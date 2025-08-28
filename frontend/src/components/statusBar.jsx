@@ -125,14 +125,14 @@ export default function StatusBar() {
         {adminAccessFlag && (
           <Link to="/adminPanel">Admin Panel</Link>
         )}
-        {loggedInUser && (
+        {/* {loggedInUser && (
           <Link to="/profile">User Profile</Link>
-        )}
+        )} */}
       </div>
 
       <div className="status-bar-user-status">
         <div className="status-bar-logout-section" style={{ display: loggedInUser ? "flex" : "none" }}>
-          <p>Welcome, {userName}</p>
+          <p>Welcome, <Link to="/profile" style={{color:"white"}}>{userName}</Link></p>
           <button onClick={logOut}>Log out</button>
         </div>
 
@@ -140,9 +140,9 @@ export default function StatusBar() {
           <p>Guest</p>
         </div>
 
-        <div className="status-bar-auth-links" style={{ display: loggedInUser ? "none" : "flex", flexDirection: 'column' }}>
-          <Link to={"/register"}>Register</Link>
-          <Link to={"/login"}>Log in</Link>
+        <div className="status-bar-auth-links" style={{ display: loggedInUser ? "none" : "flex"}}>
+          <div><Link to={"/register"}>Register</Link></div>
+          <div><Link to={"/login"}>Log in</Link></div>
         </div>
       </div>
     </div>

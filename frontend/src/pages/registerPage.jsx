@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import StatusBar from '../components/statusBar';
+import '../css/Register.css';
 
 export default function Register() {
   const [formErrors, setFormErrors] = useState({});
@@ -9,13 +11,13 @@ export default function Register() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  const isLoggedIn = (sessionStorage.getItem("login")||localStorage.getItem("login"))?true:false;
-  useEffect(()=>{
-    if(isLoggedIn){
+  const isLoggedIn = (sessionStorage.getItem("login") || localStorage.getItem("login")) ? true : false;
+  useEffect(() => {
+    if (isLoggedIn) {
       sessionStorage.setItem("login", localStorage.getItem("login"));
       navigate('/')
     }
-  },[])
+  }, [])
 
   const [regInfo, setRegInfo] = useState({
     fullName: "",
@@ -92,7 +94,7 @@ export default function Register() {
 
   const handleChangeReg = (event, name) => {
     setRegInfo({ ...regInfo, [name]: event.target.value });
-    setFormErrors({ ...formErrors, [name]: "" }); 
+    setFormErrors({ ...formErrors, [name]: "" });
   };
 
   const handleFile = (event) => {
@@ -102,7 +104,7 @@ export default function Register() {
       reader.onload = () => {
         if (reader.result) {
           setRegInfo({ ...regInfo, profilePicture: reader.result });
-          setFormErrors({ ...formErrors, profilePicture: "" }); 
+          setFormErrors({ ...formErrors, profilePicture: "" });
         }
       };
       reader.readAsDataURL(file);
@@ -131,104 +133,147 @@ export default function Register() {
   const minDob = getDateYearsAgo(120);
 
   return (
-    <form onSubmit={register}>
-      <h1>Register</h1>
-      <div>* Full Name:</div>
-      <input
-        type="text"
-        name="fullName"
-        value={regInfo.fullName}
-        onChange={(e) => handleChangeReg(e, "fullName")}
-      />
-      <div className="error-message">{formErrors.fullName}</div>
-      <br />
-      <div>* Username:</div>
-      <input
-        type="text"
-        name="userName"
-        value={regInfo.userName}
-        onChange={(e) => handleChangeReg(e, "userName")}
-      />
-      <div className="error-message">{formErrors.userName}</div>
-      <br />
-      <div>* Gender:</div>
-      <input
-        type="radio"
-        name="gender"
-        value="Male"
-        checked={regInfo.gender === "Male"}
-        onChange={(e) => handleChangeReg(e, "gender")}
-      />{" "}
-      Male
-      <input
-        type="radio"
-        name="gender"
-        value="Female"
-        checked={regInfo.gender === "Female"}
-        onChange={(e) => handleChangeReg(e, "gender")}
-      />{" "}
-      Female
-      <div className="error-message">{formErrors.gender}</div>
-      <br />
-      <div>* Date of Birth:</div>
-      <input
-        type="date"
-        name="dob"
-        value={regInfo.dob}
-        min={minDob}
-        max={maxDob}
-        onChange={(e) => handleChangeReg(e, "dob")}
-      />
-      <div className="error-message">{formErrors.dob}</div>
-      <br />
-      <div>* Email:</div>
-      <input
-        type="email"
-        name="email"
-        value={regInfo.email}
-        onChange={(e) => handleChangeReg(e, "email")}
-      />
-      <div className="error-message">{formErrors.email}</div>
-      <br />
-      <div>* Password:</div>
-      <input
-        type={showPassword ? "text" : "password"}
-        name="password"
-        value={regInfo.password}
-        onChange={(e) => handleChangeReg(e, "password")}
-      />
-      <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-        {showPassword ? "Hide" : "Show"} Password
-      </button>
-      <div className="error-message">{formErrors.password}</div>
-      <br />
-      <div>* Repassword:</div>
-      <input
-        type={showRepassword ? "text" : "password"}
-        name="repassword"
-        value={regInfo.repassword}
-        onChange={(e) => handleChangeReg(e, "repassword")}
-      />
-      <button type="button" onClick={() => setShowRepassword((prev) => !prev)}>
-        {showRepassword ? "Hide" : "Show"} Repassword
-      </button>
-      <div className="error-message">{formErrors.repassword}</div>
-      <br />
-      <div>Profile Picture:</div>
-      <input
-        type="file"
-        name="image"
-        accept="image/*"
-        onChange={handleFile}
-        ref={fileInputRef}
-      />
-      <div className="error-message">{formErrors.profilePicture}</div>
-      <br />
-      <br />
-      <button type="submit">Submit</button>
-      <br />
-      <p>Already have an account?</p>
-      <Link to={"/login"}>Log in</Link>
-    </form>
+    <div className="register-container">
+      <StatusBar />
+      <form onSubmit={register} className="register-form">
+        <h1 className="form-title">Create an Account</h1>
+        <div className="form-group">
+          <label htmlFor="fullName">* Full Name:</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            className="form-input"
+            value={regInfo.fullName}
+            onChange={(e) => handleChangeReg(e, "fullName")}
+          />
+          <div className="error-message">{formErrors.fullName}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="userName">* Username:</label>
+          <input
+            type="text"
+            id="userName"
+            name="userName"
+            className="form-input"
+            value={regInfo.userName}
+            onChange={(e) => handleChangeReg(e, "userName")}
+          />
+          <div className="error-message">{formErrors.userName}</div>
+        </div>
+        <div className="form-group">
+          <label>* Gender:</label>
+          <div className="gender-options">
+            <input
+              type="radio"
+              id="male"
+              name="gender"
+              value="Male"
+              checked={regInfo.gender === "Male"}
+              onChange={(e) => handleChangeReg(e, "gender")}
+            />
+            <label htmlFor="male">Male</label>
+            <input
+              type="radio"
+              id="female"
+              name="gender"
+              value="Female"
+              checked={regInfo.gender === "Female"}
+              onChange={(e) => handleChangeReg(e, "gender")}
+            />
+            <label htmlFor="female">Female</label>
+          </div>
+          <div className="error-message">{formErrors.gender}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="dob">* Date of Birth:</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            className="form-input"
+            value={regInfo.dob}
+            min={minDob}
+            max={maxDob}
+            onChange={(e) => handleChangeReg(e, "dob")}
+          />
+          <div className="error-message">{formErrors.dob}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">* Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="form-input"
+            value={regInfo.email}
+            onChange={(e) => handleChangeReg(e, "email")}
+          />
+          <div className="error-message">{formErrors.email}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">* Password:</label>
+          <div className="password-input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              className="form-input"
+              value={regInfo.password}
+              onChange={(e) => handleChangeReg(e, "password")}
+            />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          <div className="error-message">{formErrors.password}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="repassword">* Repassword:</label>
+          <div className="password-input-group">
+            <input
+              type={showRepassword ? "text" : "password"}
+              id="repassword"
+              name="repassword"
+              className="form-input"
+              value={regInfo.repassword}
+              onChange={(e) => handleChangeReg(e, "repassword")}
+            />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowRepassword((prev) => !prev)}
+            >
+              {showRepassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          <div className="error-message">{formErrors.repassword}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="profilePicture">Profile Picture:</label>
+          <input
+            type="file"
+            id="profilePicture"
+            name="image"
+            className="form-input-file"
+            accept="image/*"
+            onChange={handleFile}
+            ref={fileInputRef}
+          />
+          <div className="error-message">{formErrors.profilePicture}</div>
+        </div>
+        <button type="submit" className="submit-btn">
+          Submit
+        </button>
+        <p className="login-prompt">Already have an account?</p>
+        <Link to={"/login"} className="login-link">
+          Log in
+        </Link>
+      </form>
+    </div>
   );
-}
+} 

@@ -1,0 +1,50 @@
+/* Note: This CSS assumes you're using the same file for both pages. */
+
+/* Login Form Specific Styles */
+.login-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin: 50px auto 0 auto; /* Top margin of 50px, auto for left/right, 0 for bottom */
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.register-prompt {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.register-link {
+  display: block;
+  text-align: center;
+  color: #28a745;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.register-link:hover {
+  color: #218838;
+  text-decoration: underline;
+}
+
+/* Remember Me Checkbox styles (if uncommented) */
+.remember-me-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.remember-me-group input[type="checkbox"] {
+  accent-color: #28a745;
+}

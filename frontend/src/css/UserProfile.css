@@ -22,7 +22,7 @@ body {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    padding: 10px;
     margin-top: 20px;
     width: 100%;
     max-width: 95%; /* Changed to almost fill the screen */
@@ -63,6 +63,8 @@ body {
     gap: 50px;
     padding-bottom: 25px;
     border-bottom: 1px dashed #ddd;
+    background-color: #28a745;
+    border-radius: 12px;
 }
 
 @media (min-width: 768px) {
@@ -80,8 +82,8 @@ body {
 }
 
 .user-profile-picture {
-    width: 150px;
-    height: 150px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid #28a745; /* Accent color border */
@@ -92,11 +94,11 @@ body {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 10px;
-    color: #444;
+    color: rgb(238, 236, 236);
 }
 
 .user-profile-item strong {
-    color: #333;
+    color: rgb(238, 236, 236);
     min-width: 120px; /* Align text for better readability */
     display: inline-block;
 }
@@ -226,16 +228,16 @@ h4 {
 }
 
 /* New container for controls */
-.controls-container {
+/* .controls-container {
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-    justify-content: center; /* Center items horizontally */
-    align-items: flex-start; /* Align items to the start of the cross axis */
-    gap: 160px; /* Space between the two cards */
-    width: 100%; /* Take full width */
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 160px; 
+    width: 100%; 
     margin-bottom: 0px;
     margin: 0 10px 0 10px
-}
+} */
 
 .input-medium-selector-card { /* Renamed for specific styling */
     display: flex;
@@ -331,23 +333,23 @@ h4 {
 }
 
 /* Summary Length Slider Card */
-.summary-length-card {
+/* .summary-length-card {
     background-color: #ffffff;
-    padding: 20px; /* Reduced padding */
+    padding: 20px; 
     border-radius: 12px;
-    /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
+
     width: 90%;
-    max-width: 450px; /* Adjusted max-width to allow side-by-side */
-    flex-basis: 450px; /* Initial width, allows shrinking */
-    flex-grow: 1; /* Allows it to grow */
-    box-sizing: border-box; /* Include padding in width */
-    margin-bottom: 10px; /* Remove margin-top */
-    height: 80px; /* Set a fixed height for consistency */
+    max-width: 450px; 
+    flex-basis: 450px; 
+    flex-grow: 1; 
+    box-sizing: border-box;
+    margin-bottom: 10px; 
+    height: 80px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .summary-length-title {
     font-size: 1em; /* Smaller font size */

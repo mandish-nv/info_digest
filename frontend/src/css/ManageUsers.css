@@ -18,12 +18,12 @@
 /* Messages for empty states or errors */
 .error-message {
   color: #dc3545;
-  padding: 20px;
+  /* padding: 20px; */
   text-align: center;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+  /* background-color: #f8d7da; */
+  /* border: 1px solid #f5c6cb; */
   border-radius: 8px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 
 .info-message {

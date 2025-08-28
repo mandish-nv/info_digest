@@ -257,17 +257,17 @@ export default function TextSummarizer() {
 
   return (
     <div className="App">
-      {error && <p className="error-message">Error: {error}</p>}
-      {loading && <p className="loading-message">Loading...</p>}
+      {error && <div className="error-message">Error: {error}</div>}
+      {loading && <div className="loading-message">Loading...</div>}
 
       <section className="summarizer-section">
-        <h2>Extractive Summarization</h2>
+        <h2>Summarization</h2>
         <form onSubmit={handleSummarize} className="summarizer-form">
           <div className="controls-container">
             {" "}
             {/* New container */}
             <div className="summary-length-card">
-              <h1 className="summary-length-title">Select Summary Length</h1>
+              <h1 className="summary-length-title">Summary Length</h1>
               <div className="summary-length-slider-container">
                 <span className="slider-min-label">Short</span>
                 <input
@@ -283,9 +283,46 @@ export default function TextSummarizer() {
                 <span className="slider-max-label">Long</span>
               </div>
             </div>
+                        {/* TEMPORARY */}
             <div className="summary-length-card">
               {" "}
-              <h1 className="summary-length-title">Select Summary Length</h1>
+              <h1 className="summary-length-title">Summary Type</h1>
+              <div className="input-medium-selector-card">
+                {" "}
+                {/* Renamed for specific styling */}
+                <span
+                  className={`input-medium-option ${
+                    inputMedium === "text" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setInputMedium("text");
+                    setText("");
+                    setError("");
+                    setUploadedFile(null);
+                    setUploadStatus("");
+                  }}
+                >
+                  Extractive
+                </span>
+                <span
+                  className={`input-medium-option ${
+                    inputMedium === "file" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setInputMedium("file");
+                    setUploadStatus("");
+                    setUploadedFile(null);
+                    setText("");
+                    setError("");
+                  }}
+                >
+                  Abstractive
+                </span>
+              </div>
+            </div>
+            <div className="summary-length-card">
+              {" "}
+              <h1 className="summary-length-title">Input Type</h1>
               <div className="input-medium-selector-card">
                 {" "}
                 {/* Renamed for specific styling */}

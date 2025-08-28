@@ -5,7 +5,7 @@
   justify-content: space-between; /* Distribute items evenly */
   align-items: center; /* Vertically align items */
   background-color: #28a745; /* A shade of green */
-  padding: 8px 20px; /* Add some padding */
+  padding: 8px 40px; /* Add some padding */
   color: white; /* White text for better contrast */
   font-family: Arial, sans-serif; /* A common, readable font */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */

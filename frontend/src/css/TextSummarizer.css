@@ -10,8 +10,8 @@ body {
 
 .App {
     max-width: 1200px;
-    margin: 20px auto;
-    margin-top: 100px;
+    margin: 20px;
+    margin-top: 200px;
     padding: 20px;
     background-color: #fff;
     border-radius: 12px;
@@ -26,6 +26,7 @@ body {
     padding: 0px;
     border-radius: 8px;
     background-color: #fdfdfd;
+    margin-top: 0px;
 }
 
 h2 {
@@ -56,10 +57,10 @@ h4 {
     flex-wrap: wrap; /* Allows items to wrap on smaller screens */
     justify-content: center; /* Center items horizontally */
     align-items: flex-start; /* Align items to the start of the cross axis */
-    gap: 160px; /* Space between the two cards */
+    gap: 30px; 
     width: 100%; /* Take full width */
-    margin-bottom: 0px;
-    margin: 0 10px 0 10px
+    margin: 0 10px;
+    padding-bottom: 30px;
 }
 
 .input-medium-selector-card { /* Renamed for specific styling */
@@ -158,11 +159,11 @@ h4 {
 /* Summary Length Slider Card */
 .summary-length-card {
     background-color: #ffffff;
-    padding: 20px; /* Reduced padding */
+    padding: 0px; /* Reduced padding */
     border-radius: 12px;
     /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
     width: 90%;
-    max-width: 450px; /* Adjusted max-width to allow side-by-side */
+    max-width: 300px; /* Adjusted max-width to allow side-by-side */
     flex-basis: 450px; /* Initial width, allows shrinking */
     flex-grow: 1; /* Allows it to grow */
     box-sizing: border-box; /* Include padding in width */
@@ -179,6 +180,7 @@ h4 {
     font-weight: bold;
     color: #1a202c;
     margin-bottom: 4px; /* Adjusted margin */
+    padding-bottom: 15px;
     text-align: center;
 }
 
@@ -433,10 +435,13 @@ h4 {
 
 /* Error and Loading Messages */
 .error-message {
-    color: red;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 0px;
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
 }
 
 .loading-message {

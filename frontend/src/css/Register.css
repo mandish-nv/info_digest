@@ -1,0 +1,151 @@
+/* General Body and Container Styles */
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+} */
+
+.register-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin: 50px auto 0 auto; /* Top margin of 50px, auto for left/right, 0 for bottom */
+}
+
+/* Form Styles */
+.register-form {
+  background-color: #fff;
+  padding: 2rem 6rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  color: #28a745;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 500px;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+.form-input-file {
+  width: 100%;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+}
+
+.password-input-group {
+  display: flex;
+  align-items: center;
+}
+
+.password-input-group .form-input {
+  flex-grow: 1;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.show-password-btn {
+  padding: 0.75rem 1rem;
+  background-color: #f0f2f5;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  transition: background-color 0.2s;
+}
+
+.show-password-btn:hover {
+  background-color: #e0e2e5;
+}
+
+.gender-options {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gender-options label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+/* Error Message Styles */
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  min-height: 1rem;
+}
+
+/* Buttons and Links */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.submit-btn:hover {
+  background-color: #218838;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.login-link {
+  display: block;
+  text-align: center;
+  color: #28a745;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #218838;
+  text-decoration: underline;
+}

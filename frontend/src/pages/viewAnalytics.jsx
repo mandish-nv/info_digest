@@ -118,9 +118,8 @@ export default function ViewAnalytics() {
               <p className="metric-label">Total Summaries Generated</p>
             </div>
           </section>
-        <div className="analytics-grid">
-          
 
+        <div className="analytics-grid">
           {/* Original Content Statistics by Length */}
           <section className="analytics-card">
             <h2 className="card-title">Original Content Metrics</h2>
@@ -198,10 +197,11 @@ export default function ViewAnalytics() {
                       data={summaryLengthChartData}
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
+                      outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"
                       labelLine={false}
+                      fontSize={"12px"}
                       label={({ name, percent }) =>
                         `${name} (${(percent * 100).toFixed(0)}%)`
                       }
@@ -234,7 +234,8 @@ export default function ViewAnalytics() {
                       data={feedbackChartData}
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
+                      outerRadius={100}
+                      fontSize={"12px"}
                       fill="#8884d8"
                       dataKey="value"
                       labelLine={false}
@@ -270,7 +271,8 @@ export default function ViewAnalytics() {
                       data={inputMediumChartData}
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
+                      outerRadius={100}
+                      fontSize={"12px"}
                       fill="#8884d8"
                       dataKey="value"
                       labelLine={false}

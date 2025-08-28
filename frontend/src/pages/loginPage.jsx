@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router";
+import '../css/Login.css';
+import StatusBar from "../components/statusBar";
 
 export default function Login({ value }) {
   const [formErrors, setFormErrors] = useState({});
@@ -9,13 +11,13 @@ export default function Login({ value }) {
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
-  const isLoggedIn = (sessionStorage.getItem("login")||localStorage.getItem("login"))?true:false;
-    useEffect(()=>{
-      if(isLoggedIn){
-        sessionStorage.setItem("login", localStorage.getItem("login"));
-        navigate('/')
-      }
-    },[])
+  const isLoggedIn = (sessionStorage.getItem("login") || localStorage.getItem("login")) ? true : false;
+  useEffect(() => {
+    if (isLoggedIn) {
+      sessionStorage.setItem("login", localStorage.getItem("login"));
+      navigate('/')
+    }
+  }, [])
 
   const handleChange = (event, name) => {
     setLoginInfo({ ...loginInfo, [name]: event.target.value });
@@ -69,47 +71,64 @@ export default function Login({ value }) {
   };
 
   return (
-    <form onSubmit={login}>
-      <div>Username or Email:</div>
-      <br />
-      <input
-        type="text"
-        name="username"
-        value={loginInfo.userName}
-        placeholder="Enter Username or Email"
-        onChange={(event) => handleChange(event, "userName")}
-      ></input>
-      <div className="error-message">{formErrors.userName}</div>
-      <br />
-      <br />
-      <div>Password:</div>
-      <br />
-      <input
-        type={showPassword ? "text" : "password"}
-        name="password"
-        value={loginInfo.password}
-        onChange={(e) => handleChange(e, "password")}
-      />
-      <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-        {showPassword ? "Hide" : "Show"} Password
-      </button>
-      <div className="error-message">{formErrors.password}</div>
-      <br />
-      <br />
-      {/* <div>
-        <input
-          type="checkbox"
-          name="remember"
-          checked={check}
-          onChange={() => setCheck(!check)}
-        />
-        <div className="login-text">Remember Me</div>
-      </div> */}
-      <br />
-      <button type="submit">Submit</button>
-      <br />
-      <br />
-      Don't have an account <Link to={"/register"}>Register</Link>
-    </form>
+    <div className="login-container">
+      <StatusBar/>
+      <form onSubmit={login} className="login-form">
+        <h1 className="form-title">Login</h1>
+        <div className="form-group">
+          <label htmlFor="username">Username or Email:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className="form-input"
+            value={loginInfo.userName}
+            placeholder="Enter Username or Email"
+            onChange={(event) => handleChange(event, "userName")}
+            style={{width:"470px"}}
+          />
+          <div className="error-message">{formErrors.userName}</div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <div className="password-input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              className="form-input"
+              value={loginInfo.password}
+              onChange={(e) => handleChange(e, "password")}
+            />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          <div className="error-message">{formErrors.password}</div>
+        </div>
+        {/* 
+        <div className="form-group remember-me-group">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            name="remember"
+            checked={check}
+            onChange={() => setCheck(!check)}
+          />
+          <label htmlFor="rememberMe" className="login-text">Remember Me</label>
+        </div> */}
+        <button type="submit" className="submit-btn">
+          Submit
+        </button>
+        <p className="register-prompt">Don't have an account?</p>
+        <Link to={"/register"} className="register-link">
+          Register
+        </Link>
+      </form>
+    </div>
   );
 }
