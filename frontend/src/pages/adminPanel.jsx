@@ -3,26 +3,44 @@ import { useEffect, useState } from "react";
 import ManageUsers from "./manageUsers";
 import ViewAnalytics from "./viewAnalytics";
 import ManageAiModels from "./manageAiModels";
+import '../css/AdminPanel.css'; // Import the CSS file
 
 export default function AdminPanel(){
   const [currentPage, setCurrentPage] = useState("none");
 
   return(
-    <div>
+    <div className="admin-panel-container">
       <StatusBar/>
-      <h1>Admin Panel</h1>
-      <div>
-        <span onClick={()=>setCurrentPage("Manage users")}>Manage users</span> 
+      <h1 className="admin-panel-title">Admin Panel</h1>
+      
+      <div className="admin-nav">
+        <span 
+          className={`nav-item ${currentPage === "Manage users" ? "active" : ""}`}
+          onClick={()=>setCurrentPage("Manage users")}
+        >
+          Manage users
+        </span> 
+        <span 
+          className={`nav-item ${currentPage === "View analytics" ? "active" : ""}`}
+          onClick={()=>setCurrentPage("View analytics")}
+        >
+          View analytics
+        </span> 
+        {/*
+        <span 
+          className={`nav-item ${currentPage === "Manage AI models" ? "active" : ""}`}
+          onClick={()=>setCurrentPage("Manage AI models")}
+        >
+          Manage AI models
+        </span>
+        */}
       </div>
-      <div>
-        <span onClick={()=>setCurrentPage("View analytics")}>View analytics</span> 
+      
+      <div className="admin-content">
+        {currentPage === 'Manage users' && <ManageUsers/>}
+        {currentPage === 'View analytics' && <ViewAnalytics/>}
+        {currentPage === 'Manage AI models' && <ManageAiModels/>}
       </div>
-      {/* <div>
-        <span onClick={()=>setCurrentPage("Manage AI models")}>Manage AI models</span> 
-      </div> */}
-      {currentPage=='Manage users'&&(<ManageUsers/>)}
-      {currentPage=='View analytics'&&(<ViewAnalytics/>)}
-      {currentPage=='Manage AI models'&&(<ManageAiModels/>)}
     </div>
   );
 }

@@ -1,0 +1,260 @@
+/* General container and typography */
+.manage-users-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f7f9;
+  min-height: 100vh;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.page-title {
+  color: #333;
+  text-align: center;
+  padding-bottom: 30px;
+  border-bottom: 3px solid #28a745;
+}
+
+/* Messages for empty states or errors */
+.error-message {
+  color: #dc3545;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.info-message {
+  padding: 20px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.no-users-message {
+  text-align: center;
+  color: #6c757d;
+  margin-top: 20px;
+}
+
+/* Controls and search bar */
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.search-bar {
+  flex-grow: 1;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-button {
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #555;
+}
+
+.filter-button:hover {
+  background-color: #e9ecef;
+}
+
+.filter-button.active {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+}
+
+/* User table styles */
+.table-title {
+  color: #555;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 5px;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.users-table th {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+.users-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.users-table a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.users-table a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.profile-picture {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.modify-access-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.modify-access-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  width: 90%;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.modal-content p {
+  color: #666;
+}
+
+.modal-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modal-button-admin,
+.modal-button-default,
+.modal-button-cancel {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-button-admin {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-button-default {
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-button-cancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-button-admin:hover {
+  background-color: #0056b3;
+}
+
+.modal-button-default:hover {
+  background-color: #1e7e34;
+}
+
+.modal-button-cancel:hover {
+  background-color: #c82333;
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

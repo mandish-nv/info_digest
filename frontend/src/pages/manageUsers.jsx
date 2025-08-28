@@ -1,7 +1,6 @@
-// edit?
-
 import axios from "axios";
 import { useEffect, useState } from "react";
+import '../css/ManageUsers.css'; // Import the CSS file
 
 export default function ManageUsers() {
   const [userType, setUserType] = useState("all");
@@ -28,11 +27,11 @@ export default function ManageUsers() {
   }, []);
 
   if (error) {
-    return <div style={{ color: "red", padding: "20px" }}>Error: {error}</div>;
+    return <div className="error-message">Error: {error}</div>;
   }
 
   if (users.length === 0) {
-    return <div style={{ padding: "20px" }}>No users found.</div>;
+    return <div className="info-message">No users found.</div>;
   }
 
   const filteredUsers = users.filter((user) => {
@@ -91,105 +90,101 @@ export default function ManageUsers() {
   };
 
   return (
-    <div>
-      <h1>ManageUsers</h1>
-
-      <div>
-        <h2>Search</h2>
-        <div>
+    <div className="manage-users-container">
+      <h1 className="page-title">Manage Users</h1>
+      
+      <div className="controls-section">
+        <div className="search-bar">
           <input
             type="text"
+            className="search-input"
             placeholder="Search by name, username, or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-      </div>
 
-      <div>
-        <span onClick={() => setUserType("all")}>All users</span>
+        <div className="filter-buttons">
+          <span 
+            className={`filter-button ${userType === "all" ? "active" : ""}`} 
+            onClick={() => setUserType("all")}
+          >
+            All users
+          </span>
+          <span 
+            className={`filter-button ${userType === "admin" ? "active" : ""}`} 
+            onClick={() => setUserType("admin")}
+          >
+            Admin
+          </span>
+        </div>
       </div>
-      <div>
-        <span onClick={() => setUserType("admin")}>Admin</span>
-      </div>
-
-      <h2>
+      
+      <h2 className="table-title">
         {userType === "admin" ? "Registered Admins" : "All Registered Users"}
       </h2>
 
       {filteredUsers.length === 0 ? (
-        <div>No {userType === "admin" ? "admin" : ""} users found.</div>
+        <div className="no-users-message">
+          No {userType === "admin" ? "admin" : ""} users found.
+        </div>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Profile Picture</th>
-              <th>Full Name</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Gender</th>
-              <th>Date of Birth</th>
-              <th>Admin Access</th>
-              <th>Registered On</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user._id}>
-                <td>
-                <a href={`/profile/${user._id}`} target="_blank">
-                  <img
-                    src={user.profilePicture}
-                    style={{ height: "50px", width: "50px" }}
-                  ></img>
-                  </a>
-                </td>
-                <td><a href={`/profile/${user._id}`} target="_blank">{user.fullName}</a></td>
-                <td><a href={`/profile/${user._id}`} target="_blank">{user.userName}</a></td>
-                <td><a href={`/profile/${user._id}`} target="_blank">{user.email}</a></td>
-                
-                <td>{user.gender}</td>
-                <td>{new Date(user.dob).toLocaleDateString()}</td>
-                <td>{user.adminAccess ? "Yes" : "No"}</td>
-                <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                <td>
-                  {(loggedInUser != user._id && !user.adminAccess) && <button onClick={() => openAccessModal(user)}>
-                    Modify Access
-                  </button>}
-                </td>
+        <div className="table-container">
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>Profile Picture</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Admin</th>
+                <th>Registered On</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => (
+                <tr key={user._id}>
+                  <td>
+                    <a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={user.profilePicture && user.profilePicture !== "null" 
+                          ? user.profilePicture 
+                          : "../assets/no_profile.jpg"
+                        }
+                        className="profile-picture"
+                      />
+                    </a>
+                  </td>
+                  <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.fullName}</a></td>
+                  <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.userName}</a></td>
+                  <td><a href={`/profile/${user._id}`} target="_blank" rel="noopener noreferrer">{user.email}</a></td>
+                  <td>{user.gender}</td>
+                  <td>{new Date(user.dob).toLocaleDateString()}</td>
+                  <td>{user.adminAccess ? "Yes" : "No"}</td>
+                  <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    {loggedInUser !== user._id && (
+                      <button 
+                        onClick={() => openAccessModal(user)}
+                        className="modify-access-button"
+                      >
+                        Modify Access
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {showAccessModal && selectedUserForAccess && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "30px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-              maxWidth: "400px",
-              width: "90%",
-              textAlign: "center",
-            }}
-          >
+        <div className="modal-overlay">
+          <div className="modal-content">
             <h3>Change Access for {selectedUserForAccess.fullName}?</h3>
             <p>
               Current Status:
@@ -197,20 +192,12 @@ export default function ManageUsers() {
                 {selectedUserForAccess.adminAccess ? " Admin" : " Default User"}
               </strong>
             </p>
-            <div style={{ marginTop: "20px" }}>
+            <div className="modal-actions">
               <button
                 onClick={() =>
                   handleConfirmAccessChange(selectedUserForAccess._id, true)
                 }
-                style={{
-                  padding: "10px 15px",
-                  marginRight: "10px",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
+                className="modal-button-admin"
               >
                 Make Admin
               </button>
@@ -218,28 +205,13 @@ export default function ManageUsers() {
                 onClick={() =>
                   handleConfirmAccessChange(selectedUserForAccess._id, false)
                 }
-                style={{
-                  padding: "10px 15px",
-                  marginRight: "10px",
-                  backgroundColor: "#28a745",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
+                className="modal-button-default"
               >
                 Make Default User
               </button>
               <button
                 onClick={closeAccessModal}
-                style={{
-                  padding: "10px 15px",
-                  backgroundColor: "#dc3545",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
+                className="modal-button-cancel"
               >
                 Cancel
               </button>
@@ -250,4 +222,3 @@ export default function ManageUsers() {
     </div>
   );
 }
-
