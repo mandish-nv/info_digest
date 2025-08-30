@@ -79,6 +79,7 @@ mongoose
         const text = req.body.text;
         const ratio = req.body.ratio;
         const selectedOptionValue = req.body.selectedOptionValue;
+        const summaryType = req.body.summaryType;
         if (!text) {
           return res.status(400).json({ error: "Text is required(Express)" });
         }
@@ -88,6 +89,7 @@ mongoose
             text: text,
             ratio: ratio,
             selectedOptionValue: selectedOptionValue,
+            summaryType: summaryType,
           }
         );
         res.json(pythonResponse.data);
@@ -122,6 +124,7 @@ mongoose
         const file = req.file;
         const ratio = req.body.ratio;
         const selectedOptionValue = req.body.selectedOptionValue;
+        const summaryType = req.body.summaryType;
 
         if (!file) {
           return res.status(400).json({ error: "File is required." });
@@ -135,6 +138,7 @@ mongoose
         );
         formData.append("ratio", ratio);
         formData.append("selectedOptionValue", selectedOptionValue);
+        formData.append("summaryType", summaryType);
 
         try {
           const pythonResponse = await axios.post(
@@ -593,121 +597,121 @@ mongoose
       }
     });
 
-app.get("/analytics", async (req, res) => {
-  try {
-    const totalSummaries = await Summary.countDocuments();
+    app.get("/analytics", async (req, res) => {
+      try {
+        const totalSummaries = await Summary.countDocuments();
 
-    // Define the length labels for mapping numeric categories to strings
-    const lengthLabels = {
-      0: "Very Short",
-      1: "Short",
-      2: "Medium",
-      3: "Long",
-    };
+        // Define the length labels for mapping numeric categories to strings
+        const lengthLabels = {
+          0: "Very Short",
+          1: "Short",
+          2: "Medium",
+          3: "Long",
+        };
 
-    // Run all aggregation queries in parallel for efficiency
-    const [
-      statsByLength,
-      feedbackDistribution,
-      inputMediumStats,
-      lengthDistribution,
-    ] = await Promise.all([
-      // New aggregation: Calculate all content stats grouped by summaryLength
-      Summary.aggregate([
-        {
-          $match: { summaryLength: { $in: Object.keys(lengthLabels).map(Number) } }
-        },
-        {
-          $group: {
-            _id: "$summaryLength", // Group by the length category (0, 1, 2, 3)
-            avgOriginalWordCount: { $avg: "$originalContent.wordCount" },
-            avgOriginalSentenceCount: { $avg: "$originalContent.sentenceCount" },
-            avgSummarizedWordCount: { $avg: "$summarizedContent.wordCount" },
-            avgSummarizedSentenceCount: { $avg: "$summarizedContent.sentenceCount" },
-            avgCompressionRatio: {
-              $avg: {
-                // Safely calculate division, avoiding divide-by-zero errors
-                $cond: [
-                  { $eq: ["$originalContent.wordCount", 0] },
-                  0, // Return 0 if original word count is 0
-                  { $divide: ["$summarizedContent.wordCount", "$originalContent.wordCount"] }
-                ]
+        // Run all aggregation queries in parallel for efficiency
+        const [
+          statsByLength,
+          feedbackDistribution,
+          inputMediumStats,
+          lengthDistribution,
+        ] = await Promise.all([
+          // New aggregation: Calculate all content stats grouped by summaryLength
+          Summary.aggregate([
+            {
+              $match: { summaryLength: { $in: Object.keys(lengthLabels).map(Number) } }
+            },
+            {
+              $group: {
+                _id: "$summaryLength", // Group by the length category (0, 1, 2, 3)
+                avgOriginalWordCount: { $avg: "$originalContent.wordCount" },
+                avgOriginalSentenceCount: { $avg: "$originalContent.sentenceCount" },
+                avgSummarizedWordCount: { $avg: "$summarizedContent.wordCount" },
+                avgSummarizedSentenceCount: { $avg: "$summarizedContent.sentenceCount" },
+                avgCompressionRatio: {
+                  $avg: {
+                    // Safely calculate division, avoiding divide-by-zero errors
+                    $cond: [
+                      { $eq: ["$originalContent.wordCount", 0] },
+                      0, // Return 0 if original word count is 0
+                      { $divide: ["$summarizedContent.wordCount", "$originalContent.wordCount"] }
+                    ]
+                  }
+                }
               }
             }
-          }
-        }
-      ]),
+          ]),
 
-      // Feedback distribution (1–5) and includes null feedback
-      Summary.aggregate([
-        { $group: { _id: "$feedback", count: { $sum: 1 } } },
-        { $sort: { _id: 1 } },
-      ]),
+          // Feedback distribution (1–5) and includes null feedback
+          Summary.aggregate([
+            { $group: { _id: "$feedback", count: { $sum: 1 } } },
+            { $sort: { _id: 1 } },
+          ]),
 
-      // Input medium type distribution
-      Summary.aggregate([
-        { $group: { _id: "$inputMedium.type", count: { $sum: 1 } } },
-      ]),
+          // Input medium type distribution
+          Summary.aggregate([
+            { $group: { _id: "$inputMedium.type", count: { $sum: 1 } } },
+          ]),
 
-      // Count of summaries for each length category
-      Summary.aggregate([
-        { $match: { summaryLength: { $in: Object.keys(lengthLabels).map(Number) } } },
-        { $group: { _id: "$summaryLength", count: { $sum: 1 } } },
-        { $sort: { _id: 1 } },
-      ]),
-    ]);
+          // Count of summaries for each length category
+          Summary.aggregate([
+            { $match: { summaryLength: { $in: Object.keys(lengthLabels).map(Number) } } },
+            { $group: { _id: "$summaryLength", count: { $sum: 1 } } },
+            { $sort: { _id: 1 } },
+          ]),
+        ]);
 
-    // --- Data Transformation ---
+        // --- Data Transformation ---
 
-    // Create the nested objects for stats by length required by the frontend
-    const { originalContentStatsByLength, summarizedContentStatsByLength } = 
-      statsByLength.reduce((acc, stat) => {
-        const label = lengthLabels[stat._id];
-        if (label) {
-          acc.originalContentStatsByLength[label] = {
-            avgWordCount: stat.avgOriginalWordCount || 0,
-            avgSentenceCount: stat.avgOriginalSentenceCount || 0,
-          };
-          acc.summarizedContentStatsByLength[label] = {
-            avgWordCount: stat.avgSummarizedWordCount || 0,
-            avgSentenceCount: stat.avgSummarizedSentenceCount || 0,
-            avgCompressionRatio: stat.avgCompressionRatio || 0,
-          };
-        }
-        return acc;
-      }, { originalContentStatsByLength: {}, summarizedContentStatsByLength: {} });
+        // Create the nested objects for stats by length required by the frontend
+        const { originalContentStatsByLength, summarizedContentStatsByLength } = 
+          statsByLength.reduce((acc, stat) => {
+            const label = lengthLabels[stat._id];
+            if (label) {
+              acc.originalContentStatsByLength[label] = {
+                avgWordCount: stat.avgOriginalWordCount || 0,
+                avgSentenceCount: stat.avgOriginalSentenceCount || 0,
+              };
+              acc.summarizedContentStatsByLength[label] = {
+                avgWordCount: stat.avgSummarizedWordCount || 0,
+                avgSentenceCount: stat.avgSummarizedSentenceCount || 0,
+                avgCompressionRatio: stat.avgCompressionRatio || 0,
+              };
+            }
+            return acc;
+          }, { originalContentStatsByLength: {}, summarizedContentStatsByLength: {} });
 
-    // Map the length distribution counts to labels for the pie chart
-    const mappedLengthDistribution = lengthDistribution.map((entry) => ({
-      label: lengthLabels[entry._id] || "Unknown",
-      count: entry.count,
-    }));
+        // Map the length distribution counts to labels for the pie chart
+        const mappedLengthDistribution = lengthDistribution.map((entry) => ({
+          label: lengthLabels[entry._id] || "Unknown",
+          count: entry.count,
+        }));
 
-    // --- Final JSON Response ---
+        // --- Final JSON Response ---
 
-    res.json({
-      totalSummaries,
-      originalContentStats: {
-        // This part is mainly for the pie chart now
-        lengthDistribution: mappedLengthDistribution,
-      },
-      // The new, detailed stats objects
-      originalContentStatsByLength,
-      summarizedContentStatsByLength,
-      feedbackAnalysis: feedbackDistribution.map((f) => ({
-        rating: f._id,
-        count: f.count,
-      })),
-      inputMediumDistribution: inputMediumStats.map((i) => ({
-        type: i._id,
-        count: i.count,
-      })),
+        res.json({
+          totalSummaries,
+          originalContentStats: {
+            // This part is mainly for the pie chart now
+            lengthDistribution: mappedLengthDistribution,
+          },
+          // The new, detailed stats objects
+          originalContentStatsByLength,
+          summarizedContentStatsByLength,
+          feedbackAnalysis: feedbackDistribution.map((f) => ({
+            rating: f._id,
+            count: f.count,
+          })),
+          inputMediumDistribution: inputMediumStats.map((i) => ({
+            type: i._id,
+            count: i.count,
+          })),
+        });
+      } catch (err) {
+        console.error("Error fetching analytics:", err);
+        res.status(500).json({ error: "Failed to fetch analytics data" });
+      }
     });
-  } catch (err) {
-    console.error("Error fetching analytics:", err);
-    res.status(500).json({ error: "Failed to fetch analytics data" });
-  }
-});
 
     app.listen(port, () => {
       console.log(`Node.js server running on port ${port}`);

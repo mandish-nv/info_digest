@@ -136,7 +136,7 @@ export default function Register() {
     <div className="register-container">
       <StatusBar />
       <form onSubmit={register} className="register-form">
-        <h1 className="form-title">Create an Account</h1>
+        <h1 className="form-title">Register</h1>
         <div className="form-group">
           <label htmlFor="fullName">* Full Name:</label>
           <input

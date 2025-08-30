@@ -4,6 +4,18 @@ from fastapi import HTTPException, status
 import re
 import fitz  # PyMuPDF
 
+def capitalize_sentences(text: str) -> str:
+    """Capitalizes the first letter of each sentence in a given string."""
+    if not text:
+        return ""
+    
+    # Capitalize the very first letter of the string
+    text = text[0].upper() + text[1:] if text[0].islower() else text
+    
+    # Regex to find a period, question mark, or exclamation mark followed by a space and a lowercase letter
+    # and replace the lowercase letter with its uppercase version.
+    return re.sub(r'([.?!])\s*([a-z])', lambda x: x.group(1) + ' ' + x.group(2).upper(), text)
+
 def get_file_extension(filename: str) -> str:
     return filename.split('.')[-1].lower()
 

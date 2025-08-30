@@ -13,6 +13,7 @@ export default function TextSummarizer() {
   const [summaryWordCount, setSummaryWordCount] = useState(0);
   const [keywords, setKeywords] = useState([]);
   const [inputMedium, setInputMedium] = useState("text");
+  const [summaryType, setSummaryType] = useState("extractive");
   const [uploadedFile, setUploadedFile] = useState(null); // State to store the File object
   const [uploadStatus, setUploadStatus] = useState("");
   const [originalContentText, setOriginalContentText] = useState(""); // To store the original text for side-by-side display
@@ -86,13 +87,14 @@ export default function TextSummarizer() {
       if (inputMedium === "text") {
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary",
-          { text: text, ratio: ratio, selectedOptionValue: selectedOptionValue }
+          { text: text, ratio: ratio, selectedOptionValue: selectedOptionValue, summaryType: summaryType }
         );
       } else if (inputMedium === "file") {
         const formData = new FormData();
         formData.append("summaryFile", uploadedFile); // 'summaryFile' must match the name in your Express Multer config
         formData.append("ratio", ratio);
         formData.append("selectedOptionValue", selectedOptionValue);
+        formData.append("summaryType", summaryType);
 
         response = await axios.post(
           "http://localhost:5000/api/extractive-summary-file",
@@ -134,6 +136,7 @@ export default function TextSummarizer() {
           keywords: response.data.keywords,
           feedback: selectedRating,
           summaryLength: selectedIndex,
+          summaryType: summaryType,
           inputMedium: {
             type: inputMedium,
             // ...(inputMedium === "file" && {
@@ -283,36 +286,27 @@ export default function TextSummarizer() {
                 <span className="slider-max-label">Long</span>
               </div>
             </div>
-                        {/* TEMPORARY */}
+
             <div className="summary-length-card">
-              {" "}
               <h1 className="summary-length-title">Summary Type</h1>
               <div className="input-medium-selector-card">
-                {" "}
-                {/* Renamed for specific styling */}
                 <span
                   className={`input-medium-option ${
-                    inputMedium === "text" ? "active" : ""
+                    summaryType === "extractive" ? "active" : ""
                   }`}
                   onClick={() => {
-                    setInputMedium("text");
-                    setText("");
+                    setSummaryType("extractive");
                     setError("");
-                    setUploadedFile(null);
-                    setUploadStatus("");
                   }}
                 >
                   Extractive
                 </span>
                 <span
                   className={`input-medium-option ${
-                    inputMedium === "file" ? "active" : ""
+                    summaryType === "abstractive" ? "active" : ""
                   }`}
                   onClick={() => {
-                    setInputMedium("file");
-                    setUploadStatus("");
-                    setUploadedFile(null);
-                    setText("");
+                    setSummaryType("abstractive");
                     setError("");
                   }}
                 >
