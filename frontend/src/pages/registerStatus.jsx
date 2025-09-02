@@ -4,6 +4,7 @@ import Footer from "../components/footer";
 
 export default function RegisterStatus(){
   return(
+    <div>
     <div style={{
       display: 'flex',
       flexDirection: 'column',
@@ -47,6 +48,7 @@ export default function RegisterStatus(){
         >
           Log in
         </Link>
+      </div>
       </div>
       <Footer/>
     </div>

@@ -400,14 +400,14 @@ export default function TextSummarizer() {
           <div className="summary-results-container">
             <div className="content-panel">
               <h4>Original Text:</h4>
-              <span className="content-text">{originalContentText}</span>
+              <span className="large-content-text">{originalContentText}</span>
               <span>Original Text Length: {originalSentencesCount} sentences</span>
               <span>Original word count: {wordCount}</span>
             </div>
 
             <div className="content-panel">
               <h4>Summary:</h4>
-              <span className="content-text">{summarizeResult}</span>
+              <span className="large-content-text">{summarizeResult}</span>
               <div className="button-container">
                 <button
                   onClick={handleCopySummary}
