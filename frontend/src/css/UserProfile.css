@@ -110,7 +110,7 @@ body {
 
 .summary-cards-grid {
     display: grid;
-    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+    grid-template-columns: 100%;
     gap: 25px;
     justify-content: center;
     margin-top: 20px;
@@ -477,8 +477,8 @@ h4 {
 .content-text {
     /* white-space: pre-wrap; Preserves whitespace and wraps text */
     /* word-wrap: break-word; Breaks long words */
-    max-height: 300px; /* Limit height for scrollable content */
-    min-height: 300px; /* Ensures consistent height even for short content */
+    max-height: 150px; /* Limit height for scrollable content */
+    min-height: 150px; /* Ensures consistent height even for short content */
     overflow-y: auto; /* Add scrollbar if content exceeds height */
     padding: 10px;
     border: 1px solid #e0e0e0;

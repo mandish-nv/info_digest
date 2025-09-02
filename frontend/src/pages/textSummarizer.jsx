@@ -20,6 +20,7 @@ export default function TextSummarizer() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   // Create a ref for the summary results container
   const summaryResultsRef = useRef(null);
@@ -258,6 +259,19 @@ export default function TextSummarizer() {
     };
   };
 
+  const handleCopySummary = async () => {
+    try {
+      // Use the Clipboard API to copy the text
+      await navigator.clipboard.writeText(summarizeResult);
+      // Set the state to show feedback
+      setIsCopied(true);
+      // Reset the button text after 2 seconds
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <div className="App">
       {error && <div className="error-message">Error: {error}</div>}
@@ -394,6 +408,15 @@ export default function TextSummarizer() {
             <div className="content-panel">
               <h4>Summary:</h4>
               <span className="content-text">{summarizeResult}</span>
+              <div className="button-container">
+                <button
+                  onClick={handleCopySummary}
+                  className={`copy-button ${isCopied ? 'copied' : ''}`}
+                >
+                  {isCopied ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+
               <span>Summary Length: {summarySentencesCount} sentences</span>
               <span>Summary word count: {summaryWordCount}</span>
               <span>Keywords: </span>

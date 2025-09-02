@@ -35,7 +35,7 @@ function SummaryCard({ summary }) {
         )}
         {summary.inputMedium.type === "file" && (
           <div className="file-content">
-            <button onClick={togglePopup} className="file-button">View File Content</button>
+            {/* <button onClick={togglePopup} className="file-button">View File Content</button> */}
             <p className="file-name">{summary.inputMedium.file.name}</p>
 
             {showPopup && (

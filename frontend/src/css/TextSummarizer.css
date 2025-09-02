@@ -323,6 +323,37 @@ h4 {
     color: #555;
 }
 
+/* Copy Button Styling */
+.button-container {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 1rem;
+}
+
+.copy-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: #28a745;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.copy-button:hover {
+    background-color: #218838;
+}
+
+.copy-button.copied {
+    background-color: #218838;
+    box-shadow: 0 0 0 3px #28a74550;
+}
+
 /* Feedback Section */
 .feedback-section {
     margin-top: 40px;
