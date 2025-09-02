@@ -30,76 +30,85 @@ const COLORS = [
 
 export default function ViewAnalytics() {
   const [analyticsData, setAnalyticsData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAnalytics = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/analytics");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setAnalyticsData(data);
-      } catch (err) {
-        console.error("Failed to fetch analytics:", err);
-        setError(
-          `Failed to load analytics data: ${err.message}. Please ensure your backend is running and accessible at http://localhost:5000/analytics.`
-        );
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchAnalytics = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/analytics");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const data = await response.json();
+      setAnalyticsData(data);
+    } catch (err) {
+      console.error("Failed to fetch analytics:", err);
+      setError(
+        `Failed to load analytics data: ${err.message}. Please ensure your backend is running and accessible at http://localhost:5000/analytics.`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchAnalytics();
-  }, []);
+  fetchAnalytics();
+}, []);
 
-  if (loading) {
-    return (
-      <div className="status-container">
-        <div className="loading-indicator">Loading analytics...</div>
+if (loading) {
+  return (
+    <div className="status-container">
+      <div className="loading-indicator">Loading analytics...</div>
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div className="status-container">
+      <div className="error-message">
+        <strong>Error!</strong>
+        <span>{error}</span>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (error) {
-    return (
-      <div className="status-container">
-        <div className="error-message">
-          <strong>Error!</strong>
-          <span>{error}</span>
-        </div>
-      </div>
-    );
-  }
+if (!analyticsData) {
+  return (
+    <div className="status-container">
+      <div>No analytics data available.</div>
+    </div>
+  );
+}
 
-  if (!analyticsData) {
-    return (
-      <div className="status-container">
-        <div>No analytics data available.</div>
-      </div>
-    );
-  }
-
-  // Prepare data for Pie Charts
-  const summaryLengthChartData =
-    analyticsData.originalContentStats.lengthDistribution.map((item) => ({
-      name: item.label,
-      value: item.count,
-    }));
-
-  const feedbackChartData = analyticsData.feedbackAnalysis.map((item) => ({
-    name: item.rating === null ? "No Feedback" : `Rating ${item.rating} `,
+// Prepare data for Pie Charts
+const summaryLengthChartData =
+  analyticsData.originalContentStats.lengthDistribution.map((item) => ({
+    name: item.label,
     value: item.count,
   }));
 
-  const inputMediumChartData = analyticsData.inputMediumDistribution.map(
-    (item) => ({
-      name: item.type,
-      value: item.count,
-    })
-  );
+const feedbackChartData = analyticsData.feedbackAnalysis.map((item) => ({
+  name: item.rating === null ? "No Feedback" : `Rating ${item.rating} `,
+  value: item.count,
+}));
+
+const inputMediumChartData = analyticsData.inputMediumDistribution.map(
+  (item) => ({
+    name: item.type,
+    value: item.count,
+  })
+);
+
+// Prepare data for the Summary Type Distribution chart
+const summaryTypeChartData = analyticsData.summaryTypeDistribution.map(
+  (item) => ({
+    name: item.type,
+    value: item.count,
+  })
+);
+
 
   return (
     <div className="analytics-page">
@@ -293,6 +302,42 @@ export default function ViewAnalytics() {
                 </ResponsiveContainer>
               ) : (
                 <p>No input medium data available.</p>
+              )}
+            </div>
+          </section>
+
+          <section className="analytics-card">
+            <h2 className="card-title">Summary Type Distribution</h2>
+            <div className="card-content">
+              {summaryTypeChartData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={summaryTypeChartData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fontSize={"12px"}
+                      fill="#8884d8"
+                      dataKey="value"
+                      labelLine={false}
+                      label={({ name, percent }) =>
+                        `${name} (${(percent * 100).toFixed(0)}%)`
+                      }
+                    >
+                      {summaryTypeChartData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <p>No summary type data available.</p>
               )}
             </div>
           </section>

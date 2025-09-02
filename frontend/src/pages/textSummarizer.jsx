@@ -373,10 +373,11 @@ export default function TextSummarizer() {
               {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
             </div>
           )}
+          <div ref={summaryResultsRef}></div>
           <button type="submit" disabled={loading} className="summarize-button">
             Summarize
           </button>
-          <div ref={summaryResultsRef}></div>
+          
         </form>
 
         
