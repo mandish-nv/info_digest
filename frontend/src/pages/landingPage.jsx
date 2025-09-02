@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import TextSummarizer from "../pages/textSummarizer";
 import StatusBar from "../components/statusBar";
 import { useEffect } from "react";
+import Footer from "../components/footer";
 
 export default function LandingPage() {
   const getLoginId = () => {
@@ -23,6 +24,7 @@ export default function LandingPage() {
     <div>
       <StatusBar />
       <TextSummarizer />
+      <Footer />
     </div>
   );
 }

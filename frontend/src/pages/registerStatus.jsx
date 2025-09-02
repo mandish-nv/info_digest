@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import StatusBar from "../components/statusBar";
+import Footer from "../components/footer";
 
 export default function RegisterStatus(){
   return(
@@ -47,6 +48,7 @@ export default function RegisterStatus(){
           Log in
         </Link>
       </div>
+      <Footer/>
     </div>
   )
 }

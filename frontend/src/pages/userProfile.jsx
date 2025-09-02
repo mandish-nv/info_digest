@@ -5,6 +5,7 @@ import StatusBar from "../components/statusBar";
 import SummaryCard from "../components/summaryCard";
 
 import "../css/userProfile.css"; // Ensure this import is present
+import Footer from "../components/footer";
 
 export default function UserProfile() {
   const { id } = useParams();
@@ -147,6 +148,7 @@ export default function UserProfile() {
   }
 
   return (
+    <div>
     <div className="user-profile-container-main">
       <StatusBar />
       <div className="user-profile-container">
@@ -202,6 +204,8 @@ export default function UserProfile() {
           )}
         </div>
       </div>
+      </div>
+      <Footer/>
     </div>
   );
 }

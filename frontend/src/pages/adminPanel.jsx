@@ -4,11 +4,13 @@ import ManageUsers from "./manageUsers";
 import ViewAnalytics from "./viewAnalytics";
 import ManageAiModels from "./manageAiModels";
 import '../css/AdminPanel.css'; // Import the CSS file
+import Footer from "../components/footer";
 
 export default function AdminPanel(){
   const [currentPage, setCurrentPage] = useState("none");
 
   return(
+    <div>
     <div className="admin-panel-container">
       <StatusBar/>
       <h1 className="admin-panel-title">Admin Panel</h1>
@@ -41,6 +43,8 @@ export default function AdminPanel(){
         {currentPage === 'View analytics' && <ViewAnalytics/>}
         {currentPage === 'Manage AI models' && <ManageAiModels/>}
       </div>
+      </div>
+      <Footer/>
     </div>
   );
 }

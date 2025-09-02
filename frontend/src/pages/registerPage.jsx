@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import StatusBar from '../components/statusBar';
 import '../css/Register.css';
+import Footer from "../components/footer";
 
 export default function Register() {
   const [formErrors, setFormErrors] = useState({});
@@ -133,6 +134,7 @@ export default function Register() {
   const minDob = getDateYearsAgo(120);
 
   return (
+    <div>
     <div className="register-container">
       <StatusBar />
       <form onSubmit={register} className="register-form">
@@ -274,6 +276,8 @@ export default function Register() {
           Log in
         </Link>
       </form>
+      </div>
+      <Footer/>
     </div>
   );
 } 

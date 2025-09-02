@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router";
 import '../css/Login.css';
 import StatusBar from "../components/statusBar";
+import Footer from "../components/footer";
 
 export default function Login({ value }) {
   const [formErrors, setFormErrors] = useState({});
@@ -71,6 +72,7 @@ export default function Login({ value }) {
   };
 
   return (
+    <div>
     <div className="login-container">
       <StatusBar/>
       <form onSubmit={login} className="login-form">
@@ -129,6 +131,8 @@ export default function Login({ value }) {
           Register
         </Link>
       </form>
+      </div>
+      <Footer/>
     </div>
   );
 }
