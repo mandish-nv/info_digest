@@ -3,6 +3,16 @@ import docx
 from fastapi import HTTPException, status
 import re
 import fitz  # PyMuPDF
+from collections import OrderedDict
+
+def remove_redundant_sentences(text):
+    sentences = text.split(". ")
+    seen = OrderedDict()
+    for s in sentences:
+        s_clean = s.strip().lower()
+        if s_clean not in seen:
+            seen[s_clean] = s
+    return ". ".join(seen.values())
 
 def capitalize_sentences(text: str) -> str:
     """Capitalizes the first letter of each sentence in a given string."""
@@ -63,8 +73,6 @@ def is_likely_table_block(text: str, spans: list) -> bool:
         return True
 
     return False
-
-
 
 
 def extract_text_from_docx(file_stream: io.BytesIO) -> str:

@@ -11,9 +11,10 @@ from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
 import io
 import os
+import re
 
 from extractive_functions import Extractive_Summarizer
-from helper_file_functions import get_file_extension, extract_text_from_docx, extract_text_from_pdf, capitalize_sentences
+from helper_file_functions import get_file_extension, extract_text_from_docx, extract_text_from_pdf, capitalize_sentences, remove_redundant_sentences
 
 app = FastAPI()
 
@@ -76,35 +77,98 @@ async def api_extractive_summary(request: SummarizerRequest):
 
     try:
         summaryType = request.summaryType
+        original_length_sentences = len(sent_tokenize(request.text))
         
-        if(summaryType=="abstractive"):
-            # Check if the model is loaded before proceeding
+        if summaryType == "abstractive":
             if model is None or tokenizer is None:
-                return {"error": "Model not loaded. Please check server logs."}
+                raise HTTPException(status_code=500, detail="Model not loaded. Please check server logs.")
+            
+            summary_option = request.selectedOptionValue.lower().strip()
+            num_of_sentences = 0
 
-            # Preprocess and generate
-            input_text = "summarize: " + request.text
+            # --- Tiered sentence selection logic ---
+            if 1 <= original_length_sentences <= 20:
+                if summary_option == "very_short":
+                    num_of_sentences = min(2, original_length_sentences)
+                    num_of_sentences = max(1, num_of_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = min(4, original_length_sentences)
+                    num_of_sentences = max(3, num_of_sentences)
+                elif summary_option == "medium":
+                    num_of_sentences = min(7, original_length_sentences)
+                    num_of_sentences = max(5, num_of_sentences)
+                elif summary_option == "long":
+                    percentage_based = int(original_length_sentences * 0.5)
+                    num_of_sentences = min(max(10, percentage_based), original_length_sentences)
+                    num_of_sentences = max(8, num_of_sentences)
+
+            elif 21 <= original_length_sentences <= 100:
+                if summary_option == "very_short":
+                    num_of_sentences = min(3, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = max(5, int(original_length_sentences * 0.08))
+                elif summary_option == "medium":
+                    num_of_sentences = max(8, int(original_length_sentences * 0.15))
+                elif summary_option == "long":
+                    num_of_sentences = max(15, int(original_length_sentences * 0.25))
+
+            elif 101 <= original_length_sentences <= 500:
+                if summary_option == "very_short":
+                    num_of_sentences = min(5, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = int(original_length_sentences * 0.08)
+                elif summary_option == "medium":
+                    num_of_sentences = int(original_length_sentences * 0.15)
+                elif summary_option == "long":
+                    num_of_sentences = int(original_length_sentences * 0.25)
+
+            elif original_length_sentences > 500:
+                if summary_option == "very_short":
+                    num_of_sentences = min(7, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = int(original_length_sentences * 0.05)
+                elif summary_option == "medium":
+                    num_of_sentences = int(original_length_sentences * 0.10)
+                elif summary_option == "long":
+                    num_of_sentences = min(int(original_length_sentences * 0.18), 150)
+
+            if num_of_sentences == 0 and original_length_sentences > 0:
+                num_of_sentences = 1
+
+            num_of_sentences = min(num_of_sentences, original_length_sentences)
+
+            # ~30 tokens per sentence; cap long outputs at 600 tokens
+            max_length_by_sentences = min(num_of_sentences * 30, 600)
+
+            # ~8 tokens per sentence for min length (lighter constraint than before)
+            min_length_by_sentences = max(5, int(num_of_sentences * 8))
+
+            clean_text = re.sub(r"\[\d+(?:[;,]?\s*\d+)*\]", "", request.text)
+
+            input_text = "summarize: " + clean_text
             inputs = tokenizer(input_text, return_tensors="pt", max_length=4096, truncation=True).to(device)
 
+            # --- Generation ---
             summary_ids = model.generate(
                 inputs["input_ids"],
-                max_length=256,
-                min_length=30,
-                length_penalty=2.0,
-                repetition_penalty=1.2,
-                num_beams=4,
+                max_length=max_length_by_sentences,
+                min_length=min_length_by_sentences,
+                length_penalty=1.4 if summary_option == "very_short" else 1.8, 
+                repetition_penalty=2.5,  
+                no_repeat_ngram_size=4,  
+                num_beams=2,            
                 early_stopping=True
             )
-            
+
             summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
-            
+            summary = remove_redundant_sentences(summary)
+
             summary_extractive, top_n_nouns_dict = Extractive_Summarizer(request.text, request.ratio, request.selectedOptionValue)
         else:
             summary, top_n_nouns_dict = Extractive_Summarizer(request.text, request.ratio, request.selectedOptionValue)
         
         summary = capitalize_sentences(summary)
         keywords_list = list(top_n_nouns_dict.keys())
-        original_length_sentences = len(sent_tokenize(request.text))
         summary_length_sentences = len(sent_tokenize(summary))    
         originalWordCount = len([token for token in word_tokenize(request.text) if token.isalnum()])
         summaryWordCount = len([token for token in word_tokenize(summary) if token.isalnum()])
@@ -184,26 +248,93 @@ async def api_extractive_summary_file(
         )
 
     try:
-        if(summaryType=="abstractive"):
-            # Check if the model is loaded before proceeding
+        text = raw_text
+        original_length_sentences = len(sent_tokenize(raw_text))
+        
+        if summaryType == "abstractive":
             if model is None or tokenizer is None:
-                return {"error": "Model not loaded. Please check server logs."}
+                raise HTTPException(status_code=500, detail="Model not loaded. Please check server logs.")
+            
+            # --- Tiered sentence logic based on document length ---
+            summary_option = selectedOptionValue.lower().strip()
+            num_of_sentences = 0
 
-            # Preprocess and generate
-            input_text = "summarize: " + raw_text
+            # --- Tiered sentence selection logic ---
+            if 1 <= original_length_sentences <= 20:
+                if summary_option == "very_short":
+                    num_of_sentences = min(2, original_length_sentences)
+                    num_of_sentences = max(1, num_of_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = min(4, original_length_sentences)
+                    num_of_sentences = max(3, num_of_sentences)
+                elif summary_option == "medium":
+                    num_of_sentences = min(7, original_length_sentences)
+                    num_of_sentences = max(5, num_of_sentences)
+                elif summary_option == "long":
+                    percentage_based = int(original_length_sentences * 0.5)
+                    num_of_sentences = min(max(10, percentage_based), original_length_sentences)
+                    num_of_sentences = max(8, num_of_sentences)
+
+            elif 21 <= original_length_sentences <= 100:
+                if summary_option == "very_short":
+                    num_of_sentences = min(3, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = max(5, int(original_length_sentences * 0.08))
+                elif summary_option == "medium":
+                    num_of_sentences = max(8, int(original_length_sentences * 0.15))
+                elif summary_option == "long":
+                    num_of_sentences = max(15, int(original_length_sentences * 0.25))
+
+            elif 101 <= original_length_sentences <= 500:
+                if summary_option == "very_short":
+                    num_of_sentences = min(5, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = int(original_length_sentences * 0.08)
+                elif summary_option == "medium":
+                    num_of_sentences = int(original_length_sentences * 0.15)
+                elif summary_option == "long":
+                    num_of_sentences = int(original_length_sentences * 0.25)
+
+            elif original_length_sentences > 500:
+                if summary_option == "very_short":
+                    num_of_sentences = min(7, original_length_sentences)
+                elif summary_option == "short":
+                    num_of_sentences = int(original_length_sentences * 0.05)
+                elif summary_option == "medium":
+                    num_of_sentences = int(original_length_sentences * 0.10)
+                elif summary_option == "long":
+                    num_of_sentences = min(int(original_length_sentences * 0.18), 150)
+
+            if num_of_sentences == 0 and original_length_sentences > 0:
+                num_of_sentences = 1
+
+            num_of_sentences = min(num_of_sentences, original_length_sentences)
+
+            # ~30 tokens per sentence; cap long outputs at 600 tokens
+            max_length_by_sentences = min(num_of_sentences * 30, 600)
+
+            # ~8 tokens per sentence for min length (lighter constraint than before)
+            min_length_by_sentences = max(5, int(num_of_sentences * 8))
+
+            clean_text = re.sub(r"\[\d+(?:[;,]?\s*\d+)*\]", "", text)
+
+            input_text = "summarize: " + clean_text
             inputs = tokenizer(input_text, return_tensors="pt", max_length=4096, truncation=True).to(device)
 
+            # --- Generation ---
             summary_ids = model.generate(
                 inputs["input_ids"],
-                max_length=256,
-                min_length=30,
-                length_penalty=2.0,
-                repetition_penalty=1.2,
-                num_beams=4,
+                max_length=max_length_by_sentences,
+                min_length=min_length_by_sentences,
+                length_penalty=1.4 if summary_option == "very_short" else 1.8, 
+                repetition_penalty=2.5,  
+                no_repeat_ngram_size=4,  
+                num_beams=2,            
                 early_stopping=True
             )
-            
+
             summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+            summary = remove_redundant_sentences(summary)
             
             summary_extractive, top_n_nouns_dict = Extractive_Summarizer(raw_text, ratio, selectedOptionValue)
         else:
@@ -211,7 +342,6 @@ async def api_extractive_summary_file(
         
         summary = capitalize_sentences(summary)
         keywords_list = list(top_n_nouns_dict.keys())
-        original_length_sentences = len(sent_tokenize(raw_text))
         summary_length_sentences = len(sent_tokenize(summary))
         originalWordCount = len([token for token in word_tokenize(raw_text) if token.isalnum()])
         summaryWordCount = len([token for token in word_tokenize(summary) if token.isalnum()])
